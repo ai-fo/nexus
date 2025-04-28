@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface ChatInterfaceProps {
   chatbotName?: string;
@@ -43,7 +44,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   return (
     <div className="w-full max-w-4xl flex flex-col h-[calc(100vh-8.5rem)]">
       {!isInitialState && (
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
+        <ScrollArea className="flex-1 p-4 space-y-4">
           <div className="flex flex-col">
             {messages.map((message, index) => (
               <ChatMessage key={index} {...message} />
@@ -61,7 +62,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             )}
             <div ref={messagesEndRef} />
           </div>
-        </div>
+        </ScrollArea>
       )}
       
       {isInitialState && (
