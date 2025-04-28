@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,7 +32,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Écrivez votre message..."
         disabled={disabled}
-        className="flex-1 border-0 bg-transparent text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-[#003366] placeholder:text-[#3380cc]/40 transition-all duration-200"
+        className="flex-1 border-0 bg-transparent text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-[#003366] placeholder:text-[#3380cc]/40 transition-all duration-200 outline-none"
       />
       
       <div className="flex items-center gap-2">
