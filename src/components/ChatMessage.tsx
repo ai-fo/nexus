@@ -23,10 +23,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       isUser ? "justify-end" : "justify-start"
     )}>
       {!isUser && (
-        <Avatar className="h-8 w-8 transition-transform hover:scale-110 duration-200 flex-shrink-0">
+        <Avatar className="h-10 w-10 transition-all hover:scale-110 hover:rotate-[360deg] duration-700 ease-in-out flex-shrink-0">
           <AvatarImage src="" />
           <AvatarFallback className="bg-gradient-to-br from-[#004c92] to-[#1a69b5] text-white">
-            <Bot className="h-5 w-5" />
+            <Bot className="h-6 w-6" />
           </AvatarFallback>
         </Avatar>
       )}
@@ -41,10 +41,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       </div>
       
       {isUser && (
-        <Avatar className="h-8 w-8 transition-transform hover:scale-110 duration-200 flex-shrink-0">
+        <Avatar className="h-10 w-10 transition-all hover:scale-110 hover:rotate-[360deg] duration-700 ease-in-out flex-shrink-0">
           <AvatarImage src="" />
           <AvatarFallback className="bg-gradient-to-br from-[#004c92] to-[#003366] text-white">
-            <User className="h-5 w-5" />
+            <User className="h-6 w-6" />
           </AvatarFallback>
         </Avatar>
       )}
