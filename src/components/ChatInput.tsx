@@ -24,12 +24,12 @@ const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="relative flex items-center gap-3 bg-white/70 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-white/20 w-full">
+    <form onSubmit={handleSubmit} className="relative flex items-center gap-3 bg-white/70 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-orange-100 w-full">
       <Button 
         type="button"
         variant="ghost" 
         size="icon"
-        className="text-slate-500 hover:text-chatbot-primary hover:bg-white/50"
+        className="text-orange-400 hover:text-chatbot-primary hover:bg-orange-50"
       >
         <Paperclip className="h-5 w-5" />
         <span className="sr-only">Ajouter un fichier</span>
@@ -47,7 +47,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
         type="button"
         variant="ghost" 
         size="icon"
-        className="text-slate-500 hover:text-chatbot-primary hover:bg-white/50"
+        className="text-orange-400 hover:text-chatbot-primary hover:bg-orange-50"
       >
         <SmilePlus className="h-5 w-5" />
         <span className="sr-only">Ajouter un emoji</span>
@@ -56,7 +56,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
       <Button 
         type="submit" 
         disabled={!message.trim() || disabled}
-        className="rounded-xl bg-chatbot-primary hover:bg-chatbot-dark transition-colors duration-200 shadow-md hover:shadow-lg"
+        className="rounded-xl bg-gradient-to-r from-chatbot-primary to-orange-500 hover:from-chatbot-dark hover:to-orange-600 transition-all duration-200 shadow-md hover:shadow-lg"
         size="icon"
       >
         <SendHorizonal className="h-5 w-5 text-white" />
