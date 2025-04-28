@@ -1,11 +1,19 @@
-import React from 'react';
+
+import React, { useEffect, useState } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 
 const Index = () => {
+  const [isAnimated, setIsAnimated] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation after component mount
+    setIsAnimated(true);
+  }, []);
+
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
-      <header className="pt-2 pb-1 pl-4">
-        <h1 className="text-xl sm:text-2xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-300 hover:drop-shadow-lg animate-fade-in text-left flex items-center gap-2">
+      <header className={`transition-all duration-700 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4' : 'h-screen flex items-center justify-center'}`}>
+        <h1 className={`text-xl sm:text-2xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-700 hover:drop-shadow-lg ${isAnimated ? 'text-left' : 'text-center scale-150'}`}>
           <span>
             <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">H</span>
             <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">o</span>
@@ -29,7 +37,7 @@ const Index = () => {
         </h1>
       </header>
       
-      <div className="flex-1 flex items-start justify-center px-4 md:px-8 lg:px-12">
+      <div className={`flex-1 flex items-start justify-center px-4 md:px-8 lg:px-12 transition-opacity duration-700 ${isAnimated ? 'opacity-100' : 'opacity-0'}`}>
         <ChatInterface 
           chatbotName="Bill"
           initialMessage="Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?"
