@@ -65,7 +65,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
       
       {isInitialState && (
-        <div className="flex-1 flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full -mt-20">
+        <div className="flex-1 flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full -mt-40">
           <p className="text-[#3380cc] text-xl font-bold mb-2">Quel est votre problème ?</p>
           <div className="w-full px-4 py-2">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
