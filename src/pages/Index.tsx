@@ -7,10 +7,10 @@ const Index = () => {
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#EFF6FF] to-[#E6F0FF] animate-fade-in">
       <header className="py-8 text-center">
         <h1 className="text-4xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-300 hover:drop-shadow-lg">
-          Chatbot Support
+          SmartSupport
         </h1>
         <p className="text-[#1a69b5] mt-2 text-lg animate-slide-in">
-          Votre assistant personnel à votre service
+          Votre support, sans attente
         </p>
       </header>
       
