@@ -10,7 +10,7 @@ interface ChatInterfaceProps {
 }
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
-  chatbotName = "Assistant AI",
+  chatbotName = "Bill",
   initialMessage = "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
 }) => {
   const [messages, setMessages] = useState<ChatMessageProps[]>([
@@ -46,19 +46,19 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   }, [messages]);
 
   return (
-    <Card className="w-full max-w-3xl mx-auto h-[600px] flex flex-col shadow-lg">
-      <CardHeader className="bg-chatbot-primary text-white py-3">
-        <CardTitle className="text-center">{chatbotName}</CardTitle>
+    <Card className="w-full max-w-3xl mx-auto h-[600px] flex flex-col shadow-xl rounded-2xl bg-white/70 backdrop-blur-sm border-white/20">
+      <CardHeader className="bg-gradient-to-r from-chatbot-primary to-chatbot-dark text-white rounded-t-2xl py-4 px-6">
+        <CardTitle className="text-center text-xl font-medium">{chatbotName}</CardTitle>
       </CardHeader>
       
-      <CardContent className="flex-1 overflow-y-auto p-4">
+      <CardContent className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
         <div className="flex flex-col">
           {messages.map((message, index) => (
             <ChatMessage key={index} {...message} />
           ))}
           {loading && (
             <div className="flex justify-start my-4">
-              <div className="bg-gray-200 rounded-lg px-4 py-2">
+              <div className="bg-white/50 backdrop-blur-sm rounded-2xl px-4 py-2 shadow-sm">
                 <div className="flex space-x-2">
                   <div className="w-2 h-2 rounded-full bg-chatbot-primary animate-bounce"></div>
                   <div className="w-2 h-2 rounded-full bg-chatbot-primary animate-bounce" style={{animationDelay: '0.2s'}}></div>
@@ -71,7 +71,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         </div>
       </CardContent>
       
-      <CardFooter className="border-t p-4">
+      <CardFooter className="p-4 bg-white/50">
         <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
       </CardFooter>
     </Card>
