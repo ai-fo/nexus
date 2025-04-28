@@ -5,14 +5,9 @@ import ChatInterface from '@/components/ChatInterface';
 const Index = () => {
   const [isAnimated, setIsAnimated] = useState(false);
 
-  useEffect(() => {
-    // Delay animation to ensure user sees the centered title first
-    const timer = setTimeout(() => {
-      setIsAnimated(true);
-    }, 1500);
-    
-    return () => clearTimeout(timer);
-  }, []);
+  const handleFirstMessage = () => {
+    setIsAnimated(true);
+  };
 
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
@@ -41,11 +36,12 @@ const Index = () => {
         </h1>
       </div>
       
-      <div className={`flex-1 flex items-center justify-center px-4 md:px-8 lg:px-12 transition-opacity duration-700 ${isAnimated ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`flex-1 flex items-center justify-center px-4 md:px-8 lg:px-12 transition-opacity duration-700 ${isAnimated ? 'opacity-100' : 'opacity-100'}`}>
         <div className="w-full max-w-4xl flex flex-col items-center">
           <ChatInterface 
             chatbotName="Bill"
             initialMessage="Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?"
+            onFirstMessage={handleFirstMessage}
           />
         </div>
       </div>

@@ -8,11 +8,13 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 interface ChatInterfaceProps {
   chatbotName?: string;
   initialMessage?: string;
+  onFirstMessage?: () => void;
 }
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
   chatbotName = "Bill",
-  initialMessage = "Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?"
+  initialMessage = "Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?",
+  onFirstMessage
 }) => {
   const [messages, setMessages] = useState<ChatMessageProps[]>([]);
   const [loading, setLoading] = useState(false);
@@ -21,6 +23,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const handleSendMessage = async (content: string) => {
     const userMessage: ChatMessageProps = { role: 'user', content };
     setMessages(prev => [...prev, userMessage]);
+    
+    // Call onFirstMessage callback if this is the first message
+    if (messages.length === 0 && onFirstMessage) {
+      onFirstMessage();
+    }
     
     setLoading(true);
     
