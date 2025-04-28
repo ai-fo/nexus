@@ -32,10 +32,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       )}
       
       <div className={cn(
-        "group px-4 py-3 rounded-2xl max-w-[80%] break-words transition-all duration-300",
+        "group max-w-[80%] break-words transition-all duration-300",
         isUser ? 
-          "bg-gradient-to-r from-[#004c92] to-[#1a69b5] text-white shadow-lg hover:shadow-xl backdrop-blur-sm hover:scale-[1.02] origin-right" : 
-          "bg-white/40 hover:bg-white/60 backdrop-blur-sm text-[#003366] border border-white/20 shadow-md hover:shadow-lg hover:scale-[1.02] origin-left"
+          "px-4 py-3 rounded-2xl bg-gradient-to-r from-[#004c92] to-[#1a69b5] text-white shadow-lg hover:shadow-xl backdrop-blur-sm hover:scale-[1.02] origin-right" : 
+          "text-[#003366]"
       )}>
         <p className="text-base leading-relaxed">{content}</p>
       </div>
