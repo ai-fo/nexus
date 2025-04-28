@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SendHorizonal } from 'lucide-react';
+import { SendHorizonal, Paperclip, SmilePlus } from 'lucide-react';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -24,14 +24,35 @@ const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="relative flex items-center gap-2 bg-white/50 backdrop-blur-sm rounded-2xl p-2 shadow-lg border border-white/20">
+    <form onSubmit={handleSubmit} className="relative flex items-center gap-3 bg-white/70 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-white/20 w-full">
+      <Button 
+        type="button"
+        variant="ghost" 
+        size="icon"
+        className="text-slate-500 hover:text-chatbot-primary hover:bg-white/50"
+      >
+        <Paperclip className="h-5 w-5" />
+        <span className="sr-only">Ajouter un fichier</span>
+      </Button>
+      
       <Input
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Comment puis-je vous aider ?"
         disabled={disabled}
-        className="flex-1 border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-slate-700 placeholder:text-slate-400"
+        className="flex-1 border-0 bg-transparent text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-slate-700 placeholder:text-slate-400"
       />
+      
+      <Button 
+        type="button"
+        variant="ghost" 
+        size="icon"
+        className="text-slate-500 hover:text-chatbot-primary hover:bg-white/50"
+      >
+        <SmilePlus className="h-5 w-5" />
+        <span className="sr-only">Ajouter un emoji</span>
+      </Button>
+
       <Button 
         type="submit" 
         disabled={!message.trim() || disabled}
