@@ -68,15 +68,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       
       {isInitialState && (
         <div className="flex-1 flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full">
-          <p className="text-[#3380cc] text-xl font-bold mb-4">Quelle est votre problème ?</p>
-          <div className="w-full px-4 py-4">
+          <p className="text-[#3380cc] text-xl font-bold mb-2">Quelle est votre problème ?</p>
+          <div className="w-full px-4 py-2">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
           </div>
         </div>
       )}
       
       {!isInitialState && (
-        <div className="sticky bottom-0 p-4 bg-gradient-to-b from-transparent to-[#E6F0FF] max-w-4xl w-full">
+        <div className="sticky bottom-0 p-2 bg-gradient-to-b from-transparent to-[#E6F0FF] max-w-4xl w-full">
           <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
         </div>
       )}
