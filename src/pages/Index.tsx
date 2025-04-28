@@ -6,8 +6,19 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#EFF6FF] to-[#E6F0FF] animate-fade-in">
       <header className="py-8 text-center">
-        <h1 className="text-4xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-300 hover:drop-shadow-lg">
-          SmartSupport
+        <h1 className="text-4xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-300 hover:drop-shadow-lg animate-fade-in">
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">S</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">m</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">a</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">r</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">t</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">S</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">u</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">p</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">p</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">o</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">r</span>
+          <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">t</span>
         </h1>
         <p className="text-[#1a69b5] mt-2 text-lg animate-slide-in">
           Votre support, sans attente
