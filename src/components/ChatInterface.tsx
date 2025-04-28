@@ -11,6 +11,12 @@ interface ChatInterfaceProps {
   onFirstMessage?: () => void;
 }
 
+const QUESTIONS = [
+  "Quel est votre problème ?",
+  "Qu'est ce qui va pas ?",
+  "Un soucis technique ?"
+];
+
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
   chatbotName = "Bill",
   initialMessage = "Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?",
@@ -18,13 +24,21 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 }) => {
   const [messages, setMessages] = useState<ChatMessageProps[]>([]);
   const [loading, setLoading] = useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentQuestionIndex((prev) => (prev + 1) % QUESTIONS.length);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSendMessage = async (content: string) => {
     const userMessage: ChatMessageProps = { role: 'user', content };
     setMessages(prev => [...prev, userMessage]);
     
-    // Call onFirstMessage callback if this is the first message
     if (messages.length === 0 && onFirstMessage) {
       onFirstMessage();
     }
@@ -74,7 +88,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       
       {isInitialState && (
         <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full flex-1">
-          <p className="text-[#3380cc] text-xl font-bold mb-2">Quel est votre problème ?</p>
+          <div className="h-8 mb-2">
+            <p 
+              key={currentQuestionIndex}
+              className="text-[#3380cc] text-xl font-bold animate-fade-in"
+            >
+              {QUESTIONS[currentQuestionIndex]}
+            </p>
+          </div>
           <div className="w-full px-4 py-2">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
           </div>
