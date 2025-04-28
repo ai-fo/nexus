@@ -6,22 +6,28 @@ const Index = () => {
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
       <header className="pt-2 pb-1 pl-4">
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-300 hover:drop-shadow-lg animate-fade-in text-left flex items-center gap-2">
+        <h1 className="text-xl sm:text-2xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-300 hover:drop-shadow-lg animate-fade-in text-left flex items-center gap-2">
           <span>
-            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">S</span>
-            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">m</span>
-            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">a</span>
-            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">r</span>
-            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">t</span>
-            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">S</span>
-            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">u</span>
-            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">p</span>
-            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">p</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">H</span>
             <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">o</span>
-            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">r</span>
             <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">t</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">l</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">i</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">n</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">e</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]"> </span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">A</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">s</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">s</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">i</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">s</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">t</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">a</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">n</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">c</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">e</span>
           </span>
-          <span className="text-[#1a69b5] text-xl font-normal">- L'aide instantanée</span>
+          <span className="text-[#1a69b5] text-lg font-normal">- L'aide instantanée</span>
         </h1>
       </header>
       
