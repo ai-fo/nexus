@@ -41,7 +41,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const isInitialState = messages.length === 0;
 
   return (
-    <div className="w-full max-w-4xl flex flex-col min-h-[calc(100vh-12rem)]">
+    <div className="w-full max-w-4xl flex flex-col h-screen">
       {!isInitialState && (
         <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
           <div className="flex flex-col">
@@ -65,7 +65,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
       
       {isInitialState && (
-        <div className="flex-1 flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full -mt-40">
+        <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full flex-1">
           <p className="text-[#3380cc] text-xl font-bold mb-2">Quel est votre problème ?</p>
           <div className="w-full px-4 py-2">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} />

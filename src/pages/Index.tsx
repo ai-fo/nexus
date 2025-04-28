@@ -5,7 +5,7 @@ import ChatInterface from '@/components/ChatInterface';
 const Index = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#E6F0FF] animate-fade-in">
-      <header className="py-8 text-center">
+      <header className="py-4 text-center">
         <h1 className="text-4xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-300 hover:drop-shadow-lg animate-fade-in">
           <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">S</span>
           <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">m</span>
@@ -32,7 +32,7 @@ const Index = () => {
         />
       </div>
       
-      <footer className="py-6 text-center text-sm text-[#3380cc] transition-opacity duration-200 hover:opacity-80">
+      <footer className="py-3 text-center text-sm text-[#3380cc] transition-opacity duration-200 hover:opacity-80">
         <p>L'IA peut faire des erreurs. En cas de besoin, contactez la hotline au 9400</p>
       </footer>
     </div>
