@@ -41,7 +41,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const isInitialState = messages.length === 0;
 
   return (
-    <div className="w-full max-w-4xl flex flex-col h-screen">
+    <div className="w-full max-w-4xl flex flex-col h-[calc(100vh-8.5rem)]">
       {!isInitialState && (
         <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
           <div className="flex flex-col">

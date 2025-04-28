@@ -4,9 +4,9 @@ import ChatInterface from '@/components/ChatInterface';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-[#E6F0FF] animate-fade-in">
-      <header className="py-4 text-center">
-        <h1 className="text-4xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-300 hover:drop-shadow-lg animate-fade-in">
+    <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
+      <header className="pt-2 pb-1 text-center">
+        <h1 className="text-3xl sm:text-4xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-300 hover:drop-shadow-lg animate-fade-in">
           <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">S</span>
           <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">m</span>
           <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">a</span>
@@ -20,7 +20,7 @@ const Index = () => {
           <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">r</span>
           <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">t</span>
         </h1>
-        <p className="text-[#1a69b5] mt-2 text-lg animate-slide-in">
+        <p className="text-[#1a69b5] mt-0 text-lg animate-slide-in">
           L'aide instantanée
         </p>
       </header>
@@ -32,7 +32,7 @@ const Index = () => {
         />
       </div>
       
-      <footer className="py-3 text-center text-sm text-[#3380cc] transition-opacity duration-200 hover:opacity-80">
+      <footer className="py-2 text-center text-sm text-[#3380cc] transition-opacity duration-200 hover:opacity-80">
         <p>L'IA peut faire des erreurs. En cas de besoin, contactez la hotline au 9400</p>
       </footer>
     </div>
