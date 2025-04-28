@@ -31,7 +31,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentQuestionIndex((prev) => (prev + 1) % QUESTIONS.length);
-    }, 3000); // Changed from 2000 to 3000 ms
+    }, 8000); // Changed from 3000 to 8000 ms
 
     return () => clearInterval(interval);
   }, []);
