@@ -19,11 +19,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   
   return (
     <div className={cn(
-      "flex w-full gap-3 my-4 animate-slide-in items-start",
+      "flex w-full gap-3 my-4 animate-slide-in items-center",
       isUser ? "justify-end" : "justify-start"
     )}>
       {!isUser && (
-        <Avatar className="h-8 w-8 transition-transform hover:scale-110 duration-200 mt-1">
+        <Avatar className="h-8 w-8 transition-transform hover:scale-110 duration-200 flex-shrink-0">
           <AvatarImage src="" />
           <AvatarFallback className="bg-gradient-to-br from-[#004c92] to-[#1a69b5] text-white">
             <Bot className="h-5 w-5" />
@@ -41,7 +41,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       </div>
       
       {isUser && (
-        <Avatar className="h-8 w-8 transition-transform hover:scale-110 duration-200 mt-1">
+        <Avatar className="h-8 w-8 transition-transform hover:scale-110 duration-200 flex-shrink-0">
           <AvatarImage src="" />
           <AvatarFallback className="bg-gradient-to-br from-[#004c92] to-[#003366] text-white">
             <User className="h-5 w-5" />
