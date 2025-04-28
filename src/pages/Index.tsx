@@ -20,7 +20,7 @@ const Index = () => {
           <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">r</span>
           <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">t</span>
         </h1>
-        <p className="text-[#1a69b5] mt-0 text-lg animate-slide-in">
+        <p className="text-[#1a69b5] mt-2 text-lg animate-slide-in">
           L'aide instantanée
         </p>
       </header>
