@@ -89,10 +89,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       
       {isInitialState && (
         <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full flex-1">
-          <div className="h-8 mb-2">
+          <div className="h-8 mb-2 overflow-hidden">
             <p 
               key={currentQuestionIndex}
-              className="text-[#3380cc] text-xl font-bold animate-fade-in"
+              className="text-[#3380cc] text-xl font-bold animate-slide-in"
             >
               {QUESTIONS[currentQuestionIndex]}
             </p>
