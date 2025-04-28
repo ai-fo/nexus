@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { MessageSquare } from 'lucide-react';
 
 const Index = () => {
   const [isAnimated, setIsAnimated] = useState(false);
+  const [chatKey, setChatKey] = useState(0); // Add key to force re-render ChatInterface
 
   const handleFirstMessage = () => {
     setIsAnimated(true);
@@ -12,6 +14,7 @@ const Index = () => {
 
   const handleNewChat = () => {
     setIsAnimated(false);
+    setChatKey(prev => prev + 1); // Increment key to reset ChatInterface
   };
 
   return (
@@ -55,6 +58,7 @@ const Index = () => {
       <div className={`flex-1 flex items-center justify-center px-4 md:px-8 lg:px-12 transition-all duration-500 ease-in-out ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}`}>
         <div className="w-full max-w-4xl flex flex-col items-center">
           <ChatInterface 
+            key={chatKey}
             chatbotName="Bill"
             initialMessage="Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?"
             onFirstMessage={handleFirstMessage}
