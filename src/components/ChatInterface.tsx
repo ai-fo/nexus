@@ -1,4 +1,3 @@
-
 import { cn } from '@/lib/utils';
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
@@ -13,9 +12,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   chatbotName = "Bill",
   initialMessage = "Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?"
 }) => {
-  const [messages, setMessages] = useState<ChatMessageProps[]>([
-    { role: 'assistant', content: initialMessage }
-  ]);
+  const [messages, setMessages] = useState<ChatMessageProps[]>([]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -28,7 +25,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setTimeout(() => {
       const botResponse: ChatMessageProps = {
         role: 'assistant', 
-        content: "Cette réponse est un placeholder. Connectez votre backend Python RAG pour des réponses intelligentes."
+        content: initialMessage
       };
       
       setMessages(prev => [...prev, botResponse]);
@@ -40,7 +37,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const isInitialState = messages.length === 1;
+  const isInitialState = messages.length === 0;
 
   return (
     <div className="w-full max-w-4xl flex flex-col min-h-[calc(100vh-12rem)]">
@@ -85,4 +82,3 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 };
 
 export default ChatInterface;
-
