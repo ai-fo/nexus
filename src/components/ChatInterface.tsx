@@ -1,3 +1,4 @@
+
 import { cn } from '@/lib/utils';
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
@@ -17,13 +18,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   ]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const exampleQuestions = [
-    "Comment changer mon mot de passe ?",
-    "Mon VPN ne fonctionne pas",
-    "Je ne peux pas accéder à mes emails",
-    "Comment installer les mises à jour ?",
-  ];
 
   const handleSendMessage = async (content: string) => {
     const userMessage: ChatMessageProps = { role: 'user', content };
@@ -74,8 +68,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       
       {isInitialState && (
         <div className="flex-1 flex flex-col items-center justify-center gap-4 px-4 max-w-4xl mx-auto">
-          <p className="text-[#3380cc]/80 text-xl font-bold mb-4">Quelle est votre problème ?</p>
-          <div className="w-full max-w-3xl sticky bottom-0 px-4 py-4 bg-gradient-to-b from-transparent to-[#E6F0FF]">
+          <p className="text-[#3380cc] text-xl font-bold mb-4">Quelle est votre problème ?</p>
+          <div className="w-full max-w-3xl sticky bottom-0 px-4 py-4">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
           </div>
         </div>
