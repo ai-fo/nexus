@@ -1,8 +1,6 @@
 
 import React from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from '@/lib/utils';
-import { Bot, User } from 'lucide-react';
 
 export interface ChatMessageProps {
   content: string;
@@ -19,18 +17,9 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   
   return (
     <div className={cn(
-      "flex w-full gap-3 my-4 animate-slide-in items-center",
+      "flex w-full gap-3 my-4 animate-slide-in",
       isUser ? "justify-end" : "justify-start"
     )}>
-      {!isUser && (
-        <Avatar className="h-10 w-10 transition-all hover:scale-110 hover:rotate-[360deg] duration-700 ease-in-out flex-shrink-0">
-          <AvatarImage src="" />
-          <AvatarFallback className="bg-gradient-to-br from-[#004c92] to-[#1a69b5] text-white">
-            <Bot className="h-6 w-6" />
-          </AvatarFallback>
-        </Avatar>
-      )}
-      
       <div className={cn(
         "group max-w-[80%] break-words transition-all duration-300",
         isUser ? 
@@ -39,15 +28,6 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       )}>
         <p className="text-base leading-relaxed">{content}</p>
       </div>
-      
-      {isUser && (
-        <Avatar className="h-10 w-10 transition-all hover:scale-110 hover:rotate-[360deg] duration-700 ease-in-out flex-shrink-0">
-          <AvatarImage src="" />
-          <AvatarFallback className="bg-gradient-to-br from-[#004c92] to-[#003366] text-white">
-            <User className="h-6 w-6" />
-          </AvatarFallback>
-        </Avatar>
-      )}
     </div>
   );
 };
