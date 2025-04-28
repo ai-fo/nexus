@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SendHorizonal, Paperclip, SmilePlus } from 'lucide-react';
+import { SendHorizonal, SmilePlus } from 'lucide-react';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -25,16 +25,6 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="relative flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-lg p-2 shadow-sm border border-[#e6f0ff]/50 w-full transition-all duration-200 focus-within:shadow-md">
-      <Button 
-        type="button"
-        variant="ghost" 
-        size="icon"
-        className="text-[#3380cc] hover:text-[#004c92] hover:bg-[#f8faff] transition-colors duration-200"
-      >
-        <Paperclip className="h-5 w-5" />
-        <span className="sr-only">Ajouter un fichier</span>
-      </Button>
-      
       <Input
         value={message}
         onChange={(e) => setMessage(e.target.value)}
