@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import { Button } from "@/components/ui/button";
@@ -35,7 +34,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
-      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex items-center gap-4' : 'h-[60vh] flex items-center justify-center'}`}>
+      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex items-center gap-4' : 'h-[30vh] flex items-center justify-center'}`}>
         <h1 
           onClick={handleNewChat}
           className={`text-xl sm:text-2xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150'}`}
@@ -77,13 +76,9 @@ const Index = () => {
       <div className={`flex-1 flex items-center justify-center px-4 md:px-8 lg:px-12 transition-all duration-500 ease-in-out ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}`}>
         <div className="w-full max-w-4xl flex flex-col items-center">
           {!isAnimated && (
-            <div className="text-[#3380cc] text-xl font-bold mb-8 h-8 overflow-hidden">
+            <div className="text-[#3380cc] text-xl font-bold mb-8">
               <p 
-                className="transition-all duration-500 transform"
-                style={{
-                  opacity: 1,
-                  transform: `translateY(0)`,
-                }}
+                className="transition-all duration-500 transform animate-fade-in"
               >
                 {questions[currentQuestionIndex]}
               </p>
