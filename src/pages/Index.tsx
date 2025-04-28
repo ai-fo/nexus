@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from 'lucide-react';
 
 const Index = () => {
   const [isAnimated, setIsAnimated] = useState(false);
-  const [chatKey, setChatKey] = useState(0); // Add key to force re-render ChatInterface
+  const [chatKey, setChatKey] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  const questions = [
+    "Quel est votre problème ?",
+    "Qu'est-ce qui va pas ?",
+    "Un soucis technique ?"
+  ];
+
+  useEffect(() => {
+    if (!isAnimated) {
+      const interval = setInterval(() => {
+        setCurrentQuestionIndex((prev) => (prev + 1) % questions.length);
+      }, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [isAnimated]);
 
   const handleFirstMessage = () => {
     setIsAnimated(true);
@@ -13,7 +30,7 @@ const Index = () => {
 
   const handleNewChat = () => {
     setIsAnimated(false);
-    setChatKey(prev => prev + 1); // Increment key to reset ChatInterface
+    setChatKey(prev => prev + 1);
   };
 
   return (
@@ -59,6 +76,19 @@ const Index = () => {
       
       <div className={`flex-1 flex items-center justify-center px-4 md:px-8 lg:px-12 transition-all duration-500 ease-in-out ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}`}>
         <div className="w-full max-w-4xl flex flex-col items-center">
+          {!isAnimated && (
+            <div className="text-[#3380cc] text-xl font-bold mb-8 h-8 overflow-hidden">
+              <p 
+                className="transition-all duration-500 transform"
+                style={{
+                  opacity: 1,
+                  transform: `translateY(0)`,
+                }}
+              >
+                {questions[currentQuestionIndex]}
+              </p>
+            </div>
+          )}
           <ChatInterface 
             key={chatKey}
             chatbotName="Bill"
