@@ -1,6 +1,5 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
 
@@ -41,21 +40,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   }, [messages]);
 
   return (
-    <Card className="w-full max-w-4xl mx-auto min-h-[700px] flex flex-col shadow-xl rounded-xl bg-white/95 backdrop-blur-md border border-[#e6f0ff]/50 transition-all duration-300 hover:shadow-2xl animate-fade-in">
-      <CardHeader className="bg-gradient-to-r from-[#004c92] to-[#1a69b5] text-white rounded-t-xl py-4 px-6 transition-colors duration-300">
-        <CardTitle className="text-center text-xl font-medium tracking-wide">
-          {chatbotName}
-        </CardTitle>
-      </CardHeader>
-      
-      <CardContent className="flex-1 overflow-y-auto p-5 space-y-4 bg-gradient-to-b from-[#f8faff] to-white backdrop-blur-sm">
+    <div className="w-full max-w-4xl flex flex-col">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <div className="flex flex-col">
           {messages.map((message, index) => (
             <ChatMessage key={index} {...message} />
           ))}
           {loading && (
             <div className="flex justify-start my-4">
-              <div className="bg-[#f8faff]/80 backdrop-blur-sm rounded-lg px-4 py-2 shadow-sm">
+              <div className="bg-white/40 backdrop-blur-sm rounded-lg px-4 py-2">
                 <div className="flex space-x-2">
                   <div className="w-2 h-2 rounded-full bg-[#004c92] animate-pulse"></div>
                   <div className="w-2 h-2 rounded-full bg-[#1a69b5] animate-pulse" style={{animationDelay: '0.2s'}}></div>
@@ -66,12 +59,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           )}
           <div ref={messagesEndRef} />
         </div>
-      </CardContent>
+      </div>
       
-      <CardFooter className="p-4 bg-[#f8faff]/80 backdrop-blur-sm border-t border-[#e6f0ff]/50 rounded-b-xl">
+      <div className="sticky bottom-0 p-4 bg-gradient-to-b from-transparent to-[#E6F0FF]">
         <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 };
 

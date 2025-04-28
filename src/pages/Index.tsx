@@ -4,8 +4,8 @@ import ChatInterface from '@/components/ChatInterface';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#EFF6FF] to-[#E6F0FF] p-4 md:p-8 animate-fade-in">
-      <header className="mb-8 text-center">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#EFF6FF] to-[#E6F0FF] animate-fade-in">
+      <header className="py-8 text-center">
         <h1 className="text-4xl font-bold text-[#004c92] drop-shadow-sm transition-all duration-300 hover:drop-shadow-lg">
           Chatbot Support
         </h1>
@@ -14,14 +14,14 @@ const Index = () => {
         </p>
       </header>
       
-      <div className="flex-1 flex items-start justify-center px-4">
+      <div className="flex-1 flex items-start justify-center px-4 md:px-8 lg:px-12">
         <ChatInterface 
           chatbotName="Bill"
           initialMessage="Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?"
         />
       </div>
       
-      <footer className="mt-8 text-center text-sm text-[#3380cc] transition-opacity duration-200 hover:opacity-80">
+      <footer className="py-6 text-center text-sm text-[#3380cc] transition-opacity duration-200 hover:opacity-80">
         <p>Propulsé par une IA avancée pour mieux vous servir</p>
       </footer>
     </div>
