@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
@@ -46,25 +45,25 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   }, [messages]);
 
   return (
-    <Card className="w-full max-w-4xl mx-auto min-h-[700px] flex flex-col shadow-2xl rounded-3xl bg-white/80 backdrop-blur-md border-white/20">
-      <CardHeader className="bg-gradient-to-r from-chatbot-primary to-chatbot-dark text-white rounded-t-3xl py-6 px-8">
+    <Card className="w-full max-w-4xl mx-auto min-h-[700px] flex flex-col shadow-[0_8px_32px_rgba(0,0,0,0.2)] rounded-3xl bg-gradient-to-b from-white/10 to-orange-500/5 backdrop-blur-xl border-white/20">
+      <CardHeader className="bg-gradient-to-r from-orange-600 to-orange-400 text-white rounded-t-3xl py-6 px-8">
         <CardTitle className="text-center text-2xl font-medium tracking-tight">
           {chatbotName}
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="flex-1 overflow-y-auto p-8 space-y-6 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+      <CardContent className="flex-1 overflow-y-auto p-8 space-y-6 scrollbar-thin scrollbar-thumb-orange-200/20 scrollbar-track-transparent">
         <div className="flex flex-col">
           {messages.map((message, index) => (
             <ChatMessage key={index} {...message} />
           ))}
           {loading && (
             <div className="flex justify-start my-4">
-              <div className="bg-white/60 backdrop-blur-sm rounded-2xl px-6 py-3 shadow-sm">
+              <div className="bg-orange-500/5 backdrop-blur-sm rounded-2xl px-6 py-3 shadow-sm">
                 <div className="flex space-x-3">
-                  <div className="w-2.5 h-2.5 rounded-full bg-chatbot-primary animate-bounce"></div>
-                  <div className="w-2.5 h-2.5 rounded-full bg-chatbot-primary animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                  <div className="w-2.5 h-2.5 rounded-full bg-chatbot-primary animate-bounce" style={{animationDelay: '0.4s'}}></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-orange-400 animate-bounce"></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-orange-400 animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                  <div className="w-2.5 h-2.5 rounded-full bg-orange-400 animate-bounce" style={{animationDelay: '0.4s'}}></div>
                 </div>
               </div>
             </div>
@@ -73,7 +72,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         </div>
       </CardContent>
       
-      <CardFooter className="p-6 bg-white/50 border-t border-white/10 rounded-b-3xl">
+      <CardFooter className="p-6 bg-gradient-to-b from-black/5 to-orange-500/5 border-t border-orange-200/10 rounded-b-3xl">
         <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
       </CardFooter>
     </Card>

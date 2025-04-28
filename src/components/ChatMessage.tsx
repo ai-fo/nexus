@@ -25,15 +25,17 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       {!isUser && (
         <Avatar className="h-8 w-8">
           <AvatarImage src="" />
-          <AvatarFallback className="bg-chatbot-primary text-white">
+          <AvatarFallback className="bg-gradient-to-br from-orange-500 to-orange-600 text-white">
             <Bot className="h-5 w-5" />
           </AvatarFallback>
         </Avatar>
       )}
       
       <div className={cn(
-        "px-4 py-3 rounded-lg max-w-[80%] break-words",
-        isUser ? "bg-chatbot-primary text-white rounded-br-none" : "bg-chatbot-light text-slate-800 rounded-bl-none"
+        "px-4 py-3 rounded-2xl max-w-[80%] break-words shadow-lg",
+        isUser ? 
+          "bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-br-none" : 
+          "bg-white/10 backdrop-blur-md text-orange-50 rounded-bl-none border border-orange-200/10"
       )}>
         {content}
       </div>
@@ -41,7 +43,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       {isUser && (
         <Avatar className="h-8 w-8">
           <AvatarImage src="" />
-          <AvatarFallback className="bg-chatbot-dark text-white">
+          <AvatarFallback className="bg-gradient-to-br from-orange-600 to-orange-700 text-white">
             <User className="h-5 w-5" />
           </AvatarFallback>
         </Avatar>
