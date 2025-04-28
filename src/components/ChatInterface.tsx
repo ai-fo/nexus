@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
@@ -20,15 +19,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleSendMessage = async (content: string) => {
-    // Add user message
     const userMessage: ChatMessageProps = { role: 'user', content };
     setMessages(prev => [...prev, userMessage]);
     
-    // Simulate loading
     setLoading(true);
     
-    // This is where you would integrate with your Python backend
-    // For now, we'll simulate a response
     setTimeout(() => {
       const botResponse: ChatMessageProps = {
         role: 'assistant', 
@@ -40,20 +35,19 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }, 1000);
   };
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   return (
-    <Card className="w-full max-w-4xl mx-auto min-h-[700px] flex flex-col shadow-xl rounded-lg bg-white border-none">
-      <CardHeader className="bg-gradient-to-r from-purple-600 to-indigo-700 text-white rounded-t-lg py-4 px-6">
+    <Card className="w-full max-w-4xl mx-auto min-h-[700px] flex flex-col shadow-lg rounded-lg bg-white/90 backdrop-blur-sm border border-[#e6f0ff]">
+      <CardHeader className="bg-gradient-to-r from-[#004c92] to-[#1a69b5] text-white rounded-t-lg py-4 px-6">
         <CardTitle className="text-center text-xl font-medium">
           {chatbotName}
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="flex-1 overflow-y-auto p-5 space-y-4 bg-gray-50">
+      <CardContent className="flex-1 overflow-y-auto p-5 space-y-4 bg-gradient-to-b from-[#f8faff] to-white">
         <div className="flex flex-col">
           {messages.map((message, index) => (
             <ChatMessage key={index} {...message} />
@@ -73,7 +67,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         </div>
       </CardContent>
       
-      <CardFooter className="p-4 bg-gray-100 border-t border-gray-200">
+      <CardFooter className="p-4 bg-[#f8faff] border-t border-[#e6f0ff]">
         <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
       </CardFooter>
     </Card>
