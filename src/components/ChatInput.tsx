@@ -26,20 +26,20 @@ const ChatInput: React.FC<ChatInputProps> = ({
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="relative flex items-center gap-3 bg-gradient-to-r from-white/90 to-white/70 backdrop-blur-md rounded-2xl p-3 shadow-lg border border-[#e6f0ff]/60 w-full transition-all duration-300 hover:shadow-xl focus-within:border-[#3380cc]/30 focus-within:from-white focus-within:to-white/90"
+      className="relative flex items-center gap-3 bg-gradient-to-r from-white/90 to-white/70 backdrop-blur-md rounded-2xl p-4 shadow-lg border border-[#e6f0ff]/60 w-full transition-all duration-300 hover:shadow-xl focus-within:border-[#3380cc]/30 focus-within:from-white focus-within:to-white/90"
     >
       <Input
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Écrivez votre message..."
         disabled={disabled}
-        className="flex-1 border-0 bg-transparent text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-[#003366] placeholder:text-[#3380cc]/40 transition-all duration-200 outline-none"
+        className="flex-1 h-12 border-0 bg-transparent text-lg focus-visible:ring-0 focus-visible:ring-offset-0 text-[#003366] placeholder:text-[#3380cc]/40 transition-all duration-200 outline-none"
       />
       
       <Button 
         type="submit" 
         disabled={!message.trim() || disabled}
-        className="rounded-xl bg-gradient-to-r from-[#004c92] to-[#1a69b5] hover:from-[#003366] hover:to-[#004c92] transition-all duration-300 shadow hover:shadow-lg hover:scale-105 active:scale-95"
+        className="rounded-xl bg-gradient-to-r from-[#004c92] to-[#1a69b5] hover:from-[#003366] hover:to-[#004c92] transition-all duration-300 shadow hover:shadow-lg hover:scale-105 active:scale-95 h-12 w-12"
         size="icon"
       >
         <SendHorizonal className="h-5 w-5 text-white" />
@@ -50,4 +50,3 @@ const ChatInput: React.FC<ChatInputProps> = ({
 };
 
 export default ChatInput;
-

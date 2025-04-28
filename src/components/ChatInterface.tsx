@@ -10,7 +10,7 @@ interface ChatInterfaceProps {
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
   chatbotName = "Bill",
-  initialMessage = "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
+  initialMessage = "Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?"
 }) => {
   const [messages, setMessages] = useState<ChatMessageProps[]>([
     { role: 'assistant', content: initialMessage }
@@ -74,8 +74,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       
       {isInitialState && (
         <div className="flex-1 flex flex-col items-center justify-center gap-4 px-4 max-w-4xl mx-auto">
-          <p className="text-[#3380cc]/80 text-lg mb-4">Quelle est votre problème ?</p>
-          <div className="w-full max-w-2xl sticky bottom-0 px-4 py-4 bg-gradient-to-b from-transparent to-[#E6F0FF]">
+          <p className="text-[#3380cc]/80 text-xl font-bold mb-4">Quelle est votre problème ?</p>
+          <div className="w-full max-w-3xl sticky bottom-0 px-4 py-4 bg-gradient-to-b from-transparent to-[#E6F0FF]">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
           </div>
         </div>
