@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ChatInterface from '@/components/ChatInterface';
 
@@ -27,7 +26,6 @@ const Index = () => {
             <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">c</span>
             <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">e</span>
           </span>
-          <span className="text-[#1a69b5] text-lg font-normal">- L'aide instantanée</span>
         </h1>
       </header>
       
