@@ -24,12 +24,12 @@ const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="relative flex items-center gap-2 bg-white rounded-lg p-2 shadow-sm border border-[#e6f0ff] w-full">
+    <form onSubmit={handleSubmit} className="relative flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-lg p-2 shadow-sm border border-[#e6f0ff]/50 w-full transition-all duration-200 focus-within:shadow-md">
       <Button 
         type="button"
         variant="ghost" 
         size="icon"
-        className="text-[#3380cc] hover:text-[#004c92] hover:bg-[#f8faff]"
+        className="text-[#3380cc] hover:text-[#004c92] hover:bg-[#f8faff] transition-colors duration-200"
       >
         <Paperclip className="h-5 w-5" />
         <span className="sr-only">Ajouter un fichier</span>
@@ -40,14 +40,14 @@ const ChatInput: React.FC<ChatInputProps> = ({
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Écrivez votre message..."
         disabled={disabled}
-        className="flex-1 border-0 bg-transparent text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-[#003366] placeholder:text-[#3380cc]/50"
+        className="flex-1 border-0 bg-transparent text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-[#003366] placeholder:text-[#3380cc]/50 transition-all duration-200"
       />
       
       <Button 
         type="button"
         variant="ghost" 
         size="icon"
-        className="text-[#3380cc] hover:text-[#004c92] hover:bg-[#f8faff]"
+        className="text-[#3380cc] hover:text-[#004c92] hover:bg-[#f8faff] transition-colors duration-200"
       >
         <SmilePlus className="h-5 w-5" />
         <span className="sr-only">Ajouter un emoji</span>
@@ -56,7 +56,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
       <Button 
         type="submit" 
         disabled={!message.trim() || disabled}
-        className="rounded-lg bg-gradient-to-r from-[#004c92] to-[#1a69b5] hover:from-[#003366] hover:to-[#004c92] transition-all duration-200"
+        className="rounded-lg bg-gradient-to-r from-[#004c92] to-[#1a69b5] hover:from-[#003366] hover:to-[#004c92] transition-all duration-300 shadow-sm hover:shadow-md"
         size="icon"
       >
         <SendHorizonal className="h-5 w-5 text-white" />
