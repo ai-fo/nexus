@@ -1,4 +1,3 @@
-
 import { cn } from '@/lib/utils';
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
@@ -74,7 +73,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
       
       {isInitialState && (
-        <div className="flex-1 flex flex-col items-center justify-center gap-6 px-4">
+        <div className="flex-1 flex flex-col items-center justify-center gap-6 px-4 max-w-4xl mx-auto">
           <div className="text-center space-y-2 animate-fade-in">
             <p className="text-[#3380cc]/60 text-sm">Exemples de questions fréquentes :</p>
             <div className="flex flex-wrap justify-center gap-2">
@@ -90,18 +89,17 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               ))}
             </div>
           </div>
-          <div className="w-full max-w-2xl px-4">
+          <div className="w-full sticky bottom-0 max-w-4xl px-4 py-4 bg-gradient-to-b from-transparent to-[#E6F0FF]">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
           </div>
         </div>
       )}
       
-      <div className={cn(
-        "p-4 transition-all duration-300 ease-in-out",
-        isInitialState ? "hidden" : "sticky bottom-0 bg-gradient-to-b from-transparent to-[#E6F0FF]"
-      )}>
-        <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
-      </div>
+      {!isInitialState && (
+        <div className="sticky bottom-0 p-4 bg-gradient-to-b from-transparent to-[#E6F0FF] max-w-4xl w-full">
+          <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
+        </div>
+      )}
     </div>
   );
 };
