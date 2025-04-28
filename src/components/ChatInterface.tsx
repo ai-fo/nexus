@@ -19,6 +19,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const exampleQuestions = [
+    "Comment changer mon mot de passe ?",
+    "Mon VPN ne fonctionne pas",
+    "Je ne peux pas accéder à mes emails",
+    "Comment installer les mises à jour ?",
+  ];
+
   const handleSendMessage = async (content: string) => {
     const userMessage: ChatMessageProps = { role: 'user', content };
     setMessages(prev => [...prev, userMessage]);
@@ -66,9 +73,29 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         </div>
       )}
       
+      {isInitialState && (
+        <div className="flex-1 flex flex-col items-center justify-center gap-6 px-4">
+          <div className="text-center space-y-2 animate-fade-in">
+            <p className="text-[#3380cc]/60 text-sm">Exemples de questions fréquentes :</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {exampleQuestions.map((question, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSendMessage(question)}
+                  className="px-4 py-2 rounded-xl bg-white/40 hover:bg-white/60 backdrop-blur-sm text-[#003366] border border-white/20 shadow-sm hover:shadow-md transition-all duration-300 text-sm animate-fade-in"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  {question}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className={cn(
         "p-4 transition-all duration-300 ease-in-out",
-        isInitialState ? "flex-1 flex items-center justify-center" : "sticky bottom-0 bg-gradient-to-b from-transparent to-[#E6F0FF]"
+        isInitialState ? "flex-none" : "sticky bottom-0 bg-gradient-to-b from-transparent to-[#E6F0FF]"
       )}>
         <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
       </div>
