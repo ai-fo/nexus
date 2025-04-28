@@ -12,8 +12,9 @@ interface ChatInterfaceProps {
 }
 
 const QUESTIONS = [
-  "Quel est votre problème ?",
-  "Qu'est ce qui va pas ?",
+  "Quel souci rencontrez-vous ?",
+  "En quoi puis-je vous aider ?",
+  "Qu'est-ce qui ne va pas ?",
   "Un soucis technique ?"
 ];
 
