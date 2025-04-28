@@ -73,13 +73,11 @@ const Index = () => {
         )}
       </div>
       
-      <div className={`flex-1 flex items-center justify-center px-4 md:px-8 lg:px-12 transition-all duration-500 ease-in-out ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}`}>
+      <div className={`flex-1 flex flex-col items-center justify-center px-4 md:px-8 lg:px-12 transition-all duration-500 ease-in-out ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}`}>
         <div className="w-full max-w-4xl flex flex-col items-center">
           {!isAnimated && (
             <div className="text-[#3380cc] text-xl font-bold mb-8">
-              <p 
-                className="transition-all duration-500 transform animate-fade-in"
-              >
+              <p className="transition-all duration-500 transform animate-fade-in">
                 {questions[currentQuestionIndex]}
               </p>
             </div>
