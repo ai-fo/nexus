@@ -45,14 +45,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   return (
     <div className="w-full max-w-4xl flex flex-col min-h-[calc(100vh-12rem)]">
       {!isInitialState && (
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
           <div className="flex flex-col">
             {messages.map((message, index) => (
               <ChatMessage key={index} {...message} />
             ))}
             {loading && (
-              <div className="flex justify-start my-4">
-                <div className="bg-white/40 backdrop-blur-sm rounded-lg px-4 py-2">
+              <div className="flex justify-start my-4 animate-fade-in">
+                <div className="bg-white/40 backdrop-blur-sm rounded-2xl px-6 py-3 shadow-lg">
                   <div className="flex space-x-2">
                     <div className="w-2 h-2 rounded-full bg-[#004c92] animate-pulse"></div>
                     <div className="w-2 h-2 rounded-full bg-[#1a69b5] animate-pulse" style={{animationDelay: '0.2s'}}></div>
