@@ -90,12 +90,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               ))}
             </div>
           </div>
+          <div className="w-full max-w-2xl px-4">
+            <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
+          </div>
         </div>
       )}
       
       <div className={cn(
         "p-4 transition-all duration-300 ease-in-out",
-        isInitialState ? "flex-none" : "sticky bottom-0 bg-gradient-to-b from-transparent to-[#E6F0FF]"
+        isInitialState ? "hidden" : "sticky bottom-0 bg-gradient-to-b from-transparent to-[#E6F0FF]"
       )}>
         <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
       </div>
@@ -103,4 +106,3 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   );
 };
 
-export default ChatInterface;
