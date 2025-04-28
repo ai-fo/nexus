@@ -22,7 +22,7 @@ const Index = () => {
       </div>
       
       <footer className="py-6 text-center text-sm text-[#3380cc] transition-opacity duration-200 hover:opacity-80">
-        <p>Propulsé par une IA avancée pour mieux vous servir</p>
+        <p>L'IA peut faire des erreurs. En cas de besoin, contactez la hotline au 9400</p>
       </footer>
     </div>
   );
