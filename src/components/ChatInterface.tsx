@@ -12,8 +12,9 @@ interface ChatInterfaceProps {
 }
 
 const QUESTIONS = [
-  "Quel est votre problème ?",
-  "Qu'est ce qui va pas ?",
+  "Quel souci rencontrez-vous ?",
+  "En quoi puis-je vous aider ?",
+  "Qu'est-ce qui ne va pas ?",
   "Un soucis technique ?"
 ];
 
@@ -30,7 +31,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentQuestionIndex((prev) => (prev + 1) % QUESTIONS.length);
-    }, 2000);
+    }, 3000); // Slightly slower rotation for better readability
 
     return () => clearInterval(interval);
   }, []);
@@ -88,10 +89,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       
       {isInitialState && (
         <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full flex-1">
-          <div className="h-8 mb-2">
+          <div className="h-8 mb-2 overflow-hidden">
             <p 
               key={currentQuestionIndex}
-              className="text-[#3380cc] text-xl font-bold animate-fade-in"
+              className="text-[#3380cc] text-xl font-bold transition-all duration-500 ease-in-out animate-slide-up"
+              style={{
+                opacity: 0,
+                animation: 'slideUp 3s ease-in-out infinite',
+              }}
             >
               {QUESTIONS[currentQuestionIndex]}
             </p>
