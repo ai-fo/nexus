@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SendHorizonal, SmilePlus } from 'lucide-react';
+import { SendHorizonal } from 'lucide-react';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
@@ -35,29 +36,18 @@ const ChatInput: React.FC<ChatInputProps> = ({
         className="flex-1 border-0 bg-transparent text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-[#003366] placeholder:text-[#3380cc]/40 transition-all duration-200 outline-none"
       />
       
-      <div className="flex items-center gap-2">
-        <Button 
-          type="button"
-          variant="ghost" 
-          size="icon"
-          className="text-[#3380cc] hover:text-[#004c92] hover:bg-[#f8faff]/80 transition-all duration-300 rounded-xl"
-        >
-          <SmilePlus className="h-5 w-5" />
-          <span className="sr-only">Ajouter un emoji</span>
-        </Button>
-
-        <Button 
-          type="submit" 
-          disabled={!message.trim() || disabled}
-          className="rounded-xl bg-gradient-to-r from-[#004c92] to-[#1a69b5] hover:from-[#003366] hover:to-[#004c92] transition-all duration-300 shadow hover:shadow-lg hover:scale-105 active:scale-95"
-          size="icon"
-        >
-          <SendHorizonal className="h-5 w-5 text-white" />
-          <span className="sr-only">Envoyer</span>
-        </Button>
-      </div>
+      <Button 
+        type="submit" 
+        disabled={!message.trim() || disabled}
+        className="rounded-xl bg-gradient-to-r from-[#004c92] to-[#1a69b5] hover:from-[#003366] hover:to-[#004c92] transition-all duration-300 shadow hover:shadow-lg hover:scale-105 active:scale-95"
+        size="icon"
+      >
+        <SendHorizonal className="h-5 w-5 text-white" />
+        <span className="sr-only">Envoyer</span>
+      </Button>
     </form>
   );
 };
 
 export default ChatInput;
+
