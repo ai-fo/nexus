@@ -1,0 +1,6 @@
+mistralai
+python-dotenv
+torch
+transformers
+numpy
+scikit-learn
