@@ -1,19 +1,37 @@
+
 import React, { useState } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import { Button } from "@/components/ui/button";
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, RefreshCw } from 'lucide-react';
+import { clearConversation } from '@/lib/api';
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [isAnimated, setIsAnimated] = useState(false);
   const [chatKey, setChatKey] = useState(0); // Add key to force re-render ChatInterface
+  const { toast } = useToast();
 
   const handleFirstMessage = () => {
     setIsAnimated(true);
   };
 
-  const handleNewChat = () => {
-    setIsAnimated(false);
-    setChatKey(prev => prev + 1); // Increment key to reset ChatInterface
+  const handleNewChat = async () => {
+    try {
+      await clearConversation();
+      setIsAnimated(false);
+      setChatKey(prev => prev + 1); // Increment key to reset ChatInterface
+      toast({
+        title: "Conversation réinitialisée",
+        description: "Une nouvelle conversation a été démarrée",
+      });
+    } catch (error) {
+      console.error("Erreur lors de la réinitialisation de la conversation:", error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de réinitialiser la conversation",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -51,8 +69,9 @@ const Index = () => {
             size="icon"
             className="rounded-full hover:bg-[#E6F0FF]/50"
             onClick={handleNewChat}
+            title="Nouvelle conversation"
           >
-            <MessageSquare className="h-5 w-5 text-[#004c92]" />
+            <RefreshCw className="h-5 w-5 text-[#004c92]" />
           </Button>
         )}
       </div>

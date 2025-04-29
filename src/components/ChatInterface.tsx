@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { sendMessage, clearConversation } from '@/lib/api';
+import { useToast } from "@/components/ui/use-toast";
 
 interface ChatInterfaceProps {
   chatbotName?: string;
@@ -27,11 +29,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [loading, setLoading] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
+  const { toast } = useToast();
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentQuestionIndex((prev) => (prev + 1) % QUESTIONS.length);
-    }, 8000); // Changed from 3000 to 8000 ms
+    }, 8000);
 
     return () => clearInterval(interval);
   }, []);
@@ -46,15 +49,35 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     
     setLoading(true);
     
-    setTimeout(() => {
+    try {
+      const response = await sendMessage(content);
+      
+      // Si c'est le premier message, ajouter la réponse humanisée
+      if (response.humanized) {
+        const humanizedMessage: ChatMessageProps = {
+          role: 'assistant',
+          content: response.humanized
+        };
+        setMessages(prev => [...prev, humanizedMessage]);
+      }
+      
+      // Ajouter la réponse réelle du bot
       const botResponse: ChatMessageProps = {
-        role: 'assistant', 
-        content: initialMessage
+        role: 'assistant',
+        content: response.answer
       };
       
       setMessages(prev => [...prev, botResponse]);
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du message:", error);
+      toast({
+        title: "Erreur de connexion",
+        description: "Impossible de se connecter au serveur. Vérifiez que le backend Python est en cours d'exécution.",
+        variant: "destructive"
+      });
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   useEffect(() => {
