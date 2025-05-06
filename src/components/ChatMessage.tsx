@@ -67,32 +67,49 @@ const getRandomDelay = (minDelay: number, maxDelay: number): number => {
   return Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
 };
 
-// Fonction pour grouper les chunks en 1, 2 ou 3 messages max
+// Fonction pour grouper les chunks en MAXIMUM 3 messages
 const groupChunksRandomly = (chunks: string[]): string[][] => {
   if (chunks.length <= 1) return [chunks];
   
   const result: string[][] = [];
-  let currentGroup: string[] = [];
   
-  // Déterminer le nombre de messages (entre 1 et 3, mais pas plus que chunks.length)
+  // Assurer un maximum strict de 3 messages
   const maxMessages = Math.min(3, chunks.length);
-  const numberOfMessages = Math.max(1, Math.floor(Math.random() * maxMessages) + 1);
+  // Déterminer le nombre de messages - entre 1 et maxMessages
+  const numberOfMessages = Math.max(1, Math.min(maxMessages, Math.floor(Math.random() * maxMessages) + 1));
   
   // Calculer approximativement combien de chunks par message
   const chunksPerMessage = Math.ceil(chunks.length / numberOfMessages);
   
+  let currentGroup: string[] = [];
+  
   chunks.forEach((chunk, index) => {
     currentGroup.push(chunk);
     
-    // Si on a atteint la taille du groupe ou si c'est le dernier chunk
+    // Vérification de fin de groupe
+    // Si on est à la fin d'un groupe OU au dernier chunk
+    const isLastGroup = result.length === numberOfMessages - 2;
     const isLastChunk = index === chunks.length - 1;
-    const shouldEndGroup = currentGroup.length >= chunksPerMessage || isLastChunk;
     
-    if (shouldEndGroup && currentGroup.length > 0) {
+    if (isLastChunk) {
+      // Si c'est le dernier chunk, ajouter le groupe actuel
+      if (currentGroup.length > 0) {
+        result.push([...currentGroup]);
+      }
+    } else if (!isLastGroup && currentGroup.length >= chunksPerMessage) {
+      // Si ce n'est pas le dernier groupe et qu'on a atteint la taille cible
       result.push([...currentGroup]);
       currentGroup = [];
     }
   });
+  
+  // Vérifier qu'on n'a pas dépassé le nombre maximum de messages
+  while (result.length > 3) {
+    // Fusionner les deux derniers groupes
+    const lastGroup = result.pop() || [];
+    const secondLastGroup = result.pop() || [];
+    result.push([...secondLastGroup, ...lastGroup]);
+  }
   
   return result;
 };
