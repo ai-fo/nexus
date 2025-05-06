@@ -52,45 +52,6 @@ class Conversation:
             formatted_history.append(f"{prefix}: {msg['content']}")
         return "\n\n".join(formatted_history)
 
-def formater_reponse_chatbot(reponse: str) -> str:
-    """
-    Formate une réponse pour l'affichage dans un chatbot.
-    
-    Args:
-        reponse: La réponse brute du modèle
-        
-    Returns:
-        str: La réponse formatée pour le chatbot
-    """
-    # Supprimer les espaces multiples et les retours à la ligne en trop
-    reponse = re.sub(r'\n{3,}', '\n\n', reponse.strip())
-    
-    # Améliorer le formatage des listes numérotées
-    reponse = re.sub(r'(\d+\.\s*\*\*)', r'\n\1', reponse)
-    
-    # Améliorer le formatage des puces
-    reponse = re.sub(r'(\*\s)', r'\n\1', reponse)
-    
-    # Remplacer les liens markdown par des liens plus simples
-    reponse = re.sub(r'\[(.*?)\]\((.*?)\)', r'\1 (\2)', reponse)
-    
-    # Améliorer la mise en forme des titres
-    reponse = re.sub(r'#+\s+(.*?)\s*$', r'\n\1\n', reponse, flags=re.MULTILINE)
-    
-    # Éviter les doubles sauts de ligne autour des éléments de liste
-    reponse = re.sub(r'\n\n(\d+\.)', r'\n\1', reponse)
-    
-    # Supprimer les backticks simples (conserver le texte à l'intérieur)
-    reponse = re.sub(r'`([^`]+)`', r'\1', reponse)
-    
-    # Gérer les blocs de code plus proprement
-    reponse = re.sub(r'```(?:\w+)?\n(.*?)```', r'\n\1', reponse, flags=re.DOTALL)
-    
-    # Simplifier le texte en gras
-    reponse = re.sub(r'\*\*(.*?)\*\*', r'\1', reponse)
-    
-    return reponse.strip()
-
 class ChatManager:
     """Gestionnaire de conversations avec RAG intégré."""
     
@@ -121,8 +82,7 @@ class ChatManager:
                 f.write("""Vous êtes un assistant amical et utile.
 Basez vos réponses sur les informations fournies dans l'historique de conversation et dans le contexte documentaire si disponible.
 Soyez précis, concis et utile dans vos réponses.
-Si vous ne connaissez pas la réponse, admettez-le simplement.
-Répondez dans un format adapté à un chat: courts paragraphes, phrases simples, bon usage des sauts de ligne.""")
+Si vous ne connaissez pas la réponse, admettez-le simplement.""")
         
         with open(self.conv_prompt_path, "r", encoding="utf-8") as f:
             self.conv_prompt = f.read().strip()
@@ -135,14 +95,7 @@ Répondez dans un format adapté à un chat: courts paragraphes, phrases simples
 Utilisez à la fois le contexte documentaire ET l'historique de conversation pour générer des réponses précises.
 Tenez compte des questions précédentes et de vos réponses pour maintenir la cohérence de la conversation.
 Si les documents ne contiennent pas l'information nécessaire, basez-vous uniquement sur l'historique de conversation.
-
-FORMAT IMPORTANT: Pour une bonne expérience utilisateur dans un chat:
-1. Utilisez un style conversationnel, naturel et direct
-2. Évitez les listes numérotées trop formelles, préférez des phrases simples
-3. Utilisez des sauts de ligne entre chaque point important
-4. Gardez vos messages courts et concis (3-4 phrases maximum)
-5. Éliminez les formules comme "Voici les étapes" ou "Pour conclure"
-6. Évitez les titres en gras ou soulignés, préférez un texte simple""")
+Soyez précis, clair et concis dans vos réponses.""")
         
         with open(self.rag_context_prompt_path, "r", encoding="utf-8") as f:
             self.rag_context_prompt = f.read().strip()
@@ -234,8 +187,7 @@ FORMAT IMPORTANT: Pour une bonne expérience utilisateur dans un chat:
                     max_tokens=200
                 )
                 
-                reponse_brute = chat_response.choices[0].message.content.strip()
-                return formater_reponse_chatbot(reponse_brute)
+                return chat_response.choices[0].message.content.strip()
             except Exception as e:
                 print(f"Erreur lors de l'appel à l'API Mistral: {str(e)}")
                 return "Désolé, je n'ai pas pu générer une réponse pour le moment. Veuillez réessayer plus tard."
@@ -250,8 +202,7 @@ FORMAT IMPORTANT: Pour une bonne expérience utilisateur dans un chat:
                 }
                 
                 response = requests.post(url, json=payload)
-                reponse_brute = response.json()["choices"][0]["message"]["content"].strip()
-                return formater_reponse_chatbot(reponse_brute)
+                return response.json()["choices"][0]["message"]["content"].strip()
             except Exception as e:
                 print(f"Erreur lors de l'appel au modèle local: {str(e)}")
                 return "Désolé, je n'ai pas pu générer une réponse pour le moment. Veuillez réessayer plus tard."
@@ -296,8 +247,7 @@ FORMAT IMPORTANT: Pour une bonne expérience utilisateur dans un chat:
                     max_tokens=300
                 )
                 
-                reponse_brute = chat_response.choices[0].message.content.strip()
-                return formater_reponse_chatbot(reponse_brute)
+                return chat_response.choices[0].message.content.strip()
             except Exception as e:
                 print(f"Erreur lors de l'appel à l'API Mistral: {str(e)}")
                 return "Désolé, je n'ai pas pu générer une réponse pour le moment. Veuillez réessayer plus tard."
@@ -312,8 +262,7 @@ FORMAT IMPORTANT: Pour une bonne expérience utilisateur dans un chat:
                 }
                 
                 response = requests.post(url, json=payload)
-                reponse_brute = response.json()["choices"][0]["message"]["content"].strip()
-                return formater_reponse_chatbot(reponse_brute)
+                return response.json()["choices"][0]["message"]["content"].strip()
             except Exception as e:
                 print(f"Erreur lors de l'appel au modèle local: {str(e)}")
                 return "Désolé, je n'ai pas pu générer une réponse pour le moment. Veuillez réessayer plus tard."
