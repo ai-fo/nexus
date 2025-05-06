@@ -174,7 +174,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
         </div>
       ))}
       
-      {/* Indicateur de frappe pour l'assistant - amélioré */}
+      {/* Indicateur de frappe pour l'assistant */}
       {!isUser && !isComplete && (
         <div className="flex justify-start my-1">
           <div className="flex items-center px-4 py-3 bg-white/80 rounded-2xl shadow-sm mb-1">
