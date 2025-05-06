@@ -1,3 +1,4 @@
+
 import { cn } from '@/lib/utils';
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
@@ -93,17 +94,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             {messages.map((message, index) => (
               <ChatMessage key={index} {...message} />
             ))}
-            {loading && (
-              <div className="flex justify-start my-4 animate-fade-in">
-                <div className="bg-white/40 backdrop-blur-sm rounded-2xl px-6 py-3 shadow-lg">
-                  <div className="flex space-x-2">
-                    <div className="w-2 h-2 rounded-full bg-[#004c92] animate-pulse"></div>
-                    <div className="w-2 h-2 rounded-full bg-[#1a69b5] animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                    <div className="w-2 h-2 rounded-full bg-[#3380cc] animate-pulse" style={{animationDelay: '0.4s'}}></div>
-                  </div>
-                </div>
-              </div>
-            )}
             <div ref={messagesEndRef} />
           </div>
         </ScrollArea>

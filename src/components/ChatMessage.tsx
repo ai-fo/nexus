@@ -174,13 +174,15 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
         </div>
       ))}
       
-      {/* Indicateur de frappe pour l'assistant */}
+      {/* Indicateur de frappe pour l'assistant - amélioré */}
       {!isUser && !isComplete && (
         <div className="flex justify-start my-1">
-          <div className="flex px-4 py-3 bg-white/60 rounded-2xl shadow-sm animate-pulse mb-1">
-            <span className="w-2 h-2 bg-[#003366] rounded-full mx-0.5 animate-pulse"></span>
-            <span className="w-2 h-2 bg-[#003366] rounded-full mx-0.5 animate-pulse" style={{ animationDelay: '0.2s' }}></span>
-            <span className="w-2 h-2 bg-[#003366] rounded-full mx-0.5 animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+          <div className="flex items-center px-4 py-3 bg-white/80 rounded-2xl shadow-sm mb-1">
+            <div className="flex space-x-2">
+              <span className="w-2.5 h-2.5 bg-[#003366] rounded-full animate-bounce" style={{ animationDelay: '0s', animationDuration: '1s' }}></span>
+              <span className="w-2.5 h-2.5 bg-[#003366] rounded-full animate-bounce" style={{ animationDelay: '0.2s', animationDuration: '1s' }}></span>
+              <span className="w-2.5 h-2.5 bg-[#003366] rounded-full animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '1s' }}></span>
+            </div>
           </div>
         </div>
       )}
