@@ -1,6 +1,9 @@
 """Configuration pour le système RAG."""
 from pathlib import Path
 
+# Configuration du mode d'appel au modèle
+DEFAULT_MODE = "local"  # Choisir entre "api" (API Mistral) ou "local" (serveur local)
+
 # Chemins des dossiers
 BASE_DIR = Path(__file__).parent
 PDF_FOLDER = BASE_DIR / "pdfs"  # Dossier par défaut pour les PDFs
@@ -21,3 +24,9 @@ TEMP_DIR.mkdir(exist_ok=True)
 TRANSCRIPTS_DIR.mkdir(exist_ok=True)  # Création du dossier des transcriptions
 TRANSCRIPTS_TEXT_ONLY_DIR.mkdir(exist_ok=True)  # Création du dossier des transcriptions sans images
 PROMPTS_DIR.mkdir(exist_ok=True)  # Création du dossier des prompts
+
+
+PIXTRAL_URL = "http://localhost:8085/v1/chat/completions"  # Port pour Pixtral
+MISTRAL_URL = "http://localhost:5263/v1/chat/completions"  # Port pour Mistral
+PIXTRAL_PATH = "/home/llama/models/base_models/Pixtral-12B-2409"  # Modèle Pixtral
+MISTRAL_PATH = "Mistral-Large-Instruct-2407-AWQ"  # Modèle Mistral

@@ -5,6 +5,7 @@ from chat_manager import ChatManager
 import json
 import os
 from dotenv import load_dotenv
+from config import DEFAULT_MODE
 
 # Chargement des variables d'environnement
 load_dotenv()
@@ -22,7 +23,7 @@ app.add_middleware(
 
 # Création du chat manager avec le système RAG amélioré
 # On peut configurer le mode et le seuil de similarité
-api_mode = os.environ.get("API_MODE", "api")
+api_mode = os.environ.get("API_MODE", DEFAULT_MODE)
 seuil = float(os.environ.get("SEUIL_SIMILARITE", "0.15"))
 chat_manager = ChatManager(mode=api_mode, seuil_similarite=seuil)
 
@@ -69,6 +70,19 @@ async def clear_history_endpoint(req: MessageRequest):
 @app.get("/")
 async def root():
     return {"message": "API backend RAG opérationnelle"}
+
+@app.get("/init")
+async def initialize_mode():
+    """
+    Initialise l'API avec le mode spécifié dans les paramètres
+    ou utilise le mode par défaut défini dans config.py
+    """
+    return {
+        "status": "ok",
+        "mode": chat_manager.mode,
+        "seuil_similarite": chat_manager.seuil_similarite,
+        "message": f"API initialisée en mode '{chat_manager.mode}'"
+    }
 
 @app.get("/config")
 async def get_config():

@@ -3,12 +3,10 @@ description:
 globs: 
 alwaysApply: true
 ---
-
 # Your rule content
 
 
 Si je travaille avec l'api : 
-
 import os
 from mistralai import Mistral
 
@@ -50,7 +48,7 @@ Quand je veux appeler  le modele mistral en local, j'utilise le payload suivant 
         answer = response.json()["choices"][0]["message"]["content"].strip().lower()
 
 
-
+---------------------------------------------------------------------------------
 Pour appeler Pixtral : 
 
 data = {

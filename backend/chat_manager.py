@@ -9,7 +9,7 @@ import torch
 import re
 import json
 from rag_transcripts import TranscriptRAG
-from config import PROMPTS_DIR
+from config import PROMPTS_DIR, MISTRAL_URL, MISTRAL_PATH
 
 # Chargement des variables d'environnement
 load_dotenv()
@@ -193,9 +193,9 @@ Soyez précis, clair et concis dans vos réponses.""")
                 return "Désolé, je n'ai pas pu générer une réponse pour le moment. Veuillez réessayer plus tard."
         else:
             try:
-                url = "http://localhost:11434/v1/chat/completions"
+                url = MISTRAL_URL
                 payload = {
-                    "model": "Mistral-Large-Instruct-2407-AWQ",
+                    "model": MISTRAL_PATH,
                     "messages": messages,
                     "temperature": 0.3,
                     "max_tokens": 200
@@ -253,9 +253,9 @@ Soyez précis, clair et concis dans vos réponses.""")
                 return "Désolé, je n'ai pas pu générer une réponse pour le moment. Veuillez réessayer plus tard."
         else:
             try:
-                url = "http://localhost:11434/v1/chat/completions"
+                url = MISTRAL_URL
                 payload = {
-                    "model": "Mistral-Large-Instruct-2407-AWQ",
+                    "model": MISTRAL_PATH,
                     "messages": messages,
                     "temperature": 0.2,
                     "max_tokens": 300
