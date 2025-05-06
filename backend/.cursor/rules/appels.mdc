@@ -7,7 +7,34 @@ alwaysApply: true
 # Your rule content
 
 
-Quand je veux appeler  le modele mistral, j'utilise le payload suivant :
+Si je travaille avec l'api : 
+
+import os
+from mistralai import Mistral
+
+api_key = os.environ["MISTRAL_API_KEY"]
+model = "mistral-small-latest"
+
+client = Mistral(api_key=api_key)
+
+chat_response = client.chat.complete(
+    model = model,
+    messages = [
+        {
+            "role": "user",
+            "content": "x",
+        },
+    ]
+)
+
+print(chat_response.choices[0].message.content)
+
+
+---------------------------
+
+Si je travail en local : 
+
+Quand je veux appeler  le modele mistral en local, j'utilise le payload suivant :
         payload = {
             "model": "Mistral-Large-Instruct-2407-AWQ",
             "messages": [
@@ -46,3 +73,5 @@ response = requests.post(vllm_url, headers=headers, json=data)
 
 - You can @ files here
 - You can use markdown but dont have to
+
+

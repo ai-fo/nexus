@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 from mistralai import Mistral
 from dotenv import load_dotenv
 import torch
@@ -12,9 +12,14 @@ from sklearn.metrics.pairwise import cosine_similarity
 import json
 import pickle
 from datetime import datetime
+from config import PROMPTS_DIR
 
 # Chargement des variables d'environnement
 load_dotenv()
+
+# Chargement du prompt RAG
+with open(PROMPTS_DIR / "rag.txt", "r", encoding="utf-8") as f:
+    RAG_PROMPT = f.read().strip()
 
 def average_pool(last_hidden_states: Tensor, attention_mask: Tensor) -> Tensor:
     last_hidden = last_hidden_states.masked_fill(~attention_mask[..., None].bool(), 0.0)
@@ -46,7 +51,33 @@ class TranscriptChunk:
         )
 
 class TranscriptRAG:
+    _instance = None
+    
+    @classmethod
+    def get_instance(cls, transcripts_dir: str = None, chunk_size: int = 512) -> 'TranscriptRAG':
+        """
+        Retourne l'instance unique de TranscriptRAG (pattern Singleton).
+        Si l'instance n'existe pas, elle est créée avec les paramètres fournis.
+        
+        Args:
+            transcripts_dir: Chemin vers le répertoire des transcriptions
+            chunk_size: Taille des chunks pour le découpage du texte
+            
+        Returns:
+            TranscriptRAG: L'instance unique de TranscriptRAG
+        """
+        if cls._instance is None:
+            if transcripts_dir is None:
+                raise ValueError("transcripts_dir doit être fourni lors de la première initialisation")
+            cls._instance = cls(transcripts_dir, chunk_size)
+            cls._instance.load_all_transcripts()
+        return cls._instance
+
     def __init__(self, transcripts_dir: str, chunk_size: int = 512):
+        """
+        Initialise une nouvelle instance de TranscriptRAG.
+        Il est recommandé d'utiliser get_instance() plutôt que d'instancier directement.
+        """
         self.transcripts_dir = Path(transcripts_dir)
         self.chunk_size = chunk_size
         self.cache_dir = self.transcripts_dir / '.cache'
@@ -59,7 +90,7 @@ class TranscriptRAG:
         # Initialisation du modèle E5
         self.tokenizer = AutoTokenizer.from_pretrained('intfloat/e5-large-v2')
         self.model = AutoModel.from_pretrained('intfloat/e5-large-v2')
-        self.model.eval()  # Mettre en mode évaluation
+        self.model.eval()
         
         self.chunks: List[TranscriptChunk] = []
         self.mistral_client = Mistral(api_key=os.environ["MISTRAL_API_KEY"])
@@ -224,25 +255,33 @@ class TranscriptRAG:
         similarities.sort(key=lambda x: x[1], reverse=True)
         return similarities[:top_k]
     
-    def query(self, user_query: str) -> str:
-        """Effectue une requête complète avec recherche et génération de réponse."""
+    def query(self, user_query: str, model: str = "mistral-small-latest", temperature: float = 0.2, max_tokens: int = 500) -> str:
+        """
+        Effectue une requête complète avec recherche et génération de réponse.
+        
+        Args:
+            user_query: La question de l'utilisateur
+            model: Le modèle Mistral à utiliser
+            temperature: La température pour la génération
+            max_tokens: Le nombre maximum de tokens à générer
+            
+        Returns:
+            str: La réponse générée
+        """
         relevant_chunks = self.search(user_query)
         
         # Construire le contexte pour Mistral
         chunks_text = []
-        for chunk, _ in relevant_chunks:
+        for chunk, similarity in relevant_chunks:
             prefix = "[Description d'image] " if chunk.is_image_description else ""
-            chunks_text.append(f"{prefix}{chunk.content}")
+            chunks_text.append(f"{prefix}{chunk.content} (Pertinence: {similarity:.2f})")
         context = "\n\n".join(chunks_text)
         
         # Construire le prompt
         messages = [
             {
                 "role": "system",
-                "content": "Tu es un assistant qui répond aux questions en te basant sur les transcriptions fournies. "
-                          "Certaines informations proviennent de descriptions d'images (marquées comme telles) et sont donc moins fiables "
-                          "que le texte pur. Prends cela en compte dans tes réponses. "
-                          "Si un message d'accueil ou de réassurance a déjà été donné par l'assistant, ne le répète pas dans ta réponse."
+                "content": RAG_PROMPT
             },
             {
                 "role": "user",
@@ -250,21 +289,30 @@ class TranscriptRAG:
             }
         ]
         
-        # Obtenir la réponse de Mistral
-        response = self.mistral_client.chat.complete(
-            model="mistral-small-latest",
-            messages=messages
-        )
-        
-        return response.choices[0].message.content
+        # Obtenir la réponse de Mistral en utilisant l'API directement
+        try:
+            api_key = os.environ["MISTRAL_API_KEY"]
+            client = Mistral(api_key=api_key)
+            
+            chat_response = client.chat.complete(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                max_tokens=max_tokens
+            )
+            
+            return chat_response.choices[0].message.content
+        except Exception as e:
+            print(f"Erreur lors de l'appel à l'API Mistral: {str(e)}")
+            return "Désolé, je n'ai pas pu générer une réponse pour le moment. Veuillez réessayer plus tard."
 
 # Exemple d'utilisation
 if __name__ == "__main__":
-    rag = TranscriptRAG("/Users/rekta/projet/backend/transcripts")
-    rag.load_all_transcripts()
+    # Exemple d'utilisation avec le singleton
+    rag = TranscriptRAG.get_instance("/Users/rekta/projet/backend/transcripts")
     
     # Exemple de requête
-    question = "Qui est le plus beau?"
+    question = "airflow?"
     reponse = rag.query(question)
     print(f"Question: {question}")
     print('--------------------------------')

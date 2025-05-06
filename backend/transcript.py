@@ -8,7 +8,7 @@ import json
 from PIL import Image
 import io
 import tempfile
-from config import PDF_FOLDER, CACHE_DIR, IMAGE_CACHE_FILE, TRANSCRIPTS_DIR
+from config import PDF_FOLDER, CACHE_DIR, IMAGE_CACHE_FILE, TRANSCRIPTS_DIR, TRANSCRIPTS_TEXT_ONLY_DIR
 
 load_dotenv()
 
@@ -98,24 +98,58 @@ def process_pdf(pdf_path):
 
 def save_transcript(transcript, pdf_path, contains_image):
     """Sauvegarde la transcription dans un fichier texte dans le dossier transcripts, et indique si le PDF contient une image."""
-    # Utiliser le même nom que le PDF mais dans le dossier transcripts
     output_filename = Path(pdf_path).name.replace('.pdf', '.txt')
     output_path = TRANSCRIPTS_DIR / output_filename
+    
+    # Organiser les éléments par page
+    pages = {}
+    for item in transcript:
+        page = item.get("page", 1) if item["type"] == "image" else 1
+        if page not in pages:
+            pages[page] = {"text": [], "images": []}
+        if item["type"] == "text":
+            pages[page]["text"].append(item["content"])
+        else:
+            pages[page]["images"].append(item)
     
     with open(output_path, 'w', encoding='utf-8') as f:
         # Écrire le nom du PDF source en haut du fichier
         f.write(f"Transcription de: {Path(pdf_path).name}\n")
         f.write(f"Contient une image : {'OUI' if contains_image else 'NON'}\n")
+        f.write("=" * 50 + "\n\n\n")
+        
+        image_counter = 1  # Compteur pour numéroter les images
+        
+        # Écrire le contenu page par page
+        for page_num in sorted(pages.keys()):
+            f.write(f"\n{'=' * 20} PAGE {page_num} {'=' * 20}\n\n")
+            
+            # Écrire le texte de la page
+            for text in pages[page_num]["text"]:
+                f.write(text)
+                f.write("\n\n")
+            
+            # Écrire les images de la page
+            for image in pages[page_num]["images"]:
+                f.write(f"\n{'=' * 20} IMAGE {image_counter} {'=' * 20}\n")
+                f.write(image["description"])
+                f.write(f"\n{'=' * 60}\n\n")
+                image_counter += 1
+
+def save_transcript_text_only(transcript, pdf_path):
+    """Sauvegarde uniquement le texte de la transcription dans un fichier texte dans le dossier transcripts_text_only."""
+    output_filename = Path(pdf_path).name.replace('.pdf', '.txt')
+    output_path = TRANSCRIPTS_TEXT_ONLY_DIR / output_filename
+    
+    with open(output_path, 'w', encoding='utf-8') as f:
+        # Écrire le nom du PDF source en haut du fichier
+        f.write(f"Transcription de: {Path(pdf_path).name}\n")
         f.write("=" * 50 + "\n\n")
         
         for item in transcript:
             if item["type"] == "text":
                 f.write(item["content"])
                 f.write("\n\n")
-            elif item["type"] == "image":
-                f.write(f"\n{'=' * 20} IMAGE (Page {item['page']}) {'=' * 20}\n")
-                f.write(item["description"])
-                f.write(f"\n{'=' * 60}\n\n")
 
 def process_all_pdfs():
     """Traite tous les PDFs dans le dossier configuré."""
@@ -123,6 +157,7 @@ def process_all_pdfs():
     # Créer les dossiers nécessaires s'ils n'existent pas
     CACHE_DIR.mkdir(exist_ok=True)
     TRANSCRIPTS_DIR.mkdir(exist_ok=True)
+    TRANSCRIPTS_TEXT_ONLY_DIR.mkdir(exist_ok=True)
 
     # Fichier JSON pour la présence d'images
     image_presence_json = TRANSCRIPTS_DIR / "pdf_image_presence.json"
@@ -136,11 +171,15 @@ def process_all_pdfs():
         print(f"Traitement de {pdf_file.name}...")
         try:
             transcript, contains_image = process_pdf(pdf_file)
+            # Sauvegarder la transcription complète
             save_transcript(transcript, pdf_file, contains_image)
+            # Sauvegarder la transcription sans les images
+            save_transcript_text_only(transcript, pdf_file)
             # Mettre à jour le JSON
             image_presence_data[pdf_file.name] = contains_image
             print(f"Transcription terminée pour {pdf_file.name}")
-            print(f"Fichier sauvegardé dans: {TRANSCRIPTS_DIR / pdf_file.name.replace('.pdf', '.txt')}")
+            print(f"Fichier complet sauvegardé dans: {TRANSCRIPTS_DIR / pdf_file.name.replace('.pdf', '.txt')}")
+            print(f"Fichier texte uniquement sauvegardé dans: {TRANSCRIPTS_TEXT_ONLY_DIR / pdf_file.name.replace('.pdf', '.txt')}")
         except Exception as e:
             print(f"Erreur lors du traitement de {pdf_file.name}: {str(e)}")
     # Sauvegarder le JSON mis à jour
