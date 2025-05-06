@@ -88,7 +88,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   return (
     <div className="w-full max-w-4xl flex flex-col h-[calc(100vh-8.5rem)]">
       {!isInitialState && (
-        <ScrollArea className="flex-1 p-4 space-y-4 group/scroller hover:overflow-auto overflow-hidden [&_[data-radix-scroll-area-thumb]]:bg-transparent [&_[data-radix-scroll-area-scrollbar]]:w-0">
+        <ScrollArea className="flex-1 p-4 space-y-4 group/scroller overflow-hidden">
           <div className="flex flex-col">
             {messages.map((message, index) => (
               <ChatMessage key={index} {...message} />
