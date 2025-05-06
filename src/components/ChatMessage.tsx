@@ -121,29 +121,28 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
     setDisplayedGroups(groupedChunks);
     setCurrentGroupIndex(0);
     setIsComplete(false);
-  }, [content, contentChunks, isUser]);
+  }, [content, isUser]); // Supprimé contentChunks des dépendances pour éviter des cycles de rendu
   
   // Effet pour afficher progressivement les groupes de messages de l'assistant
   useEffect(() => {
-    if (isUser || isComplete) return;
+    if (isUser || isComplete || displayedGroups.length === 0) return;
     
-    const showNextGroup = () => {
-      if (currentGroupIndex < displayedGroups.length - 1) {
-        const randomDelay = getRandomDelay(700, 1500); // Entre 700ms et 1.5s
-        
-        const timerId = setTimeout(() => {
-          setCurrentGroupIndex(prev => prev + 1);
-        }, randomDelay);
-        
-        return () => clearTimeout(timerId);
-      } else {
-        setIsComplete(true);
-        return undefined;
-      }
+    let timerId: NodeJS.Timeout | undefined;
+    
+    if (currentGroupIndex < displayedGroups.length - 1) {
+      const randomDelay = getRandomDelay(700, 1500); // Entre 700ms et 1.5s
+      
+      timerId = setTimeout(() => {
+        setCurrentGroupIndex(prev => prev + 1);
+      }, randomDelay);
+    } else {
+      setIsComplete(true);
+    }
+    
+    return () => {
+      if (timerId) clearTimeout(timerId);
     };
-    
-    return showNextGroup();
-  }, [currentGroupIndex, displayedGroups.length, isComplete, isUser]);
+  }, [currentGroupIndex, displayedGroups.length, isComplete, isUser]); // On garde ces dépendances car elles sont nécessaires
   
   if (displayedGroups.length === 0) return null;
   
