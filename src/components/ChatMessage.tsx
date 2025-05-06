@@ -8,6 +8,20 @@ export interface ChatMessageProps {
   timestamp?: Date;
 }
 
+// Fonction pour formater le texte avec du Markdown basique
+const formatText = (text: string): JSX.Element => {
+  // Remplacer les astérisques doubles pour le gras
+  let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // Gérer les listes numérotées (détection de format comme "1.", "2.", etc. au début d'une ligne)
+  formattedText = formattedText.replace(
+    /(\d+\.\s+)(.*?)(?=\n\d+\.|\n\n|$)/g,
+    '<div class="flex gap-2"><span class="font-bold">$1</span><span>$2</span></div>'
+  );
+
+  return <div dangerouslySetInnerHTML={{ __html: formattedText }} />;
+};
+
 // Fonction utilitaire pour découper un texte en paragraphes
 const splitTextIntoChunks = (text: string, maxLength = 300): string[] => {
   if (text.length <= maxLength) return [text];
@@ -48,6 +62,41 @@ const splitTextIntoChunks = (text: string, maxLength = 300): string[] => {
   return result;
 };
 
+// Fonction pour obtenir un délai aléatoire
+const getRandomDelay = (minDelay: number, maxDelay: number): number => {
+  return Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+};
+
+// Fonction pour grouper les chunks en 1, 2 ou 3 messages max
+const groupChunksRandomly = (chunks: string[]): string[][] => {
+  if (chunks.length <= 1) return [chunks];
+  
+  const result: string[][] = [];
+  let currentGroup: string[] = [];
+  
+  // Déterminer le nombre de messages (entre 1 et 3, mais pas plus que chunks.length)
+  const maxMessages = Math.min(3, chunks.length);
+  const numberOfMessages = Math.max(1, Math.floor(Math.random() * maxMessages) + 1);
+  
+  // Calculer approximativement combien de chunks par message
+  const chunksPerMessage = Math.ceil(chunks.length / numberOfMessages);
+  
+  chunks.forEach((chunk, index) => {
+    currentGroup.push(chunk);
+    
+    // Si on a atteint la taille du groupe ou si c'est le dernier chunk
+    const isLastChunk = index === chunks.length - 1;
+    const shouldEndGroup = currentGroup.length >= chunksPerMessage || isLastChunk;
+    
+    if (shouldEndGroup && currentGroup.length > 0) {
+      result.push([...currentGroup]);
+      currentGroup = [];
+    }
+  });
+  
+  return result;
+};
+
 const ChatMessage: React.FC<ChatMessageProps> = ({
   content,
   role,
@@ -55,57 +104,84 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
 }) => {
   const isUser = role === 'user';
   const contentChunks = splitTextIntoChunks(content);
-  const [visibleChunks, setVisibleChunks] = useState<number>(isUser ? contentChunks.length : 0);
+  const [displayedGroups, setDisplayedGroups] = useState<string[][]>([]);
+  const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
+  const [isComplete, setIsComplete] = useState(isUser);
   
-  // Effet pour afficher progressivement les messages de l'assistant
+  // Effet pour regrouper les chunks aléatoirement (uniquement pour les messages de l'assistant)
   useEffect(() => {
-    if (isUser) return; // Ne pas animer les messages de l'utilisateur
+    if (isUser) {
+      setDisplayedGroups([contentChunks]);
+      setIsComplete(true);
+      return;
+    }
     
-    let chunkIndex = 0;
-    const intervalId = setInterval(() => {
-      if (chunkIndex < contentChunks.length) {
-        setVisibleChunks(prev => prev + 1);
-        chunkIndex++;
-      } else {
-        clearInterval(intervalId);
-      }
-    }, 700); // Délai entre chaque "bulle" de message
-    
-    return () => clearInterval(intervalId);
-  }, [contentChunks.length, isUser]);
+    // Pour l'assistant, regrouper les chunks en 1-3 groupes
+    const groupedChunks = groupChunksRandomly(contentChunks);
+    setDisplayedGroups(groupedChunks);
+    setCurrentGroupIndex(0);
+    setIsComplete(false);
+  }, [content, contentChunks, isUser]);
   
-  // Si c'est un message utilisateur, tout afficher immédiatement
-  // Si c'est un message assistant, afficher progressivement
-  const chunksToShow = isUser 
-    ? contentChunks 
-    : contentChunks.slice(0, visibleChunks);
+  // Effet pour afficher progressivement les groupes de messages de l'assistant
+  useEffect(() => {
+    if (isUser || isComplete) return;
+    
+    const showNextGroup = () => {
+      if (currentGroupIndex < displayedGroups.length - 1) {
+        const randomDelay = getRandomDelay(700, 1500); // Entre 700ms et 1.5s
+        
+        const timerId = setTimeout(() => {
+          setCurrentGroupIndex(prev => prev + 1);
+        }, randomDelay);
+        
+        return () => clearTimeout(timerId);
+      } else {
+        setIsComplete(true);
+        return undefined;
+      }
+    };
+    
+    return showNextGroup();
+  }, [currentGroupIndex, displayedGroups.length, isComplete, isUser]);
+  
+  if (displayedGroups.length === 0) return null;
   
   return (
-    <div className={cn(
-      "flex flex-col w-full gap-1 my-4 animate-slide-in",
-      isUser ? "items-end" : "items-start"
-    )}>
-      {chunksToShow.map((chunk, index) => (
+    <div className="flex flex-col w-full gap-1 my-4 animate-slide-in">
+      {displayedGroups.slice(0, currentGroupIndex + 1).map((group, groupIndex) => (
         <div 
-          key={index}
+          key={groupIndex}
           className={cn(
-            "group max-w-[80%] break-words transition-all duration-300 mb-1",
-            "animate-fade-in",
-            isUser ? 
-              "px-4 py-3 rounded-2xl bg-gradient-to-r from-[#004c92] to-[#1a69b5] text-white shadow-lg hover:shadow-xl backdrop-blur-sm hover:scale-[1.02] origin-right" : 
-              "px-4 py-3 rounded-2xl bg-white/80 text-[#003366] shadow-sm hover:shadow backdrop-blur-sm"
+            "flex flex-col",
+            isUser ? "items-end" : "items-start"
           )}
         >
-          <p className="text-base leading-relaxed">{chunk}</p>
+          {group.map((chunk, chunkIndex) => (
+            <div 
+              key={`${groupIndex}-${chunkIndex}`}
+              className={cn(
+                "group max-w-[80%] break-words transition-all duration-300 mb-1",
+                "animate-fade-in",
+                isUser ? 
+                  "px-4 py-3 rounded-2xl bg-gradient-to-r from-[#004c92] to-[#1a69b5] text-white shadow-lg hover:shadow-xl backdrop-blur-sm hover:scale-[1.02] origin-right" : 
+                  "px-4 py-3 rounded-2xl bg-white/80 text-[#003366] shadow-sm hover:shadow backdrop-blur-sm"
+              )}
+            >
+              {formatText(chunk)}
+            </div>
+          ))}
         </div>
       ))}
       
       {/* Indicateur de frappe pour l'assistant */}
-      {!isUser && visibleChunks < contentChunks.length && (
-        <div className="flex px-4 py-3 bg-white/60 rounded-2xl shadow-sm animate-pulse mb-1">
-          <span className="w-2 h-2 bg-[#003366] rounded-full mx-0.5 animate-pulse"></span>
-          <span className="w-2 h-2 bg-[#003366] rounded-full mx-0.5 animate-pulse" style={{ animationDelay: '0.2s' }}></span>
-          <span className="w-2 h-2 bg-[#003366] rounded-full mx-0.5 animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+      {!isUser && !isComplete && (
+        <div className="flex justify-start my-1">
+          <div className="flex px-4 py-3 bg-white/60 rounded-2xl shadow-sm animate-pulse mb-1">
+            <span className="w-2 h-2 bg-[#003366] rounded-full mx-0.5 animate-pulse"></span>
+            <span className="w-2 h-2 bg-[#003366] rounded-full mx-0.5 animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+            <span className="w-2 h-2 bg-[#003366] rounded-full mx-0.5 animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+          </div>
         </div>
       )}
     </div>
