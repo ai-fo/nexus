@@ -7,4 +7,6 @@ transcripts/
 transcripts_text_only/
 pdfs/
 .env/
-
+cache/
+__pycache__/
+temp_images/
