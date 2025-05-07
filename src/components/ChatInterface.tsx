@@ -1,3 +1,4 @@
+
 import { cn } from '@/lib/utils';
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
@@ -28,6 +29,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [loading, setLoading] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const { toast } = useToast();
   
   useEffect(() => {
@@ -37,6 +39,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
     return () => clearInterval(interval);
   }, []);
+
+  // Fonction pour capturer la référence de l'input depuis le composant ChatInput
+  const setInputRef = (ref: HTMLInputElement | null) => {
+    inputRef.current = ref;
+  };
+
+  // Fonction pour refocuser l'input
+  const focusInput = () => {
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 100);
+  };
 
   const handleSendMessage = async (content: string) => {
     const userMessage: ChatMessageProps = { role: 'user', content };
@@ -76,6 +90,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       });
     } finally {
       setLoading(false);
+      // Refocuser l'input après réception de la réponse
+      focusInput();
     }
   };
 
@@ -109,14 +125,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             </p>
           </div>
           <div className="w-full px-4 py-2">
-            <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
+            <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} />
           </div>
         </div>
       )}
       
       {!isInitialState && (
         <div className="sticky bottom-0 p-2 bg-gradient-to-b from-transparent to-[#E6F0FF] max-w-4xl w-full">
-          <ChatInput onSendMessage={handleSendMessage} disabled={loading} />
+          <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} />
         </div>
       )}
     </div>

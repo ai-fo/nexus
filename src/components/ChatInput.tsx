@@ -7,14 +7,23 @@ import { SendHorizonal } from 'lucide-react';
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
   disabled?: boolean;
+  getInputRef?: (ref: HTMLInputElement | null) => void;
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({
   onSendMessage,
-  disabled = false
+  disabled = false,
+  getInputRef
 }) => {
   const [message, setMessage] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Exposer la référence de l'input au parent
+    if (getInputRef && inputRef.current) {
+      getInputRef(inputRef.current);
+    }
+  }, [getInputRef, inputRef.current]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
