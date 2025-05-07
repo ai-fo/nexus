@@ -9,7 +9,7 @@ import torch
 import re
 import json
 from rag_transcripts import TranscriptRAG
-from config import PROMPTS_DIR, MISTRAL_URL, MISTRAL_PATH
+from config import PROMPTS_DIR, MISTRAL_URL, MISTRAL_PATH, TRANSCRIPTS_DIR
 
 # Chargement des variables d'environnement
 load_dotenv()
@@ -69,7 +69,7 @@ class ChatManager:
         
         # Initialiser le RAG
         print("Initialisation du système RAG...")
-        self.rag = TranscriptRAG.get_instance("/Users/rekta/projet/bleu-esprit-dialogue/backend/transcripts")
+        self.rag = TranscriptRAG.get_instance(str(TRANSCRIPTS_DIR))
         
         # Charger les prompts
         self.prompts_path = PROMPTS_DIR

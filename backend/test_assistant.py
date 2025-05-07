@@ -7,6 +7,7 @@ from mistralai import Mistral
 import requests
 import torch
 import re
+from config import MISTRAL_URL, MISTRAL_PATH
 
 # Chargement des variables d'environnement
 load_dotenv()
@@ -87,9 +88,9 @@ Si la question est une salutation ou une question de routine, répondez de faço
             return "Bonjour! Comment puis-je vous aider aujourd'hui?"
     else:
         try:
-            url = "http://localhost:11434/v1/chat/completions"
+            url = MISTRAL_URL
             payload = {
-                "model": "Mistral-Large-Instruct-2407-AWQ",
+                "model": MISTRAL_PATH,
                 "messages": messages,
                 "temperature": temperature,
                 "max_tokens": max_tokens

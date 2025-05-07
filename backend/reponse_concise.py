@@ -5,7 +5,7 @@ from mistralai import Mistral
 from dotenv import load_dotenv
 import requests
 import json
-from config import PROMPTS_DIR
+from config import PROMPTS_DIR, MISTRAL_URL, MISTRAL_PATH
 from rag_transcripts import TranscriptRAG
 from evaluateur_reponse import evaluer_possibilite_reponse
 
@@ -112,9 +112,9 @@ def _appeler_api(messages: List[Dict[str, str]], temperature: float, max_tokens:
 def _appeler_local(messages: List[Dict[str, str]], temperature: float, max_tokens: int) -> str:
     """Appelle le modèle Mistral en local pour générer une réponse."""
     try:
-        url = "http://localhost:11434/v1/chat/completions"
+        url = MISTRAL_URL
         payload = {
-            "model": "Mistral-Large-Instruct-2407-AWQ",
+            "model": MISTRAL_PATH,
             "messages": messages,
             "temperature": temperature,
             "max_tokens": max_tokens
