@@ -29,6 +29,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [loading, setLoading] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { toast } = useToast();
   
@@ -95,8 +96,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
   };
 
+  // Effet pour scroller automatiquement vers le bas quand de nouveaux messages arrivent
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages]);
 
   const isInitialState = messages.length === 0;
@@ -104,7 +108,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   return (
     <div className="w-full max-w-4xl flex flex-col h-[calc(100vh-8.5rem)]">
       {!isInitialState && (
-        <ScrollArea className="flex-1 p-4 space-y-4 group/scroller overflow-hidden">
+        <ScrollArea 
+          ref={scrollAreaRef} 
+          className="flex-1 p-4 space-y-4 group/scroller overflow-hidden"
+        >
           <div className="flex flex-col">
             {messages.map((message, index) => (
               <ChatMessage key={index} {...message} />
