@@ -233,6 +233,14 @@ Soyez précis, clair et concis dans vos réponses.""")
             {"role": "user", "content": f"Contexte documentaire:\n{contexte_documents}\n\nHistorique de la conversation:\n{historique_formatte}\n\nNouvelle question: {question}"}
         ]
         
+        # Trouver le document le plus pertinent
+        most_relevant_chunk = None
+        highest_similarity = -1
+        for chunk, similarity in chunks:
+            if similarity > highest_similarity and hasattr(chunk, 'source_file'):
+                most_relevant_chunk = chunk
+                highest_similarity = similarity
+        
         # Appeler le modèle selon le mode choisi
         if self.mode == "api":
             try:
@@ -247,7 +255,7 @@ Soyez précis, clair et concis dans vos réponses.""")
                     max_tokens=300
                 )
                 
-                return chat_response.choices[0].message.content.strip()
+                reponse = chat_response.choices[0].message.content.strip()
             except Exception as e:
                 print(f"Erreur lors de l'appel à l'API Mistral: {str(e)}")
                 return "Désolé, je n'ai pas pu générer une réponse pour le moment. Veuillez réessayer plus tard."
@@ -262,10 +270,17 @@ Soyez précis, clair et concis dans vos réponses.""")
                 }
                 
                 response = requests.post(url, json=payload)
-                return response.json()["choices"][0]["message"]["content"].strip()
+                reponse = response.json()["choices"][0]["message"]["content"].strip()
             except Exception as e:
                 print(f"Erreur lors de l'appel au modèle local: {str(e)}")
                 return "Désolé, je n'ai pas pu générer une réponse pour le moment. Veuillez réessayer plus tard."
+
+        # Ajouter le lien vers le PDF le plus pertinent
+        if most_relevant_chunk:
+            pdf_name = Path(most_relevant_chunk.source_file).name.replace('.txt', '.pdf')
+            reponse += f"\n\nContactez la Hotline au 3400 ou consultez la documentation : http://localhost:8098/pdf/{pdf_name}"
+        
+        return reponse
     
     def chat(self, session_id: str, message: str) -> Tuple[str, str]:
         """
