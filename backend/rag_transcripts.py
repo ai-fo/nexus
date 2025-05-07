@@ -12,7 +12,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import json
 import pickle
 from datetime import datetime
-from config import PROMPTS_DIR
+from config import PROMPTS_DIR, TRANSCRIPTS_DIR
 
 # Chargement des variables d'environnement
 load_dotenv()
@@ -309,7 +309,7 @@ class TranscriptRAG:
 # Exemple d'utilisation
 if __name__ == "__main__":
     # Exemple d'utilisation avec le singleton
-    rag = TranscriptRAG.get_instance("/Users/rekta/projet/backend/transcripts")
+    rag = TranscriptRAG.get_instance(str(TRANSCRIPTS_DIR))
     
     # Exemple de requête
     question = "airflow?"
