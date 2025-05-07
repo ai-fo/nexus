@@ -10,3 +10,4 @@ pdfs/
 cache/
 __pycache__/
 temp_images/
+.cursor/
