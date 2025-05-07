@@ -8,20 +8,22 @@ import json
 from PIL import Image
 import io
 import tempfile
-from config import PDF_FOLDER, CACHE_DIR, IMAGE_CACHE_FILE, TRANSCRIPTS_DIR, TRANSCRIPTS_TEXT_ONLY_DIR
+from config import PDF_FOLDER, CACHE_DIR, IMAGE_CACHE_FILE, TRANSCRIPTS_DIR, TRANSCRIPTS_TEXT_ONLY_DIR, PIXTRAL_URL, PIXTRAL_PATH, DEFAULT_MODE
+import requests
 
 load_dotenv()
 
-api_key = os.environ["MISTRAL_API_KEY"]
-client = Mistral(api_key=api_key)
+def get_pixtral_mode():
+    return os.environ.get("PIXTRAL_MODE", DEFAULT_MODE)
 
 def encode_image(image_bytes):
     """Encode une image en base64 à partir des bytes."""
     return base64.b64encode(image_bytes).decode('utf-8')
 
 def analyze_image_with_pixtral(image_bytes):
-    """Analyse une image avec Pixtral."""
+    """Analyse une image avec Pixtral (mode local ou API)."""
     image_base64 = encode_image(image_bytes)
+    mode = get_pixtral_mode()
     
     messages = [
         {
@@ -33,13 +35,32 @@ def analyze_image_with_pixtral(image_bytes):
         }
     ]
     
-    response = client.chat.complete(
-        model="pixtral-12b-2409",
-        messages=messages,
-        max_tokens=500
-    )
-    
-    return response.choices[0].message.content
+    if mode == "api":
+        api_key = os.environ["MISTRAL_API_KEY"]
+        client = Mistral(api_key=api_key)
+        response = client.chat.complete(
+            model="pixtral-12b-2409",
+            messages=messages,
+            max_tokens=500
+        )
+        return response.choices[0].message.content
+    else:
+        # Appel local Pixtral
+        data = {
+            "model": PIXTRAL_PATH,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": "Voici image:"},
+                        {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{image_base64}"}}
+                    ]
+                }
+            ]
+        }
+        headers = {"Content-Type": "application/json"}
+        response = requests.post(PIXTRAL_URL, headers=headers, json=data)
+        return response.json()["choices"][0]["message"]["content"]
 
 def process_pdf(pdf_path):
     """Traite un PDF et retourne sa transcription avec texte et images, et indique s'il contient des images."""
