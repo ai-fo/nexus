@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SendHorizonal } from 'lucide-react';
@@ -14,12 +14,17 @@ const ChatInput: React.FC<ChatInputProps> = ({
   disabled = false
 }) => {
   const [message, setMessage] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (message.trim()) {
       onSendMessage(message);
       setMessage('');
+      // Focus on the input after sending a message
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
     }
   };
 
@@ -29,6 +34,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
       className="relative flex items-center gap-3 bg-gradient-to-r from-white/90 to-white/70 backdrop-blur-md rounded-2xl p-2 shadow-lg border border-[#e6f0ff]/60 w-full transition-all duration-300 hover:shadow-xl focus-within:border-[#3380cc]/30 focus-within:from-white focus-within:to-white/90"
     >
       <Input
+        ref={inputRef}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Écrivez votre message..."
@@ -50,4 +56,3 @@ const ChatInput: React.FC<ChatInputProps> = ({
 };
 
 export default ChatInput;
-
