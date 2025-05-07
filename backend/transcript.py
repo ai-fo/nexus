@@ -13,8 +13,11 @@ import requests
 
 load_dotenv()
 
+
 def get_pixtral_mode():
-    return os.environ.get("PIXTRAL_MODE", DEFAULT_MODE)
+    mode = os.environ.get("PIXTRAL_MODE", DEFAULT_MODE)
+    print(f"[Pixtral] Mode utilisé : {mode}")
+    return mode
 
 def encode_image(image_bytes):
     """Encode une image en base64 à partir des bytes."""
@@ -24,6 +27,7 @@ def analyze_image_with_pixtral(image_bytes):
     """Analyse une image avec Pixtral (mode local ou API)."""
     image_base64 = encode_image(image_bytes)
     mode = get_pixtral_mode()
+    print(f"[Pixtral] Analyse d'image, mode = {mode}")
     
     messages = [
         {
@@ -36,16 +40,22 @@ def analyze_image_with_pixtral(image_bytes):
     ]
     
     if mode == "api":
+        print("[Pixtral] Appel API distante Pixtral via mistralai...")
         api_key = os.environ["MISTRAL_API_KEY"]
         client = Mistral(api_key=api_key)
-        response = client.chat.complete(
-            model="pixtral-12b-2409",
-            messages=messages,
-            max_tokens=500
-        )
-        return response.choices[0].message.content
+        try:
+            response = client.chat.complete(
+                model="pixtral-12b-2409",
+                messages=messages,
+                max_tokens=500
+            )
+            print("[Pixtral] Réponse API reçue.")
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"[Pixtral][ERREUR] Appel API échoué : {e}")
+            return "[ERREUR] Impossible d'analyser l'image via l'API Pixtral."
     else:
-        # Appel local Pixtral
+        print(f"[Pixtral] Appel local Pixtral : url={PIXTRAL_URL}, model={PIXTRAL_PATH}")
         data = {
             "model": PIXTRAL_PATH,
             "messages": [
@@ -59,8 +69,13 @@ def analyze_image_with_pixtral(image_bytes):
             ]
         }
         headers = {"Content-Type": "application/json"}
-        response = requests.post(PIXTRAL_URL, headers=headers, json=data)
-        return response.json()["choices"][0]["message"]["content"]
+        try:
+            response = requests.post(PIXTRAL_URL, headers=headers, json=data)
+            print(f"[Pixtral] Réponse locale reçue. Code HTTP: {response.status_code}")
+            return response.json()["choices"][0]["message"]["content"]
+        except Exception as e:
+            print(f"[Pixtral][ERREUR] Appel local échoué : {e}")
+            return "[ERREUR] Impossible d'analyser l'image via Pixtral local."
 
 def process_pdf(pdf_path):
     """Traite un PDF et retourne sa transcription avec texte et images, et indique s'il contient des images."""
@@ -208,4 +223,6 @@ def process_all_pdfs():
         json.dump(image_presence_data, f, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":
+    
     process_all_pdfs()
+    print(DEFAULT_MODE)
