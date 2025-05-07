@@ -70,8 +70,10 @@ def analyze_image_with_pixtral(image_bytes):
         }
         headers = {"Content-Type": "application/json"}
         try:
+            print(f"[Pixtral][LOCAL] Envoi de la requête POST à {PIXTRAL_URL}...")
             response = requests.post(PIXTRAL_URL, headers=headers, json=data)
-            print(f"[Pixtral] Réponse locale reçue. Code HTTP: {response.status_code}")
+            print(f"[Pixtral][LOCAL] Réponse reçue. Code HTTP: {response.status_code}")
+            print(f"[Pixtral][LOCAL] Contenu brut de la réponse: {response.text}")
             return response.json()["choices"][0]["message"]["content"]
         except Exception as e:
             print(f"[Pixtral][ERREUR] Appel local échoué : {e}")
