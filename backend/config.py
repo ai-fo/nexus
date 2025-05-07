@@ -2,7 +2,7 @@
 from pathlib import Path
 
 # Configuration du mode d'appel au modèle
-DEFAULT_MODE = "local"  # Choisir entre "api" (API Mistral) ou "local" (serveur local)
+DEFAULT_MODE = "api"  # Choisir entre "api" (API Mistral) ou "local" (serveur local)
 
 # Chemins des dossiers
 BASE_DIR = Path(__file__).parent
