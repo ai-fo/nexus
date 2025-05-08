@@ -58,14 +58,14 @@ const ReliabilityIndicator: React.FC<ReliabilityIndicatorProps> = ({ level, clas
       <TooltipTrigger asChild>
         <Badge 
           className={cn(
-            "flex items-center gap-1.5 h-7 px-3 py-1 rounded-full font-medium transition-all",
+            "flex items-center gap-1 h-5 px-2 py-0 rounded-full font-medium transition-all",
             "hover:scale-105 hover:shadow-md backdrop-blur-sm",
             config.color,
             className
           )}
         >
-          <IconComponent className="animate-pulse" size={14} strokeWidth={2.5} />
-          <span className="text-xs">{config.label}</span>
+          <IconComponent className="animate-pulse" size={12} strokeWidth={2.5} />
+          <span className="text-[10px]">{config.label}</span>
         </Badge>
       </TooltipTrigger>
       <TooltipContent 
