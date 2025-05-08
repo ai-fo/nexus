@@ -6,7 +6,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { sendMessage, clearConversation } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from '@/lib/utils';
-import { ReliabilityLevel } from './ReliabilityIndicator';
 
 interface ChatInterfaceProps {
   chatbotName?: string;
@@ -77,32 +76,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       
       const response = await sendMessage(content);
       
-      // Déterminer le niveau de fiabilité basé sur les données de réponse
-      let reliabilityLevel: ReliabilityLevel = 'medium';
-      
-      // Si la réponse contient des métadonnées sur les sources
-      if (response.sources && response.sources.length > 0) {
-        // Calculer une moyenne de pertinence
-        const avgRelevance = response.sources.reduce((sum: number, src: any) => sum + (src.pertinence || 0), 0) / response.sources.length;
-        
-        if (avgRelevance > 0.8) {
-          reliabilityLevel = 'high';
-        } else if (avgRelevance < 0.5) {
-          reliabilityLevel = 'low';
-        }
-      }
-      
-      // Si peut_repondre est explicitement défini à false, fiabilité faible
-      if (response.peut_repondre === false) {
-        reliabilityLevel = 'low';
-      }
-      
       // Si c'est le premier message, ajouter la réponse humanisée
       if (response.humanized) {
         const humanizedMessage: ChatMessageProps = {
           role: 'assistant',
-          content: response.humanized,
-          reliability: 'medium' // Les réponses humanisées ont une fiabilité moyenne par défaut
+          content: response.humanized
         };
         setMessages(prev => [...prev, humanizedMessage]);
         // Scroll après l'ajout du message humanisé
@@ -112,8 +90,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       // Ajouter la réponse réelle du bot
       const botResponse: ChatMessageProps = {
         role: 'assistant',
-        content: response.answer,
-        reliability: reliabilityLevel
+        content: response.answer
       };
       
       setMessages(prev => [...prev, botResponse]);
