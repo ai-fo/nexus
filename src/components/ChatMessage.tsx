@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -8,11 +9,26 @@ export interface ChatMessageProps {
   onNewChunkDisplayed?: () => void;
 }
 
-// Fonction pour formater le texte avec du Markdown basique
+// Fonction pour formater le texte avec du Markdown basique et rendre les liens PDF cliquables
 const formatText = (text: string): JSX.Element => {
   // Remplacer les astérisques doubles pour le gras
   let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   
+  // Détecter les URLs PDF et les rendre cliquables avec seulement le nom du fichier affiché
+  formattedText = formattedText.replace(
+    /(https?:\/\/[^\s]+\.pdf)/g, 
+    (match) => {
+      try {
+        const url = new URL(match);
+        const filename = url.pathname.split('/').pop() || match;
+        const displayName = filename.replace(/\.pdf$/i, '');
+        return `<a href="${match}" target="_blank" class="text-blue-600 hover:underline font-medium">${displayName}</a>`;
+      } catch (e) {
+        return match;
+      }
+    }
+  );
+
   // Gérer les listes numérotées (détection de format comme "1.", "2.", etc. au début d'une ligne)
   formattedText = formattedText.replace(
     /(\d+\.\s+)(.*?)(?=\n\d+\.|\n\n|$)/g,
