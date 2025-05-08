@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -52,6 +53,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }, 100);
   };
 
+  // Fonction pour scroller automatiquement vers le bas
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleSendMessage = async (content: string) => {
     const userMessage: ChatMessageProps = { role: 'user', content };
     setMessages(prev => [...prev, userMessage]);
@@ -63,6 +71,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setLoading(true);
     
     try {
+      // Scroll après l'ajout du message utilisateur
+      setTimeout(scrollToBottom, 100);
+      
       const response = await sendMessage(content);
       
       // Si c'est le premier message, ajouter la réponse humanisée
@@ -72,6 +83,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           content: response.humanized
         };
         setMessages(prev => [...prev, humanizedMessage]);
+        // Scroll après l'ajout du message humanisé
+        setTimeout(scrollToBottom, 100);
       }
       
       // Ajouter la réponse réelle du bot
@@ -81,6 +94,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       };
       
       setMessages(prev => [...prev, botResponse]);
+      // Scroll après l'ajout de la réponse du bot
+      setTimeout(scrollToBottom, 100);
     } catch (error) {
       console.error("Erreur lors de l'envoi du message:", error);
       toast({
@@ -97,10 +112,29 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   // Effet pour scroller automatiquement vers le bas quand de nouveaux messages arrivent
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToBottom();
   }, [messages]);
+
+  // Effet pour scroller automatiquement vers le bas quand un message du bot reçoit de nouvelles parties
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach(() => {
+        scrollToBottom();
+      });
+    });
+
+    if (messagesEndRef.current?.parentElement) {
+      observer.observe(messagesEndRef.current.parentElement, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const isInitialState = messages.length === 0;
 
@@ -109,11 +143,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       {!isInitialState && (
         <ScrollArea 
           ref={scrollAreaRef} 
-          className="flex-1 p-4 space-y-4 group/scroller overflow-hidden"
+          className="flex-1 p-4 space-y-4 overflow-hidden scrollbar-hidden"
         >
           <div className="flex flex-col">
             {messages.map((message, index) => (
-              <ChatMessage key={index} {...message} />
+              <ChatMessage key={index} {...message} onNewChunkDisplayed={scrollToBottom} />
             ))}
             <div ref={messagesEndRef} />
           </div>

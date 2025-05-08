@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -6,6 +5,7 @@ export interface ChatMessageProps {
   content: string;
   role: 'user' | 'assistant';
   timestamp?: Date;
+  onNewChunkDisplayed?: () => void;
 }
 
 // Fonction pour formater le texte avec du Markdown basique
@@ -118,6 +118,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   content,
   role,
   timestamp = new Date(),
+  onNewChunkDisplayed
 }) => {
   const isUser = role === 'user';
   const contentChunks = splitTextIntoChunks(content);
@@ -151,15 +152,24 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       
       timerId = setTimeout(() => {
         setCurrentGroupIndex(prev => prev + 1);
+        if (onNewChunkDisplayed) onNewChunkDisplayed();
       }, randomDelay);
     } else {
       setIsComplete(true);
+      if (onNewChunkDisplayed) onNewChunkDisplayed();
     }
     
     return () => {
       if (timerId) clearTimeout(timerId);
     };
-  }, [currentGroupIndex, displayedGroups.length, isComplete, isUser]); // On garde ces dépendances car elles sont nécessaires
+  }, [currentGroupIndex, displayedGroups.length, isComplete, isUser, onNewChunkDisplayed]); 
+  
+  // Trigger scroll to bottom when a new chunk is displayed
+  useEffect(() => {
+    if (onNewChunkDisplayed && !isUser) {
+      onNewChunkDisplayed();
+    }
+  }, [currentGroupIndex, onNewChunkDisplayed, isUser]);
   
   if (displayedGroups.length === 0) return null;
   
