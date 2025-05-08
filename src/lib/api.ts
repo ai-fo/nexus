@@ -14,6 +14,12 @@ if (!SESSION_ID) {
 export interface ChatResponse {
   humanized: string | null;
   answer: string;
+  sources?: Array<{
+    fichier: string;
+    pertinence: number;
+    est_image?: boolean;
+  }>;
+  peut_repondre?: boolean;
 }
 
 /**

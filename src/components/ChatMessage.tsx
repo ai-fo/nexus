@@ -1,11 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import ReliabilityIndicator, { ReliabilityLevel } from './ReliabilityIndicator';
 
 export interface ChatMessageProps {
   content: string;
   role: 'user' | 'assistant';
   timestamp?: Date;
+  reliability?: ReliabilityLevel;  // Nouvelle propriété pour la fiabilité
   onNewChunkDisplayed?: () => void;
 }
 
@@ -134,6 +135,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   content,
   role,
   timestamp = new Date(),
+  reliability = 'medium',  // Valeur par défaut moyenne
   onNewChunkDisplayed
 }) => {
   const isUser = role === 'user';
@@ -203,7 +205,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             <div 
               key={`${groupIndex}-${chunkIndex}`}
               className={cn(
-                "group max-w-[80%] break-words transition-all duration-300 mb-1",
+                "group relative max-w-[80%] break-words transition-all duration-300 mb-1",
                 "animate-fade-in",
                 isUser ? 
                   "px-4 py-3 rounded-2xl bg-gradient-to-r from-[#004c92] to-[#1a69b5] text-white shadow-lg hover:shadow-xl backdrop-blur-sm hover:scale-[1.02] origin-right" : 
@@ -211,6 +213,13 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
               )}
             >
               {formatText(chunk)}
+              
+              {/* Indicateur de fiabilité (uniquement pour les messages de l'assistant) */}
+              {!isUser && chunkIndex === group.length - 1 && groupIndex === displayedGroups.length - 1 && isComplete && (
+                <div className="absolute -bottom-3 right-2">
+                  <ReliabilityIndicator level={reliability} />
+                </div>
+              )}
             </div>
           ))}
         </div>
