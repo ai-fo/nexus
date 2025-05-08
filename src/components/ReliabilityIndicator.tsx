@@ -2,7 +2,7 @@
 import React from 'react';
 import { Badge } from "@/components/ui/badge";
 import { cn } from '@/lib/utils';
-import { ShieldCheck, ShieldAlert, Info } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, AlertCircle } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -28,7 +28,7 @@ const ReliabilityIndicator: React.FC<ReliabilityIndicatorProps> = ({ level, clas
         };
       case 'medium':
         return {
-          icon: Info,
+          icon: AlertCircle,
           color: 'bg-gradient-to-r from-amber-50 to-[#FEF7CD] text-amber-700 border border-amber-200 shadow-sm',
           label: 'Fiabilité moyenne',
           description: 'Cette réponse est basée sur des sources partiellement vérifiées.'
@@ -42,7 +42,7 @@ const ReliabilityIndicator: React.FC<ReliabilityIndicatorProps> = ({ level, clas
         };
       default:
         return {
-          icon: Info,
+          icon: AlertCircle,
           color: 'bg-gradient-to-r from-gray-50 to-gray-100 text-gray-500 border border-gray-200 shadow-sm',
           label: 'Fiabilité inconnue',
           description: 'Impossible de déterminer la fiabilité de cette réponse.'
@@ -58,21 +58,21 @@ const ReliabilityIndicator: React.FC<ReliabilityIndicatorProps> = ({ level, clas
       <TooltipTrigger asChild>
         <Badge 
           className={cn(
-            "flex items-center gap-1 h-5 px-2 py-0 rounded-full font-medium transition-all",
-            "hover:scale-105 hover:shadow-md backdrop-blur-sm",
+            "flex items-center justify-center h-5 w-5 rounded-full transition-all p-0",
+            "hover:scale-110 hover:shadow-md backdrop-blur-sm",
             config.color,
             className
           )}
         >
           <IconComponent className="animate-pulse" size={12} strokeWidth={2.5} />
-          <span className="text-[10px]">{config.label}</span>
         </Badge>
       </TooltipTrigger>
       <TooltipContent 
         side="top" 
         className="max-w-xs text-center bg-white/90 backdrop-blur-lg border shadow-lg rounded-xl p-3"
       >
-        <p>{config.description}</p>
+        <p className="font-medium">{config.label}</p>
+        <p className="text-sm text-gray-600">{config.description}</p>
       </TooltipContent>
     </Tooltip>
   );
