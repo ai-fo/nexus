@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { cn } from '@/lib/utils';
+import FeedbackButtons from './FeedbackButtons';
 
 export interface ChatMessageProps {
   content: string;
@@ -140,6 +141,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   const [displayedGroups, setDisplayedGroups] = useState<string[][]>([]);
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const [isComplete, setIsComplete] = useState(isUser);
+  const messageId = React.useMemo(() => `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, []);
   
   // Effet pour regrouper les chunks aléatoirement (uniquement pour les messages de l'assistant)
   useEffect(() => {
@@ -212,6 +214,13 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
               {formatText(chunk)}
             </div>
           ))}
+          
+          {/* Ajouter les boutons de feedback uniquement à la fin du dernier groupe pour les messages de l'assistant */}
+          {!isUser && isComplete && groupIndex === displayedGroups.length - 1 && (
+            <div className="ml-2">
+              <FeedbackButtons messageId={messageId} />
+            </div>
+          )}
         </div>
       ))}
       
