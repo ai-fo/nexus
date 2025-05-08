@@ -1,11 +1,10 @@
-
-import { cn } from '@/lib/utils';
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { sendMessage, clearConversation } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
+import { cn } from '@/lib/utils';
 
 interface ChatInterfaceProps {
   chatbotName?: string;
