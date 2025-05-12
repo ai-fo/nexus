@@ -3,9 +3,9 @@ import React from 'react';
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
-  Webcam, Database, HardDrive, Phone, ParkingMeter,
-  FileText, Notes, Clock, ChartBar, Bug, Image,
-  Portal, Network, Folder, Check, X
+  Webcam, Database, HardDrive, Phone, Car,
+  FileText, File, Clock, ChartBar, Bug, Image,
+  LayoutDashboard, Network, Folder, Check, X, CircleCheck, CircleX
 } from 'lucide-react';
 
 // Type definition for an application incident
@@ -22,15 +22,15 @@ export const appIncidents: AppIncident[] = [
   { id: 'cicssam', name: 'CICsSAM', status: 'incident', icon: <Database className="h-4 w-4" /> },
   { id: 'samnet', name: 'SAMnet', status: 'ok', icon: <HardDrive className="h-4 w-4" /> },
   { id: 'phonebook', name: 'Phonebook', status: 'ok', icon: <Phone className="h-4 w-4" /> },
-  { id: 'myparking', name: 'MyParking', status: 'ok', icon: <ParkingMeter className="h-4 w-4" /> },
+  { id: 'myparking', name: 'MyParking', status: 'ok', icon: <Car className="h-4 w-4" /> },
   { id: 'triskell', name: 'Triskell', status: 'incident', icon: <FileText className="h-4 w-4" /> },
-  { id: 'lotusnotes', name: 'LotusNotes', status: 'ok', icon: <Notes className="h-4 w-4" /> },
-  { id: 'ms365', name: 'MS365', status: 'ok', icon: <Notes className="h-4 w-4" /> },
+  { id: 'lotusnotes', name: 'LotusNotes', status: 'ok', icon: <File className="h-4 w-4" /> },
+  { id: 'ms365', name: 'MS365', status: 'ok', icon: <File className="h-4 w-4" /> },
   { id: 'horairemobile', name: 'Horaire Mobile', status: 'ok', icon: <Clock className="h-4 w-4" /> },
   { id: 'sas', name: 'SAS', status: 'incident', icon: <ChartBar className="h-4 w-4" /> },
   { id: 'artis', name: 'Artis', status: 'ok', icon: <Bug className="h-4 w-4" /> },
   { id: 'argos', name: 'Argos', status: 'ok', icon: <Image className="h-4 w-4" /> },
-  { id: 'myportal', name: 'MyPortal', status: 'ok', icon: <Portal className="h-4 w-4" /> },
+  { id: 'myportal', name: 'MyPortal', status: 'ok', icon: <LayoutDashboard className="h-4 w-4" /> },
   { id: 'dsknet', name: 'DSKNet', status: 'incident', icon: <Network className="h-4 w-4" /> },
   { id: 'gesper', name: 'Gesper', status: 'ok', icon: <Folder className="h-4 w-4" /> },
   { id: 'mygesper', name: 'MyGesper', status: 'ok', icon: <Folder className="h-4 w-4" /> },
@@ -63,11 +63,11 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({ showTitle = true }) => 
                 <TableCell className="text-right">
                   {app.status === 'ok' ? (
                     <Badge className="bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800 gap-1">
-                      <Check className="h-3 w-3" /> OK
+                      <CircleCheck className="h-3 w-3" /> OK
                     </Badge>
                   ) : (
                     <Badge variant="destructive" className="gap-1">
-                      <X className="h-3 w-3" /> Incident
+                      <CircleX className="h-3 w-3" /> Incident
                     </Badge>
                   )}
                 </TableCell>
