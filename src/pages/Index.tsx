@@ -46,7 +46,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
-      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex items-center gap-4 justify-between pr-4' : 'h-[60vh] flex items-center justify-center'}`}>
+      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex flex-col items-start gap-1 pr-4' : 'h-[60vh] flex flex-col items-center justify-center'}`}>
         <h1 
           onClick={handleNewChat}
           className={`text-xl sm:text-2xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150'}`}
@@ -73,23 +73,23 @@ const Index = () => {
           </span>
         </h1>
         
+        {/* Modern wait time badge directly below title */}
+        <div className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium 
+          ${waitTimeInfo.status === 'low' 
+            ? 'bg-gradient-to-r from-green-100 to-green-200 text-green-700' 
+            : waitTimeInfo.status === 'high' 
+              ? 'bg-gradient-to-r from-red-100 to-red-200 text-red-700' 
+              : 'bg-gradient-to-r from-amber-50 to-amber-100 text-amber-700'
+          } shadow-sm transition-all duration-300 ease-in-out ${isAnimated ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+          <PhoneCall className="h-3 w-3" />
+          <span>Temps d'attente: ~{waitTimeInfo.minutes} min</span>
+          <span className="px-1.5 py-0.5 rounded-full bg-white/70 text-[10px] font-semibold ml-1">
+            {waitTimeInfo.callers} appelant{waitTimeInfo.callers !== 1 ? 's' : ''}
+          </span>
+        </div>
+        
         {isAnimated && (
-          <div className="flex items-center gap-4">
-            {/* Modern wait time pill */}
-            <div className={`rounded-full px-4 py-1 flex items-center gap-2 text-sm shadow-sm ${
-              waitTimeInfo.status === 'low' ? 'bg-green-100 text-green-800' : 
-              waitTimeInfo.status === 'high' ? 'bg-red-100 text-red-800' : 
-              'bg-amber-100 text-amber-800'
-            }`}>
-              <PhoneCall className="h-3.5 w-3.5" />
-              <span>3400: ~{waitTimeInfo.minutes} min</span>
-              {waitTimeInfo.callers > 0 && (
-                <span className="px-1.5 py-0.5 rounded-full bg-white/70 text-xs font-medium">
-                  {waitTimeInfo.callers}
-                </span>
-              )}
-            </div>
-            
+          <div className="mt-2 self-end">
             <Button
               variant="ghost"
               size="icon"
