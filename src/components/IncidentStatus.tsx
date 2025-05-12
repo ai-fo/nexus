@@ -5,7 +5,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { 
   Webcam, Database, HardDrive, Phone, Car,
   FileText, File, Clock, ChartBar, Bug, Image,
-  LayoutDashboard, Network, Folder, Check, X, CircleCheck, CircleX
+  LayoutDashboard, Network, Folder, Check, X, CircleCheck, CircleX,
+  PhoneCall
 } from 'lucide-react';
 import { Card } from "@/components/ui/card";
 
@@ -37,12 +38,24 @@ export const appIncidents: AppIncident[] = [
   { id: 'mygesper', name: 'MyGesper', status: 'ok', icon: <Folder className="h-4 w-4" /> },
 ];
 
+// Simulated wait time information
+export const waitTimeInfo = {
+  minutes: 8,
+  callers: 5,
+  status: 'normal', // 'low', 'normal', 'high'
+};
+
 interface IncidentStatusProps {
   showTitle?: boolean;
   compact?: boolean;
+  showWaitTime?: boolean;
 }
 
-const IncidentStatus: React.FC<IncidentStatusProps> = ({ showTitle = true, compact = false }) => {
+const IncidentStatus: React.FC<IncidentStatusProps> = ({ 
+  showTitle = true, 
+  compact = false,
+  showWaitTime = false
+}) => {
   // If compact mode, only show incidents
   const incidents = compact 
     ? appIncidents.filter(app => app.status === 'incident')
@@ -53,6 +66,28 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({ showTitle = true, compa
       {showTitle && (
         <h3 className="font-medium text-[#004c92] mb-1 px-3 pt-2 text-sm">Incidents en cours</h3>
       )}
+      
+      {showWaitTime && (
+        <div className="bg-blue-50 p-2 flex items-center gap-2 border-b border-blue-100">
+          <PhoneCall className="h-4 w-4 text-[#004c92]" />
+          <span className="text-sm">
+            <span className="font-medium">Temps d'attente hotline:</span>{' '}
+            <span className={`font-bold ${
+              waitTimeInfo.status === 'low' ? 'text-green-600' : 
+              waitTimeInfo.status === 'high' ? 'text-red-600' : 
+              'text-amber-600'
+            }`}>
+              ~{waitTimeInfo.minutes} minutes
+            </span>
+            {waitTimeInfo.callers > 0 && (
+              <span className="text-gray-600 text-xs ml-2">
+                ({waitTimeInfo.callers} {waitTimeInfo.callers === 1 ? 'appelant' : 'appelants'} en attente)
+              </span>
+            )}
+          </span>
+        </div>
+      )}
+      
       <Table>
         <TableHeader>
           <TableRow>

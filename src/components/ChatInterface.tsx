@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -187,7 +186,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 <TabsTrigger value="trending">Questions tendance</TabsTrigger>
               </TabsList>
               <TabsContent value="incidents" className="mt-2">
-                <IncidentStatus showTitle={false} compact={true} />
+                <IncidentStatus showTitle={false} compact={true} showWaitTime={true} />
               </TabsContent>
               <TabsContent value="trending" className="mt-2">
                 <Card className="bg-white/80 shadow-sm p-3">

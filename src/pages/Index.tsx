@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import { Button } from "@/components/ui/button";
-import { MessageSquare, RefreshCw } from 'lucide-react';
+import { MessageSquare, RefreshCw, PhoneCall } from 'lucide-react';
 import { clearConversation } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
+import { waitTimeInfo } from '@/components/IncidentStatus';
 
 const Index = () => {
   const [isAnimated, setIsAnimated] = useState(false);
@@ -36,6 +37,26 @@ const Index = () => {
 
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
+      {/* Hotline wait time indicator */}
+      <div className="bg-white/90 py-1 px-4 border-b border-blue-100 flex items-center justify-center gap-2 text-sm">
+        <PhoneCall className="h-4 w-4 text-[#004c92]" />
+        <span>
+          Temps d'attente hotline (3400): 
+          <span className={`font-bold ml-1 ${
+            waitTimeInfo.status === 'low' ? 'text-green-600' : 
+            waitTimeInfo.status === 'high' ? 'text-red-600' : 
+            'text-amber-600'
+          }`}>
+            ~{waitTimeInfo.minutes} minutes
+          </span>
+          {waitTimeInfo.callers > 0 && (
+            <span className="text-gray-600 text-xs ml-2">
+              ({waitTimeInfo.callers} {waitTimeInfo.callers === 1 ? 'appelant' : 'appelants'} en attente)
+            </span>
+          )}
+        </span>
+      </div>
+      
       <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex items-center gap-4' : 'h-[60vh] flex items-center justify-center'}`}>
         <h1 
           onClick={handleNewChat}
