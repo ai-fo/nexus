@@ -6,6 +6,7 @@ import { sendMessage, clearConversation } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from '@/lib/utils';
 import { TrendingUp } from 'lucide-react';
+import IncidentStatus from './IncidentStatus';
 
 interface ChatInterfaceProps {
   chatbotName?: string;
@@ -162,7 +163,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
       
       {isInitialState && (
-        <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full flex-1">
+        <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full flex-1 gap-6">
           <div className="h-8 mb-2 overflow-hidden">
             <p 
               key={currentQuestionIndex}
@@ -175,8 +176,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} />
           </div>
           
+          {/* Incident Status Section */}
+          <div className="mt-4 w-full max-w-md">
+            <IncidentStatus />
+          </div>
+          
           {/* Trending questions section */}
-          <div className="mt-8 w-full max-w-md">
+          <div className="mt-4 w-full max-w-md">
             <div className="flex items-center gap-2 mb-4">
               <TrendingUp className="h-5 w-5 text-[#004c92]" />
               <h3 className="font-medium text-[#004c92]">Questions tendance aujourd'hui</h3>
