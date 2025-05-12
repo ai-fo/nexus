@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -7,6 +8,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from '@/lib/utils';
 import { TrendingUp } from 'lucide-react';
 import IncidentStatus from './IncidentStatus';
+import { Card } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface ChatInterfaceProps {
   chatbotName?: string;
@@ -163,7 +166,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
       
       {isInitialState && (
-        <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full flex-1 gap-6">
+        <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full flex-1 gap-4">
           <div className="h-8 mb-2 overflow-hidden">
             <p 
               key={currentQuestionIndex}
@@ -176,28 +179,36 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} />
           </div>
           
-          {/* Incident Status Section */}
-          <div className="mt-4 w-full max-w-md">
-            <IncidentStatus />
-          </div>
-          
-          {/* Trending questions section */}
-          <div className="mt-4 w-full max-w-md">
-            <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="h-5 w-5 text-[#004c92]" />
-              <h3 className="font-medium text-[#004c92]">Questions tendance aujourd'hui</h3>
-            </div>
-            <div className="grid grid-cols-1 gap-2">
-              {TRENDING_QUESTIONS.map((question, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleSendMessage(question)}
-                  className="text-left p-3 bg-white/70 hover:bg-white rounded-lg border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92]"
-                >
-                  {question}
-                </button>
-              ))}
-            </div>
+          {/* Tabs for Incidents and Trending Questions */}
+          <div className="w-full max-w-lg">
+            <Tabs defaultValue="incidents" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="incidents">Incidents en cours</TabsTrigger>
+                <TabsTrigger value="trending">Questions tendance</TabsTrigger>
+              </TabsList>
+              <TabsContent value="incidents" className="mt-2">
+                <IncidentStatus showTitle={false} compact={true} />
+              </TabsContent>
+              <TabsContent value="trending" className="mt-2">
+                <Card className="bg-white/80 shadow-sm p-3">
+                  <div className="flex items-center gap-2 mb-2">
+                    <TrendingUp className="h-4 w-4 text-[#004c92]" />
+                    <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
+                  </div>
+                  <div className="grid grid-cols-1 gap-2">
+                    {TRENDING_QUESTIONS.map((question, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleSendMessage(question)}
+                        className="text-left p-2 bg-white/70 hover:bg-white rounded border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm"
+                      >
+                        {question}
+                      </button>
+                    ))}
+                  </div>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       )}

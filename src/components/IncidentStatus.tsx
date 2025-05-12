@@ -7,6 +7,7 @@ import {
   FileText, File, Clock, ChartBar, Bug, Image,
   LayoutDashboard, Network, Folder, Check, X, CircleCheck, CircleX
 } from 'lucide-react';
+import { Card } from "@/components/ui/card";
 
 // Type definition for an application incident
 export interface AppIncident {
@@ -38,45 +39,57 @@ export const appIncidents: AppIncident[] = [
 
 interface IncidentStatusProps {
   showTitle?: boolean;
+  compact?: boolean;
 }
 
-const IncidentStatus: React.FC<IncidentStatusProps> = ({ showTitle = true }) => {
+const IncidentStatus: React.FC<IncidentStatusProps> = ({ showTitle = true, compact = false }) => {
+  // If compact mode, only show incidents
+  const incidents = compact 
+    ? appIncidents.filter(app => app.status === 'incident')
+    : appIncidents;
+  
   return (
-    <div className="w-full">
+    <Card className="w-full bg-white/80 shadow-sm">
       {showTitle && (
-        <h3 className="font-medium text-[#004c92] mb-2">Incidents en cours</h3>
+        <h3 className="font-medium text-[#004c92] mb-1 px-3 pt-2 text-sm">Incidents en cours</h3>
       )}
-      <div className="border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[40px]"></TableHead>
-              <TableHead>Application</TableHead>
-              <TableHead className="w-[100px] text-right">Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {appIncidents.map((app) => (
-              <TableRow key={app.id}>
-                <TableCell className="p-2">{app.icon}</TableCell>
-                <TableCell className="font-medium">{app.name}</TableCell>
-                <TableCell className="text-right">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[30px] px-2"></TableHead>
+            <TableHead className="px-2">Application</TableHead>
+            <TableHead className="w-[80px] text-right px-2">Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {incidents.length > 0 ? (
+            incidents.map((app) => (
+              <TableRow key={app.id} className="hover:bg-blue-50/50">
+                <TableCell className="p-1 px-2">{app.icon}</TableCell>
+                <TableCell className="font-medium p-1 px-2 text-sm">{app.name}</TableCell>
+                <TableCell className="text-right p-1 px-2">
                   {app.status === 'ok' ? (
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800 gap-1">
+                    <Badge className="bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800 gap-1 text-xs py-0">
                       <CircleCheck className="h-3 w-3" /> OK
                     </Badge>
                   ) : (
-                    <Badge variant="destructive" className="gap-1">
+                    <Badge variant="destructive" className="gap-1 text-xs py-0">
                       <CircleX className="h-3 w-3" /> Incident
                     </Badge>
                   )}
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-    </div>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={3} className="text-center py-2 text-sm text-gray-500">
+                Aucun incident en cours
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </Card>
   );
 };
 
