@@ -1,19 +1,19 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { sendMessage, clearConversation } from '@/lib/api';
+import { sendMessage } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
-import { cn } from '@/lib/utils';
 import { TrendingUp, PhoneCall } from 'lucide-react';
-import IncidentStatus, { waitTimeInfo } from './IncidentStatus';
+import IncidentStatus, { waitTimeInfo, appIncidents } from './IncidentStatus';
 import { Card } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface ChatInterfaceProps {
   chatbotName?: string;
   initialMessage?: string;
   onFirstMessage?: () => void;
+  trendingQuestions?: string[];
 }
 
 const QUESTIONS = [
@@ -23,17 +23,15 @@ const QUESTIONS = [
   "Un soucis technique ?"
 ];
 
-const TRENDING_QUESTIONS = [
-  "Problème avec Artis",
-  "SAS est très lent aujourd'hui",
-  "Impossible d'accéder à mon compte",
-  "Message d'erreur sur l'application métier"
-];
-
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
   chatbotName = "Bill",
   initialMessage = "Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?",
-  onFirstMessage
+  onFirstMessage,
+  trendingQuestions = [
+    "Problème avec Artis",
+    "SAS est très lent aujourd'hui",
+    "Impossible d'accéder à mon compte",
+  ]
 }) => {
   const [messages, setMessages] = useState<ChatMessageProps[]>([]);
   const [loading, setLoading] = useState(false);
@@ -178,9 +176,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} />
           </div>
           
-          <div className="w-full flex flex-col sm:flex-row gap-2 items-stretch sm:items-start">
+          <div className="w-full flex flex-col sm:flex-row gap-4 items-stretch sm:items-start mt-4">
             {/* Modern wait time pill */}
-            <div className={`rounded-full px-4 py-1.5 flex items-center gap-2 text-sm shadow-sm mb-2 mx-auto ${
+            <div className={`rounded-full px-4 py-1.5 flex items-center gap-2 text-sm shadow-sm mb-2 mx-auto sm:mx-0 ${
               waitTimeInfo.status === 'low' ? 'bg-green-100 text-green-800' : 
               waitTimeInfo.status === 'high' ? 'bg-red-100 text-red-800' : 
               'bg-amber-100 text-amber-800'
@@ -195,36 +193,31 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             </div>
           </div>
           
-          {/* Tabs for Incidents and Trending Questions */}
-          <div className="w-full max-w-lg">
-            <Tabs defaultValue="incidents" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="incidents">Incidents en cours</TabsTrigger>
-                <TabsTrigger value="trending">Questions tendance</TabsTrigger>
-              </TabsList>
-              <TabsContent value="incidents" className="mt-2">
-                <IncidentStatus showTitle={false} compact={true} />
-              </TabsContent>
-              <TabsContent value="trending" className="mt-2">
-                <Card className="bg-white/80 shadow-sm p-3">
-                  <div className="flex items-center gap-2 mb-2">
-                    <TrendingUp className="h-4 w-4 text-[#004c92]" />
-                    <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
-                  </div>
-                  <div className="grid grid-cols-1 gap-2">
-                    {TRENDING_QUESTIONS.map((question, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleSendMessage(question)}
-                        className="text-left p-2 bg-white/70 hover:bg-white rounded border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm"
-                      >
-                        {question}
-                      </button>
-                    ))}
-                  </div>
-                </Card>
-              </TabsContent>
-            </Tabs>
+          {/* Display both sections side by side */}
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Incidents Section */}
+            <Card className="bg-white/80 shadow-sm overflow-hidden">
+              <IncidentStatus showTitle={true} compact={true} />
+            </Card>
+            
+            {/* Trending Questions Section */}
+            <Card className="bg-white/80 shadow-sm p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <TrendingUp className="h-4 w-4 text-[#004c92]" />
+                <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
+              </div>
+              <div className="grid grid-cols-1 gap-2">
+                {trendingQuestions.map((question, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSendMessage(question)}
+                    className="text-left p-2 bg-white/70 hover:bg-white rounded border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm"
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+            </Card>
           </div>
         </div>
       )}

@@ -2,10 +2,19 @@
 import React, { useState } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import { Button } from "@/components/ui/button";
-import { RefreshCw, PhoneCall } from 'lucide-react';
+import { RefreshCw, PhoneCall, TrendingUp } from 'lucide-react';
 import { clearConversation } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
 import { waitTimeInfo } from '@/components/IncidentStatus';
+import IncidentStatus, { appIncidents } from '@/components/IncidentStatus';
+import { Card } from "@/components/ui/card";
+
+// Trending questions without having to access them from ChatInterface
+const TRENDING_QUESTIONS = [
+  "Problème avec Artis",
+  "SAS est très lent aujourd'hui",
+  "Impossible d'accéder à mon compte",
+];
 
 const Index = () => {
   const [isAnimated, setIsAnimated] = useState(false);
@@ -101,6 +110,7 @@ const Index = () => {
             chatbotName="Bill"
             initialMessage="Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?"
             onFirstMessage={handleFirstMessage}
+            trendingQuestions={TRENDING_QUESTIONS}
           />
         </div>
       </div>
