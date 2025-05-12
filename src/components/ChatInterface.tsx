@@ -5,8 +5,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { sendMessage, clearConversation } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from '@/lib/utils';
-import { TrendingUp } from 'lucide-react';
-import IncidentStatus from './IncidentStatus';
+import { TrendingUp, PhoneCall } from 'lucide-react';
+import IncidentStatus, { waitTimeInfo } from './IncidentStatus';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -178,6 +178,23 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} />
           </div>
           
+          <div className="w-full flex flex-col sm:flex-row gap-2 items-stretch sm:items-start">
+            {/* Modern wait time pill */}
+            <div className={`rounded-full px-4 py-1.5 flex items-center gap-2 text-sm shadow-sm mb-2 mx-auto ${
+              waitTimeInfo.status === 'low' ? 'bg-green-100 text-green-800' : 
+              waitTimeInfo.status === 'high' ? 'bg-red-100 text-red-800' : 
+              'bg-amber-100 text-amber-800'
+            }`}>
+              <PhoneCall className="h-3.5 w-3.5" />
+              <span>Temps d'attente: ~{waitTimeInfo.minutes} min</span>
+              {waitTimeInfo.callers > 0 && (
+                <span className="px-2 py-0.5 rounded-full bg-white/70 text-xs font-medium">
+                  {waitTimeInfo.callers} {waitTimeInfo.callers === 1 ? 'appelant' : 'appelants'}
+                </span>
+              )}
+            </div>
+          </div>
+          
           {/* Tabs for Incidents and Trending Questions */}
           <div className="w-full max-w-lg">
             <Tabs defaultValue="incidents" className="w-full">
@@ -186,7 +203,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 <TabsTrigger value="trending">Questions tendance</TabsTrigger>
               </TabsList>
               <TabsContent value="incidents" className="mt-2">
-                <IncidentStatus showTitle={false} compact={true} showWaitTime={true} />
+                <IncidentStatus showTitle={false} compact={true} />
               </TabsContent>
               <TabsContent value="trending" className="mt-2">
                 <Card className="bg-white/80 shadow-sm p-3">

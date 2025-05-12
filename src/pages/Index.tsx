@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import { Button } from "@/components/ui/button";
-import { MessageSquare, RefreshCw, PhoneCall } from 'lucide-react';
+import { RefreshCw, PhoneCall } from 'lucide-react';
 import { clearConversation } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
 import { waitTimeInfo } from '@/components/IncidentStatus';
@@ -37,27 +37,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
-      {/* Hotline wait time indicator */}
-      <div className="bg-white/90 py-1 px-4 border-b border-blue-100 flex items-center justify-center gap-2 text-sm">
-        <PhoneCall className="h-4 w-4 text-[#004c92]" />
-        <span>
-          Temps d'attente hotline (3400): 
-          <span className={`font-bold ml-1 ${
-            waitTimeInfo.status === 'low' ? 'text-green-600' : 
-            waitTimeInfo.status === 'high' ? 'text-red-600' : 
-            'text-amber-600'
-          }`}>
-            ~{waitTimeInfo.minutes} minutes
-          </span>
-          {waitTimeInfo.callers > 0 && (
-            <span className="text-gray-600 text-xs ml-2">
-              ({waitTimeInfo.callers} {waitTimeInfo.callers === 1 ? 'appelant' : 'appelants'} en attente)
-            </span>
-          )}
-        </span>
-      </div>
-      
-      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex items-center gap-4' : 'h-[60vh] flex items-center justify-center'}`}>
+      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex items-center gap-4 justify-between pr-4' : 'h-[60vh] flex items-center justify-center'}`}>
         <h1 
           onClick={handleNewChat}
           className={`text-xl sm:text-2xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150'}`}
@@ -85,15 +65,32 @@ const Index = () => {
         </h1>
         
         {isAnimated && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full hover:bg-[#E6F0FF]/50"
-            onClick={handleNewChat}
-            title="Nouvelle conversation"
-          >
-            <RefreshCw className="h-5 w-5 text-[#004c92]" />
-          </Button>
+          <div className="flex items-center gap-4">
+            {/* Modern wait time pill */}
+            <div className={`rounded-full px-4 py-1 flex items-center gap-2 text-sm shadow-sm ${
+              waitTimeInfo.status === 'low' ? 'bg-green-100 text-green-800' : 
+              waitTimeInfo.status === 'high' ? 'bg-red-100 text-red-800' : 
+              'bg-amber-100 text-amber-800'
+            }`}>
+              <PhoneCall className="h-3.5 w-3.5" />
+              <span>3400: ~{waitTimeInfo.minutes} min</span>
+              {waitTimeInfo.callers > 0 && (
+                <span className="px-1.5 py-0.5 rounded-full bg-white/70 text-xs font-medium">
+                  {waitTimeInfo.callers}
+                </span>
+              )}
+            </div>
+            
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full hover:bg-[#E6F0FF]/50"
+              onClick={handleNewChat}
+              title="Nouvelle conversation"
+            >
+              <RefreshCw className="h-5 w-5 text-[#004c92]" />
+            </Button>
+          </div>
         )}
       </div>
       
