@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -6,6 +5,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { sendMessage, clearConversation } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from '@/lib/utils';
+import { TrendingUp } from 'lucide-react';
 
 interface ChatInterfaceProps {
   chatbotName?: string;
@@ -18,6 +18,13 @@ const QUESTIONS = [
   "En quoi puis-je vous aider ?",
   "Qu'est-ce qui ne va pas ?",
   "Un soucis technique ?"
+];
+
+const TRENDING_QUESTIONS = [
+  "Problème avec Artis",
+  "SAS est très lent aujourd'hui",
+  "Impossible d'accéder à mon compte",
+  "Message d'erreur sur l'application métier"
 ];
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
@@ -166,6 +173,25 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </div>
           <div className="w-full px-4 py-2">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} />
+          </div>
+          
+          {/* Trending questions section */}
+          <div className="mt-8 w-full max-w-md">
+            <div className="flex items-center gap-2 mb-4">
+              <TrendingUp className="h-5 w-5 text-[#004c92]" />
+              <h3 className="font-medium text-[#004c92]">Questions tendance aujourd'hui</h3>
+            </div>
+            <div className="grid grid-cols-1 gap-2">
+              {TRENDING_QUESTIONS.map((question, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSendMessage(question)}
+                  className="text-left p-3 bg-white/70 hover:bg-white rounded-lg border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92]"
+                >
+                  {question}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}
