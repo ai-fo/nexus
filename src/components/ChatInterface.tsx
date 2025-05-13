@@ -1,10 +1,11 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { sendMessage } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, Headset } from 'lucide-react';
 import IncidentStatus, { waitTimeInfo, appIncidents } from './IncidentStatus';
 import { Card } from '@/components/ui/card';
 
@@ -150,7 +151,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       {isInitialState && (
         <div className="flex flex-col items-center justify-center h-full px-4 w-full flex-1">
           {/* Conteneur principal avec flexbox pour centrer verticalement */}
-          <div className="flex flex-col items-center justify-center h-full max-w-xl mx-auto w-full">
+          <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto w-full">
             {/* Questions défilantes */}
             <div className="h-8 overflow-hidden text-center w-full mb-4">
               <p key={currentQuestionIndex} className="text-[#3380cc] text-lg font-bold animate-slide-in">
@@ -198,7 +199,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </div>
           
           {/* Incidents déplacés en bas vers le footer */}
-          <div className="w-full max-w-md mx-auto px-4 mt-auto mb-6">
+          <div className="w-full max-w-sm mx-auto px-4 mt-auto mb-6">
             <Card className="bg-white/80 shadow-sm overflow-hidden">
               <IncidentStatus showTitle={true} compact={true} />
             </Card>
@@ -207,12 +208,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
       
       {!isInitialState && <div className="sticky bottom-0 p-2 bg-gradient-to-b from-transparent to-[#E6F0FF] w-full relative">
-          <div className="max-w-xl mx-auto w-full">
+          <div className="max-w-2xl mx-auto w-full">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} onTrendingClick={toggleTrendingQuestions} showTrendingIcon={true} />
           </div>
           
           {/* Trending Questions Dropdown for conversation mode */}
-          {showTrendingQuestions && <div className="absolute bottom-full mb-2 w-full max-w-xl mx-auto left-0 right-0 bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
+          {showTrendingQuestions && <div className="absolute bottom-full mb-2 w-full max-w-2xl mx-auto left-0 right-0 bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
               <div className="flex items-center gap-2 p-2 border-b border-[#e6f0ff]">
                 <TrendingUp className="h-4 w-4 text-[#004c92]" />
                 <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>

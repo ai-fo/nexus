@@ -44,7 +44,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="relative flex items-center gap-2 bg-gradient-to-r from-white/90 to-white/70 backdrop-blur-md rounded-xl p-2 px-3 shadow-md border border-[#e6f0ff]/60 w-full max-w-xl mx-auto transition-all duration-300 hover:shadow-lg focus-within:border-[#3380cc]/30 focus-within:from-white focus-within:to-white/90"
+      className="relative flex items-center gap-2 bg-gradient-to-r from-white/90 to-white/70 backdrop-blur-md rounded-xl p-2 px-3 shadow-md border border-[#e6f0ff]/60 w-full max-w-2xl mx-auto transition-all duration-300 hover:shadow-lg focus-within:border-[#3380cc]/30 focus-within:from-white focus-within:to-white/90"
     >
       {showTrendingIcon && (
         <Button
