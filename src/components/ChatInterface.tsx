@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -176,23 +175,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} />
           </div>
           
-          <div className="w-full flex flex-col sm:flex-row gap-4 items-stretch sm:items-start mt-4">
-            {/* Modern wait time pill */}
-            <div className={`rounded-full px-4 py-1.5 flex items-center gap-2 text-sm shadow-sm mb-2 mx-auto sm:mx-0 ${
-              waitTimeInfo.status === 'low' ? 'bg-green-100 text-green-800' : 
-              waitTimeInfo.status === 'high' ? 'bg-red-100 text-red-800' : 
-              'bg-amber-100 text-amber-800'
-            }`}>
-              <PhoneCall className="h-3.5 w-3.5" />
-              <span>Temps d'attente: ~{waitTimeInfo.minutes} min</span>
-              {waitTimeInfo.callers > 0 && (
-                <span className="px-2 py-0.5 rounded-full bg-white/70 text-xs font-medium">
-                  {waitTimeInfo.callers} {waitTimeInfo.callers === 1 ? 'appelant' : 'appelants'}
-                </span>
-              )}
-            </div>
-          </div>
-          
           {/* Display both sections side by side */}
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Incidents Section */}
@@ -218,6 +200,19 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 ))}
               </div>
             </Card>
+          </div>
+          
+          {/* Wait time info below incidents and trending questions */}
+          <div className="w-full mt-3">
+            <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-3 shadow-sm border border-blue-200">
+              <div className="flex items-center justify-center gap-2">
+                <PhoneCall className="h-4 w-4 text-[#004c92]" />
+                <span className="text-[#004c92] font-medium">Temps d'attente: ~{waitTimeInfo.minutes} min</span>
+                <span className="px-2 py-0.5 rounded-full bg-white text-xs font-semibold">
+                  {waitTimeInfo.callers} appelant{waitTimeInfo.callers !== 1 ? 's' : ''}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       )}
