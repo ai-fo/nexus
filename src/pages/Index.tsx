@@ -59,8 +59,10 @@ const Index = () => {
           </div>
           
           <div className="flex items-center gap-2">
-            {/* Incidents dropdown */}
-            <IncidentStatus asDropdown={true} compact={true} showTitle={false} />
+            {/* Incidents dropdown - only show when showIncidents is true */}
+            {showIncidents && (
+              <IncidentStatus asDropdown={true} compact={true} showTitle={false} />
+            )}
             
             {/* Refresh button */}
             {isAnimated && <Button variant="ghost" size="icon" className="rounded-full hover:bg-[#E6F0FF]/50 h-10 w-10" onClick={handleNewChat} title="Nouvelle conversation">
