@@ -148,9 +148,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       {isInitialState && <div className="flex flex-col items-center justify-center h-full px-5 w-full flex-1">
           {/* Conteneur principal avec flexbox pour centrer verticalement */}
           <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto w-full">
-            {/* Logo large au-dessus des questions */}
+            {/* Logo large au-dessus des questions avec animation */}
             <div className="mb-8">
-              <img src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" alt="Hotline Assistant Logo" className="w-32 h-32 object-contain" />
+              <img 
+                src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" 
+                alt="Hotline Assistant Logo" 
+                className="w-32 h-32 object-contain animate-[spin_6s_ease-in-out_infinite_alternate] hover:animate-[spin_2s_ease-in-out_infinite]" 
+              />
             </div>
             
             {/* Questions défilantes */}
