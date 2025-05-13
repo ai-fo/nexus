@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Webcam, Database, HardDrive, Phone, Car, FileText, File, Clock, ChartBar, Bug, Image, LayoutDashboard, Network, Folder, AlertTriangle, PhoneCall } from 'lucide-react';
@@ -101,11 +102,13 @@ export const waitTimeInfo = {
   callers: 5,
   status: 'normal' // 'low', 'normal', 'high'
 };
+
 interface IncidentStatusProps {
   showTitle?: boolean;
   compact?: boolean;
   showWaitTime?: boolean;
 }
+
 const IncidentStatus: React.FC<IncidentStatusProps> = ({
   showTitle = true,
   compact = false,
@@ -114,12 +117,30 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({
   // If compact mode, only show incidents
   const incidents = compact ? appIncidents.filter(app => app.status === 'incident') : appIncidents;
   const incidentCount = appIncidents.filter(app => app.status === 'incident').length;
-  return <Card className="w-full rounded-lg overflow-hidden shadow-sm border border-blue-100 bg-white">
-      {showTitle}
+  
+  return (
+    <Card className="w-full rounded-lg overflow-hidden shadow-sm border border-blue-100 bg-white">
+      {showTitle && (
+        <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-100 p-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-amber-500" />
+              <h3 className="font-semibold text-[#004c92]">
+                Incidents en cours ({incidentCount})
+              </h3>
+            </div>
+            
+            {showWaitTime && (
+              <div className="flex items-center gap-2 bg-white rounded-full px-2 py-0.5 shadow-sm border border-blue-100">
+                <PhoneCall className="h-3 w-3 text-[#004c92]" />
+                <span className="text-xs text-[#004c92]">~{waitTimeInfo.minutes} min</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       
-      {showWaitTime}
-      
-      <ScrollArea className={compact ? "h-[220px]" : "h-[300px]"}>
+      <ScrollArea className={compact ? "h-[220px]" : "h-[calc(100vh-300px)]"}>
         <div className="grid grid-cols-2 gap-0 text-sm">
           <div className="font-medium p-2 text-[#004c92] text-sm bg-blue-50 border-b border-r border-blue-100">
             Application
@@ -128,23 +149,33 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({
             Status
           </div>
           
-          {incidents.length > 0 ? incidents.map(app => <React.Fragment key={app.id}>
-                <div className="p-2 border-b border-r border-blue-50 flex items-center gap-2">
-                  <span className={`${app.status === 'incident' ? 'text-red-500' : 'text-blue-600'}`}>
-                    {app.icon}
-                  </span>
-                  <span className="text-sm">{app.name}</span>
-                </div>
-                <div className="p-2 border-b border-blue-50 flex justify-center">
-                  {app.status === 'ok' ? <span className="px-2 py-0.5 text-[10px] font-medium text-green-700 bg-green-50 rounded-full flex items-center justify-center">OK</span> : <span className="px-2 py-0.5 text-[10px] font-medium text-white bg-red-500 rounded-full flex items-center justify-center">Incident</span>}
-                </div>
-              </React.Fragment>) : <div className="col-span-2 p-4 text-center text-sm text-gray-500">
+          {incidents.length > 0 ? incidents.map(app => (
+            <React.Fragment key={app.id}>
+              <div className="p-2 border-b border-r border-blue-50 flex items-center gap-2">
+                <span className={`${app.status === 'incident' ? 'text-red-500' : 'text-blue-600'}`}>
+                  {app.icon}
+                </span>
+                <span className="text-sm">{app.name}</span>
+              </div>
+              <div className="p-2 border-b border-blue-50 flex justify-center">
+                {app.status === 'ok' ? (
+                  <span className="px-2 py-0.5 text-[10px] font-medium text-green-700 bg-green-50 rounded-full flex items-center justify-center">OK</span>
+                ) : (
+                  <span className="px-2 py-0.5 text-[10px] font-medium text-white bg-red-500 rounded-full flex items-center justify-center">Incident</span>
+                )}
+              </div>
+            </React.Fragment>
+          )) : (
+            <div className="col-span-2 p-4 text-center text-sm text-gray-500">
               <div className="flex flex-col items-center gap-2 py-4">
                 Aucun incident en cours
               </div>
-            </div>}
+            </div>
+          )}
         </div>
       </ScrollArea>
-    </Card>;
+    </Card>
+  );
 };
+
 export default IncidentStatus;
