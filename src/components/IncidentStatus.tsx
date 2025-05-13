@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Webcam, Database, HardDrive, Phone, Car, FileText, File, Clock, ChartBar, Bug, Image, LayoutDashboard, Network, Folder, AlertTriangle, PhoneCall } from 'lucide-react';
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { AlertTriangle, CheckCircle, Clock, PhoneCall, Webcam, Database, HardDrive, Phone, Car, FileText, File, ChartBar, Bug, Image, LayoutDashboard, Network, Folder } from 'lucide-react';
 
 // Type definition for an application incident
 export interface AppIncident {
@@ -140,39 +140,51 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({
         </div>
       )}
       
-      <ScrollArea className={compact ? "h-[220px]" : "h-[calc(100vh-300px)]"}>
-        <div className="grid grid-cols-2 gap-0 text-sm">
-          <div className="font-medium p-2 text-[#004c92] text-sm bg-blue-50 border-b border-r border-blue-100">
-            Application
-          </div>
-          <div className="font-medium p-2 text-[#004c92] text-sm text-center bg-blue-50 border-b border-blue-100">
-            Status
-          </div>
-          
-          {incidents.length > 0 ? incidents.map(app => (
-            <React.Fragment key={app.id}>
-              <div className="p-2 border-b border-r border-blue-50 flex items-center gap-2">
-                <span className={`${app.status === 'incident' ? 'text-red-500' : 'text-blue-600'}`}>
-                  {app.icon}
-                </span>
-                <span className="text-sm">{app.name}</span>
-              </div>
-              <div className="p-2 border-b border-blue-50 flex justify-center">
-                {app.status === 'ok' ? (
-                  <span className="px-2 py-0.5 text-[10px] font-medium text-green-700 bg-green-50 rounded-full flex items-center justify-center">OK</span>
-                ) : (
-                  <span className="px-2 py-0.5 text-[10px] font-medium text-white bg-red-500 rounded-full flex items-center justify-center">Incident</span>
-                )}
-              </div>
-            </React.Fragment>
-          )) : (
-            <div className="col-span-2 p-4 text-center text-sm text-gray-500">
-              <div className="flex flex-col items-center gap-2 py-4">
-                Aucun incident en cours
-              </div>
+      <ScrollArea className={compact ? "h-[220px]" : "max-h-[calc(100vh-300px)]"}>
+        <CardContent className="p-3">
+          {incidents.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {incidents.map(app => (
+                <div 
+                  key={app.id} 
+                  className={`flex items-center p-2 rounded-md ${
+                    app.status === 'incident' 
+                      ? 'bg-red-50 border border-red-100' 
+                      : 'bg-gray-50 border border-gray-100'
+                  }`}
+                >
+                  <div className={`p-1.5 rounded-full mr-2 ${
+                    app.status === 'incident' ? 'bg-red-100' : 'bg-blue-100'
+                  }`}>
+                    <span className={app.status === 'incident' ? 'text-red-500' : 'text-blue-500'}>
+                      {app.icon}
+                    </span>
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{app.name}</p>
+                  </div>
+                  
+                  <Badge 
+                    className={`ml-2 ${
+                      app.status === 'incident' 
+                        ? 'bg-red-500 hover:bg-red-600'
+                        : 'bg-green-500 hover:bg-green-600'
+                    }`}
+                  >
+                    {app.status === 'incident' ? 'Incident' : 'OK'}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <CheckCircle className="h-10 w-10 text-green-500 mx-auto mb-3" />
+              <h3 className="text-base font-medium text-gray-700">Aucun incident en cours</h3>
+              <p className="text-sm text-gray-500">Tous les systèmes fonctionnent correctement</p>
             </div>
           )}
-        </div>
+        </CardContent>
       </ScrollArea>
     </Card>
   );
