@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -35,6 +36,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [messages, setMessages] = useState<ChatMessageProps[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [showTrendingQuestions, setShowTrendingQuestions] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -68,6 +70,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   };
 
   const handleSendMessage = async (content: string) => {
+    setShowTrendingQuestions(false);
     const userMessage: ChatMessageProps = { role: 'user', content };
     setMessages(prev => [...prev, userMessage]);
     
@@ -143,6 +146,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     };
   }, []);
 
+  const toggleTrendingQuestions = () => {
+    setShowTrendingQuestions(prev => !prev);
+  };
+
   const isInitialState = messages.length === 0;
 
   return (
@@ -171,42 +178,52 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               {QUESTIONS[currentQuestionIndex]}
             </p>
           </div>
-          <div className="w-full px-4 py-2">
-            <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} />
+          <div className="w-full px-4 py-2 relative">
+            <ChatInput 
+              onSendMessage={handleSendMessage} 
+              disabled={loading} 
+              getInputRef={setInputRef} 
+              onTrendingClick={toggleTrendingQuestions}
+              showTrendingIcon={true}
+            />
+            
+            {/* Trending Questions Dropdown */}
+            {showTrendingQuestions && (
+              <div className="absolute z-10 mt-2 w-full bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
+                <div className="flex items-center gap-2 p-3 border-b border-[#e6f0ff]">
+                  <TrendingUp className="h-4 w-4 text-[#004c92]" />
+                  <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
+                </div>
+                <div className="p-2">
+                  {trendingQuestions.map((question, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        handleSendMessage(question);
+                        setShowTrendingQuestions(false);
+                      }}
+                      className="w-full flex items-center text-left p-2.5 bg-gradient-to-r from-white to-blue-50/80 hover:from-blue-50 hover:to-blue-100/80 rounded-lg my-1 border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm group"
+                    >
+                      <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 text-[#004c92] text-xs mr-2 group-hover:bg-[#004c92] group-hover:text-white transition-colors">
+                        {index + 1}
+                      </span>
+                      <span className="flex-1">{question}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           
-          {/* Display both sections side by side */}
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Incidents Section */}
+          {/* Display incidents section */}
+          <div className="w-full px-4">
             <Card className="bg-white/80 shadow-sm overflow-hidden">
               <IncidentStatus showTitle={true} compact={true} />
             </Card>
-            
-            {/* Trending Questions Section - Updated Layout */}
-            <Card className="bg-white/80 shadow-sm p-3">
-              <div className="flex items-center gap-2 mb-3">
-                <TrendingUp className="h-4 w-4 text-[#004c92]" />
-                <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
-              </div>
-              <div className="space-y-2.5">
-                {trendingQuestions.map((question, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleSendMessage(question)}
-                    className="w-full flex items-center text-left p-2.5 bg-gradient-to-r from-white to-blue-50/80 hover:from-blue-50 hover:to-blue-100/80 rounded-lg border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm group"
-                  >
-                    <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 text-[#004c92] text-xs mr-2 group-hover:bg-[#004c92] group-hover:text-white transition-colors">
-                      {index + 1}
-                    </span>
-                    <span className="flex-1">{question}</span>
-                  </button>
-                ))}
-              </div>
-            </Card>
           </div>
           
-          {/* Wait time info below incidents and trending questions */}
-          <div className="w-full mt-3">
+          {/* Wait time info below incidents */}
+          <div className="w-full px-4 mt-3">
             <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-3 shadow-sm border border-blue-200">
               <div className="flex items-center justify-center gap-2">
                 <PhoneCall className="h-4 w-4 text-[#004c92]" />
@@ -221,8 +238,41 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
       
       {!isInitialState && (
-        <div className="sticky bottom-0 p-2 bg-gradient-to-b from-transparent to-[#E6F0FF] max-w-4xl w-full">
-          <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} />
+        <div className="sticky bottom-0 p-2 bg-gradient-to-b from-transparent to-[#E6F0FF] max-w-4xl w-full relative">
+          <ChatInput 
+            onSendMessage={handleSendMessage} 
+            disabled={loading} 
+            getInputRef={setInputRef}
+            onTrendingClick={toggleTrendingQuestions}
+            showTrendingIcon={true}
+          />
+          
+          {/* Trending Questions Dropdown for conversation mode */}
+          {showTrendingQuestions && (
+            <div className="absolute bottom-full mb-2 w-full bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
+              <div className="flex items-center gap-2 p-3 border-b border-[#e6f0ff]">
+                <TrendingUp className="h-4 w-4 text-[#004c92]" />
+                <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
+              </div>
+              <div className="p-2">
+                {trendingQuestions.map((question, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      handleSendMessage(question);
+                      setShowTrendingQuestions(false);
+                    }}
+                    className="w-full flex items-center text-left p-2.5 bg-gradient-to-r from-white to-blue-50/80 hover:from-blue-50 hover:to-blue-100/80 rounded-lg my-1 border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm group"
+                  >
+                    <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 text-[#004c92] text-xs mr-2 group-hover:bg-[#004c92] group-hover:text-white transition-colors">
+                      {index + 1}
+                    </span>
+                    <span className="flex-1">{question}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

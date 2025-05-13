@@ -2,18 +2,22 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SendHorizonal } from 'lucide-react';
+import { SendHorizonal, TrendingUp } from 'lucide-react';
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void;
   disabled?: boolean;
   getInputRef?: (ref: HTMLInputElement | null) => void;
+  showTrendingIcon?: boolean;
+  onTrendingClick?: () => void;
 }
 
 const ChatInput: React.FC<ChatInputProps> = ({
   onSendMessage,
   disabled = false,
-  getInputRef
+  getInputRef,
+  showTrendingIcon = false,
+  onTrendingClick
 }) => {
   const [message, setMessage] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -42,6 +46,18 @@ const ChatInput: React.FC<ChatInputProps> = ({
       onSubmit={handleSubmit} 
       className="relative flex items-center gap-3 bg-gradient-to-r from-white/90 to-white/70 backdrop-blur-md rounded-2xl p-2 shadow-lg border border-[#e6f0ff]/60 w-full transition-all duration-300 hover:shadow-xl focus-within:border-[#3380cc]/30 focus-within:from-white focus-within:to-white/90"
     >
+      {showTrendingIcon && (
+        <Button
+          type="button"
+          onClick={onTrendingClick}
+          variant="ghost"
+          className="h-10 w-10 p-2 rounded-xl text-[#3380cc] hover:text-[#004c92] hover:bg-blue-50 transition-all duration-200"
+          title="Questions tendance"
+        >
+          <TrendingUp className="h-5 w-5" />
+        </Button>
+      )}
+      
       <Input
         ref={inputRef}
         value={message}
