@@ -42,20 +42,28 @@ const Index = () => {
   
   return (
     <div className="min-h-screen flex flex-col bg-[#e6f0ff]/80 animate-fade-in">
-      {/* Header section with title and logo */}
-      <header className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-4 pb-2 flex items-center justify-between px-6' : 'py-10 flex flex-col items-center justify-center'}`}>
-        <div className="flex items-center gap-4">
-          <div className={`transition-all duration-500 ${isAnimated ? 'w-10 h-10' : 'w-20 h-20'} flex-shrink-0`}>
-            <img src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" alt="Hotline Assistant Logo" className="w-full h-full object-contain" />
+      {/* Header section with title, logo and incidents dropdown */}
+      <header className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-4 pb-2 px-6' : 'py-10 px-6'}`}>
+        <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
+          <div className="flex items-center gap-4">
+            <div className={`transition-all duration-500 ${isAnimated ? 'w-10 h-10' : 'w-20 h-20'} flex-shrink-0`}>
+              <img src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" alt="Hotline Assistant Logo" className="w-full h-full object-contain" />
+            </div>
+            <h1 onClick={isAnimated ? handleNewChat : undefined} className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 cursor-pointer`}>
+              HotlineAssistance
+            </h1>
           </div>
-          <h1 onClick={isAnimated ? handleNewChat : undefined} className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 cursor-pointer`}>
-            HotlineAssistance
-          </h1>
+          
+          <div className="flex items-center gap-2">
+            {/* Incidents dropdown */}
+            <IncidentStatus asDropdown={true} compact={true} showTitle={false} />
+            
+            {/* Refresh button */}
+            {isAnimated && <Button variant="ghost" size="icon" className="rounded-full hover:bg-[#E6F0FF]/50 h-10 w-10" onClick={handleNewChat} title="Nouvelle conversation">
+              <RefreshCw className="h-5 w-5 text-[#004c92]" />
+            </Button>}
+          </div>
         </div>
-        
-        {isAnimated && <Button variant="ghost" size="icon" className="rounded-full hover:bg-[#E6F0FF]/50 h-10 w-10" onClick={handleNewChat} title="Nouvelle conversation">
-            <RefreshCw className="h-5 w-5 text-[#004c92]" />
-          </Button>}
       </header>
       
       {/* Main content with chat and incidents */}
