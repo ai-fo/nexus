@@ -53,19 +53,29 @@ const Index = () => {
                 <img src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" alt="Hotline Assistant Logo" className="w-full h-full object-contain" />
               </div>
             )}
-            <h1 onClick={isAnimated ? handleNewChat : undefined} className={`text-xl sm:text-2xl font-bold text-[#004c92] transition-all duration-500 cursor-pointer`}>
-              HotlineAssistance
-            </h1>
+            <div className="flex items-center">
+              <h1 className={`text-xl sm:text-2xl font-bold text-[#004c92] transition-all duration-500 cursor-pointer`}>
+                HotlineAssistance
+              </h1>
+              
+              {/* Refresh button - now positioned next to the title when in chat mode */}
+              {isAnimated && (
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="rounded-full hover:bg-[#E6F0FF]/50 h-8 w-8 ml-2" 
+                  onClick={handleNewChat} 
+                  title="Nouvelle conversation"
+                >
+                  <RefreshCw className="h-4 w-4 text-[#004c92]" />
+                </Button>
+              )}
+            </div>
           </div>
           
           <div className="flex items-center gap-2">
             {/* Incidents dropdown - only show when showIncidents is true */}
             {showIncidents && <IncidentStatus asDropdown={true} compact={true} showTitle={false} />}
-            
-            {/* Refresh button */}
-            {isAnimated && <Button variant="ghost" size="icon" className="rounded-full hover:bg-[#E6F0FF]/50 h-8 w-8" onClick={handleNewChat} title="Nouvelle conversation">
-              <RefreshCw className="h-4 w-4 text-[#004c92]" />
-            </Button>}
           </div>
         </div>
       </header>
