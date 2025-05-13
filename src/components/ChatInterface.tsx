@@ -182,20 +182,23 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               <IncidentStatus showTitle={true} compact={true} />
             </Card>
             
-            {/* Trending Questions Section */}
+            {/* Trending Questions Section - Updated Layout */}
             <Card className="bg-white/80 shadow-sm p-3">
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-3">
                 <TrendingUp className="h-4 w-4 text-[#004c92]" />
                 <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
               </div>
-              <div className="grid grid-cols-1 gap-2">
+              <div className="space-y-2.5">
                 {trendingQuestions.map((question, index) => (
                   <button
                     key={index}
                     onClick={() => handleSendMessage(question)}
-                    className="text-left p-2 bg-white/70 hover:bg-white rounded border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm"
+                    className="w-full flex items-center text-left p-2.5 bg-gradient-to-r from-white to-blue-50/80 hover:from-blue-50 hover:to-blue-100/80 rounded-lg border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm group"
                   >
-                    {question}
+                    <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 text-[#004c92] text-xs mr-2 group-hover:bg-[#004c92] group-hover:text-white transition-colors">
+                      {index + 1}
+                    </span>
+                    <span className="flex-1">{question}</span>
                   </button>
                 ))}
               </div>
