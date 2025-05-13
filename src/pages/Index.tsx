@@ -20,8 +20,8 @@ const Index = () => {
   
   const handleFirstMessage = () => {
     setIsAnimated(true);
-    // Hide incidents after the first message
-    setTimeout(() => setShowIncidents(false), 1000);
+    // Hide incidents immediately after the first message
+    setShowIncidents(false);
   };
   
   const handleNewChat = async () => {
@@ -47,13 +47,13 @@ const Index = () => {
   return (
     <div className="h-screen flex flex-col bg-[#e6f0ff]/80 animate-fade-in overflow-hidden">
       {/* Header section with title, logo and incidents dropdown */}
-      <header className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 px-6' : 'pt-4 pb-2 px-6'}`}>
+      <header className={`${isAnimated ? 'pt-2 pb-1 px-6' : 'pt-4 pb-2 px-6'}`}>
         <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
           <div className="flex items-center gap-4">
-            <div className={`transition-all duration-500 ${isAnimated ? 'w-8 h-8' : 'w-14 h-14'} flex-shrink-0`}>
+            <div className={`${isAnimated ? 'w-8 h-8' : 'w-14 h-14'} flex-shrink-0`}>
               <img src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" alt="Hotline Assistant Logo" className="w-full h-full object-contain" />
             </div>
-            <h1 onClick={isAnimated ? handleNewChat : undefined} className={`text-xl sm:text-2xl font-bold text-[#004c92] transition-all duration-500 cursor-pointer`}>
+            <h1 onClick={isAnimated ? handleNewChat : undefined} className={`text-xl sm:text-2xl font-bold text-[#004c92] cursor-pointer`}>
               HotlineAssistance
             </h1>
           </div>
@@ -76,7 +76,7 @@ const Index = () => {
       <main className="flex-1 flex flex-col px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full overflow-hidden">
         <div className="flex flex-1 w-full gap-4 h-full">
           {/* Chat interface */}
-          <div className={`flex flex-col h-full ${isAnimated && showIncidents ? 'w-[65%]' : 'w-full'} transition-all duration-500`}>
+          <div className={`flex flex-col h-full ${showIncidents ? 'w-[65%]' : 'w-full'}`}>
             <ChatInterface 
               key={chatKey} 
               chatbotName="Bill" 
@@ -86,9 +86,9 @@ const Index = () => {
             />
           </div>
           
-          {/* Incidents sidebar - only show when chat is active and showIncidents is true */}
-          {isAnimated && showIncidents && (
-            <div className="w-[35%] h-full transition-all duration-500">
+          {/* Incidents sidebar - only show when showIncidents is true */}
+          {showIncidents && (
+            <div className="w-[35%] h-full">
               <IncidentStatus showTitle={true} showWaitTime={true} compact={false} />
             </div>
           )}
@@ -108,4 +108,3 @@ const Index = () => {
 };
 
 export default Index;
-
