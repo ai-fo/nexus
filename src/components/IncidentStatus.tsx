@@ -64,13 +64,13 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({
   return (
     <Card className="w-full bg-white/80 shadow-sm">
       {showTitle && (
-        <h3 className="font-medium text-[#004c92] mb-1 px-3 pt-2 text-sm">Incidents en cours</h3>
+        <h3 className="font-medium text-[#004c92] mb-1 px-2 pt-2 text-xs">Incidents en cours</h3>
       )}
       
       {showWaitTime && (
-        <div className="bg-blue-50 p-2 flex items-center gap-2 border-b border-blue-100">
-          <PhoneCall className="h-4 w-4 text-[#004c92]" />
-          <span className="text-sm">
+        <div className="bg-blue-50 p-1.5 flex items-center gap-2 border-b border-blue-100">
+          <PhoneCall className="h-3.5 w-3.5 text-[#004c92]" />
+          <span className="text-xs">
             <span className="font-medium">Temps d'attente hotline:</span>{' '}
             <span className={`font-bold ${
               waitTimeInfo.status === 'low' ? 'text-green-600' : 
@@ -80,7 +80,7 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({
               ~{waitTimeInfo.minutes} minutes
             </span>
             {waitTimeInfo.callers > 0 && (
-              <span className="text-gray-600 text-xs ml-2">
+              <span className="text-gray-600 text-xs ml-1">
                 ({waitTimeInfo.callers} {waitTimeInfo.callers === 1 ? 'appelant' : 'appelants'} en attente)
               </span>
             )}
@@ -91,25 +91,25 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[30px] px-2"></TableHead>
-            <TableHead className="px-2">Application</TableHead>
-            <TableHead className="w-[80px] text-right px-2">Status</TableHead>
+            <TableHead className="w-[20px] px-1 py-1"></TableHead>
+            <TableHead className="px-1 py-1 text-xs">Application</TableHead>
+            <TableHead className="w-[60px] text-right px-1 py-1 text-xs">Status</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {incidents.length > 0 ? (
             incidents.map((app) => (
               <TableRow key={app.id} className="hover:bg-blue-50/50">
-                <TableCell className="p-1 px-2">{app.icon}</TableCell>
-                <TableCell className="font-medium p-1 px-2 text-sm">{app.name}</TableCell>
-                <TableCell className="text-right p-1 px-2">
+                <TableCell className="p-0.5 px-1">{app.icon}</TableCell>
+                <TableCell className="font-medium p-0.5 px-1 text-xs">{app.name}</TableCell>
+                <TableCell className="text-right p-0.5 px-1">
                   {app.status === 'ok' ? (
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800 gap-1 text-xs py-0">
-                      <CircleCheck className="h-3 w-3" /> OK
+                    <Badge className="bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800 gap-1 text-[10px] py-0">
+                      <CircleCheck className="h-2.5 w-2.5" /> OK
                     </Badge>
                   ) : (
-                    <Badge variant="destructive" className="gap-1 text-xs py-0">
-                      <CircleX className="h-3 w-3" /> Incident
+                    <Badge variant="destructive" className="gap-1 text-[10px] py-0">
+                      <CircleX className="h-2.5 w-2.5" /> Incident
                     </Badge>
                   )}
                 </TableCell>
@@ -117,7 +117,7 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={3} className="text-center py-2 text-sm text-gray-500">
+              <TableCell colSpan={3} className="text-center py-1.5 text-xs text-gray-500">
                 Aucun incident en cours
               </TableCell>
             </TableRow>
