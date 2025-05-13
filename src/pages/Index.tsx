@@ -15,16 +15,20 @@ const TRENDING_QUESTIONS = ["Problème avec Artis", "SAS est très lent aujourd'
 const Index = () => {
   const [isAnimated, setIsAnimated] = useState(false);
   const [chatKey, setChatKey] = useState(0);
+  const [showIncidents, setShowIncidents] = useState(true);
   const { toast } = useToast();
   
   const handleFirstMessage = () => {
     setIsAnimated(true);
+    // Hide incidents after the first message
+    setTimeout(() => setShowIncidents(false), 1000);
   };
   
   const handleNewChat = async () => {
     try {
       await clearConversation();
       setIsAnimated(false);
+      setShowIncidents(true);
       setChatKey(prev => prev + 1);
       toast({
         title: "Conversation réinitialisée",
@@ -70,7 +74,7 @@ const Index = () => {
       <main className="flex-1 flex flex-col px-4 sm:px-6 lg:px-8 pb-4 max-w-7xl mx-auto w-full">
         <div className="flex flex-1 w-full gap-4">
           {/* Chat interface */}
-          <div className={`flex flex-col h-full ${isAnimated ? 'w-[65%]' : 'w-full'}`}>
+          <div className={`flex flex-col h-full ${isAnimated && showIncidents ? 'w-[65%]' : 'w-full'} transition-all duration-500`}>
             <ChatInterface 
               key={chatKey} 
               chatbotName="Bill" 
@@ -80,9 +84,9 @@ const Index = () => {
             />
           </div>
           
-          {/* Incidents sidebar - only show when chat is active */}
-          {isAnimated && (
-            <div className="w-[35%] h-full">
+          {/* Incidents sidebar - only show when chat is active and showIncidents is true */}
+          {isAnimated && showIncidents && (
+            <div className="w-[35%] h-full transition-all duration-500">
               <IncidentStatus showTitle={true} showWaitTime={true} compact={false} />
             </div>
           )}
