@@ -7,12 +7,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { TrendingUp, Headset } from 'lucide-react';
 import IncidentStatus, { waitTimeInfo, appIncidents } from './IncidentStatus';
 import { Card } from '@/components/ui/card';
+
 interface ChatInterfaceProps {
   chatbotName?: string;
   initialMessage?: string;
   onFirstMessage?: () => void;
   trendingQuestions?: string[];
 }
+
 const QUESTIONS = ["Quel souci rencontrez-vous ?", "En quoi puis-je vous aider ?", "Qu'est-ce qui ne va pas ?", "Un soucis technique ?"];
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
   chatbotName = "Bill",
@@ -146,6 +148,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       {isInitialState && <div className="flex flex-col items-center justify-center h-full px-5 w-full flex-1">
           {/* Conteneur principal avec flexbox pour centrer verticalement */}
           <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto w-full">
+            {/* Logo large au-dessus des questions */}
+            <div className="mb-8">
+              <img src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" alt="Hotline Assistant Logo" className="w-32 h-32 object-contain" />
+            </div>
+            
             {/* Questions défilantes */}
             <div className="h-10 overflow-hidden text-center w-full mb-6">
               <p key={currentQuestionIndex} className="text-[#3380cc] text-xl font-bold animate-slide-in">
@@ -177,9 +184,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 </div>}
             </div>
           </div>
-          
-          {/* Incidents déplacés en bas vers le footer */}
-          
         </div>}
       
       {!isInitialState && <div className="sticky bottom-0 p-3 bg-gradient-to-b from-transparent to-[#E6F0FF] w-full relative">
