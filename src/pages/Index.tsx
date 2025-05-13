@@ -47,10 +47,14 @@ const Index = () => {
       <header className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 px-6' : 'pt-4 pb-2 px-6'}`}>
         <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
           <div className="flex items-center gap-4">
-            {/* Logo uniquement visible en mode chat */}
+            {/* Logo avec animation uniquement visible en mode chat */}
             {isAnimated && (
               <div className={`transition-all duration-500 w-8 h-8 flex-shrink-0 animate-scale-in`}>
-                <img src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" alt="Hotline Assistant Logo" className="w-full h-full object-contain" />
+                <img 
+                  src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" 
+                  alt="Hotline Assistant Logo" 
+                  className="w-full h-full object-contain animate-[spin_3s_ease-in-out_infinite_alternate] hover:animate-[spin_1s_ease-in-out_infinite]" 
+                />
               </div>
             )}
             <div className="flex items-center">
