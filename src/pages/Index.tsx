@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import { Button } from "@/components/ui/button";
@@ -10,21 +9,16 @@ import IncidentStatus, { appIncidents } from '@/components/IncidentStatus';
 import { Clock } from 'lucide-react';
 
 // Trending questions without having to access them from ChatInterface
-const TRENDING_QUESTIONS = [
-  "Problème avec Artis",
-  "SAS est très lent aujourd'hui",
-  "Impossible d'accéder à mon compte",
-];
-
+const TRENDING_QUESTIONS = ["Problème avec Artis", "SAS est très lent aujourd'hui", "Impossible d'accéder à mon compte"];
 const Index = () => {
   const [isAnimated, setIsAnimated] = useState(false);
   const [chatKey, setChatKey] = useState(0);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const handleFirstMessage = () => {
     setIsAnimated(true);
   };
-
   const handleNewChat = async () => {
     try {
       await clearConversation();
@@ -32,7 +26,7 @@ const Index = () => {
       setChatKey(prev => prev + 1);
       toast({
         title: "Conversation réinitialisée",
-        description: "Une nouvelle conversation a été démarrée",
+        description: "Une nouvelle conversation a été démarrée"
       });
     } catch (error) {
       console.error("Erreur lors de la réinitialisation de la conversation:", error);
@@ -43,74 +37,43 @@ const Index = () => {
       });
     }
   };
-
-  return (
-    <div className="min-h-screen flex flex-col bg-[#e6f0ff]/80 animate-fade-in">
+  return <div className="min-h-screen flex flex-col bg-[#e6f0ff]/80 animate-fade-in">
       {/* Header section with title and logo */}
       <header className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-4 pb-2 flex items-center justify-between px-6' : 'py-10 flex flex-col items-center justify-center'}`}>
         <div className="flex items-center gap-4">
           <div className={`transition-all duration-500 ${isAnimated ? 'w-10 h-10' : 'w-20 h-20'} flex-shrink-0`}>
-            <img 
-              src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" 
-              alt="Hotline Assistant Logo" 
-              className="w-full h-full object-contain"
-            />
+            <img src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" alt="Hotline Assistant Logo" className="w-full h-full object-contain" />
           </div>
-          <h1 
-            onClick={isAnimated ? handleNewChat : undefined}
-            className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 cursor-pointer`}
-          >
+          <h1 onClick={isAnimated ? handleNewChat : undefined} className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 cursor-pointer`}>
             HotlineAssistance
           </h1>
         </div>
         
-        {isAnimated && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full hover:bg-[#E6F0FF]/50 h-10 w-10"
-            onClick={handleNewChat}
-            title="Nouvelle conversation"
-          >
+        {isAnimated && <Button variant="ghost" size="icon" className="rounded-full hover:bg-[#E6F0FF]/50 h-10 w-10" onClick={handleNewChat} title="Nouvelle conversation">
             <RefreshCw className="h-5 w-5 text-[#004c92]" />
-          </Button>
-        )}
+          </Button>}
       </header>
       
       {/* Main content with chat and incidents */}
       <main className="flex-1 flex flex-col px-4 sm:px-6 lg:px-8 pb-4 max-w-7xl mx-auto w-full">
-        {!isAnimated && (
-          <div className="text-center text-xl text-[#3380cc] mb-2">
-            Un soucis technique ?
-          </div>
-        )}
+        {!isAnimated}
         
         <div className="flex flex-1 w-full gap-4">
           {/* Chat interface */}
           <div className={`flex flex-col h-full ${isAnimated ? 'w-[65%]' : 'w-full'}`}>
-            <ChatInterface 
-              key={chatKey}
-              chatbotName="Bill"
-              initialMessage="Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?"
-              onFirstMessage={handleFirstMessage}
-              trendingQuestions={TRENDING_QUESTIONS}
-            />
+            <ChatInterface key={chatKey} chatbotName="Bill" initialMessage="Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?" onFirstMessage={handleFirstMessage} trendingQuestions={TRENDING_QUESTIONS} />
           </div>
           
           {/* Incidents sidebar - only show when chat is active */}
-          {isAnimated && (
-            <div className="w-[35%] h-full">
+          {isAnimated && <div className="w-[35%] h-full">
               <IncidentStatus showTitle showWaitTime compact={false} />
-            </div>
-          )}
+            </div>}
         </div>
         
         {/* Only show incidents at bottom when chat is not active */}
-        {!isAnimated && (
-          <div className="w-full mt-4 mb-4">
+        {!isAnimated && <div className="w-full mt-4 mb-4">
             <IncidentStatus showTitle showWaitTime compact={true} />
-          </div>
-        )}
+          </div>}
       </main>
       
       {/* Footer section */}
@@ -121,8 +84,6 @@ const Index = () => {
           <span className="text-xs text-[#004c92] font-medium">~{waitTimeInfo.minutes} min d'attente</span>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
