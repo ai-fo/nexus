@@ -46,11 +46,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
-      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-3 pb-2 pl-6 flex flex-col items-start gap-2 pr-6' : 'h-[20vh] flex flex-col items-center justify-center gap-4'}`}>
-        <div className="flex flex-col items-center justify-center gap-3">
+      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-3 pb-2 pl-6 flex flex-col items-start gap-2 pr-6' : 'pt-12 h-[25vh] flex flex-col items-center justify-center gap-4'}`}>
+        <div className="flex flex-col items-center justify-center gap-5">
           <h1 
             onClick={handleNewChat}
-            className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150'}`}
+            className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150 mt-6'}`}
           >
             <span>
               <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">H</span>
@@ -74,7 +74,7 @@ const Index = () => {
             </span>
           </h1>
           
-          <div className={`transition-all duration-500 ${isAnimated ? 'w-10 h-10 opacity-70' : 'w-24 h-24 opacity-100'} flex-shrink-0`}>
+          <div className={`transition-all duration-500 ${isAnimated ? 'w-10 h-10 opacity-70' : 'w-28 h-28 opacity-100 mb-4'} flex-shrink-0`}>
             <img 
               src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" 
               alt="Hotline Assistant Logo" 
