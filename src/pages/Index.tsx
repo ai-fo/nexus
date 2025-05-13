@@ -47,9 +47,9 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#e6f0ff]/80 animate-fade-in">
       {/* Header section with title and logo */}
-      <header className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-6 pb-4 flex items-center justify-between px-8' : 'py-16 flex flex-col items-center justify-center'}`}>
+      <header className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-4 pb-2 flex items-center justify-between px-6' : 'py-10 flex flex-col items-center justify-center'}`}>
         <div className="flex items-center gap-4">
-          <div className={`transition-all duration-500 ${isAnimated ? 'w-12 h-12' : 'w-24 h-24'} flex-shrink-0`}>
+          <div className={`transition-all duration-500 ${isAnimated ? 'w-10 h-10' : 'w-20 h-20'} flex-shrink-0`}>
             <img 
               src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" 
               alt="Hotline Assistant Logo" 
@@ -58,7 +58,7 @@ const Index = () => {
           </div>
           <h1 
             onClick={isAnimated ? handleNewChat : undefined}
-            className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 ease-in-out cursor-pointer ${isAnimated ? '' : ''}`}
+            className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 cursor-pointer`}
           >
             HotlineAssistance
           </h1>
@@ -78,16 +78,16 @@ const Index = () => {
       </header>
       
       {/* Main content with chat and incidents */}
-      <main className="flex-1 flex flex-col gap-6 px-4 sm:px-6 lg:px-8 pb-6 max-w-5xl mx-auto w-full">
+      <main className="flex-1 flex flex-col px-4 sm:px-6 lg:px-8 pb-4 max-w-7xl mx-auto w-full">
         {!isAnimated && (
           <div className="text-center text-xl text-[#3380cc] mb-2">
             Un soucis technique ?
           </div>
         )}
         
-        <div className="flex gap-6 flex-1 items-start">
+        <div className="flex flex-1 w-full gap-4">
           {/* Chat interface */}
-          <div className={`flex-1 ${isAnimated ? 'max-w-[calc(100%-320px)]' : 'max-w-full'}`}>
+          <div className={`flex flex-col h-full ${isAnimated ? 'w-[65%]' : 'w-full'}`}>
             <ChatInterface 
               key={chatKey}
               chatbotName="Bill"
@@ -97,17 +97,20 @@ const Index = () => {
             />
           </div>
           
-          {/* Incidents sidebar - visible on the side when chat is active or below chat otherwise */}
-          {isAnimated ? (
-            <div className="w-[300px] sticky top-4">
+          {/* Incidents sidebar - only show when chat is active */}
+          {isAnimated && (
+            <div className="w-[35%] h-full">
               <IncidentStatus showTitle showWaitTime compact={false} />
-            </div>
-          ) : (
-            <div className="w-full max-w-md mx-auto mt-4">
-              <IncidentStatus showTitle showWaitTime compact={true} />
             </div>
           )}
         </div>
+        
+        {/* Only show incidents at bottom when chat is not active */}
+        {!isAnimated && (
+          <div className="w-full mt-4 mb-4">
+            <IncidentStatus showTitle showWaitTime compact={true} />
+          </div>
+        )}
       </main>
       
       {/* Footer section */}

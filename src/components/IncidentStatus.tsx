@@ -97,7 +97,7 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({
         </div>
       )}
       
-      <ScrollArea className="h-[220px]">
+      <ScrollArea className={compact ? "h-[220px]" : "h-[300px]"}>
         <div className="grid grid-cols-2 gap-0 text-sm">
           <div className="font-medium p-2 text-[#004c92] text-sm bg-blue-50 border-b border-r border-blue-100">
             Application
