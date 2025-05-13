@@ -4,16 +4,19 @@ import ChatInput from './ChatInput';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { sendMessage } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
-import { TrendingUp, PhoneCall, Clock } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 import IncidentStatus, { waitTimeInfo, appIncidents } from './IncidentStatus';
 import { Card } from '@/components/ui/card';
+
 interface ChatInterfaceProps {
   chatbotName?: string;
   initialMessage?: string;
   onFirstMessage?: () => void;
   trendingQuestions?: string[];
 }
+
 const QUESTIONS = ["Quel souci rencontrez-vous ?", "En quoi puis-je vous aider ?", "Qu'est-ce qui ne va pas ?", "Un soucis technique ?"];
+
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
   chatbotName = "Bill",
   initialMessage = "Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?",
@@ -57,6 +60,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       });
     }
   };
+
+  // Fonction pour scroller automatiquement vers le bas
   const handleSendMessage = async (content: string) => {
     setShowTrendingQuestions(false);
     const userMessage: ChatMessageProps = {
@@ -172,22 +177,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 </div>
               </div>}
           </div>
-
-          {/* Section Hotline Assistance */}
-          <div className="w-full px-4 mt-4">
-            <div className="flex flex-col items-center">
-              
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm border border-blue-200">
-                <Clock className="h-4 w-4 text-[#004c92]" />
-                <span className="text-[#004c92] font-medium">Temps d'attente: ~{waitTimeInfo.minutes} min</span>
-                <span className="px-2 py-0.5 rounded-full bg-white text-xs font-semibold shadow-inner">
-                  {waitTimeInfo.callers} appelant{waitTimeInfo.callers !== 1 ? 's' : ''}
-                </span>
-              </div>
-            </div>
-          </div>
           
-          {/* Incidents déplacés plus bas dans la page avec une marge supérieure */}
+          {/* Incidents déplacés en bas de la page */}
           <div className="w-full px-4 mt-auto mb-6">
             <Card className="bg-white/80 shadow-sm overflow-hidden">
               <IncidentStatus showTitle={true} compact={true} />
@@ -219,4 +210,5 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         </div>}
     </div>;
 };
+
 export default ChatInterface;

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import { Button } from "@/components/ui/button";
-import { RefreshCw, PhoneCall, TrendingUp } from 'lucide-react';
+import { RefreshCw, PhoneCall, TrendingUp, Clock } from 'lucide-react';
 import { clearConversation } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
 import { waitTimeInfo } from '@/components/IncidentStatus';
@@ -100,8 +100,12 @@ const Index = () => {
         </div>
       </div>
       
-      <footer className="py-2 text-center text-sm text-[#3380cc] transition-opacity duration-200 hover:opacity-80">
+      <footer className="py-2 text-center text-sm text-[#3380cc] flex items-center justify-center gap-2 transition-opacity duration-200 hover:opacity-80">
         <p>Si l'IA prends le contrôle, contactez vite la hotline au 3400</p>
+        <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-blue-100 rounded-full px-3 py-0.5 shadow-sm border border-blue-200">
+          <Clock className="h-3 w-3 text-[#004c92]" />
+          <span className="text-xs text-[#004c92] font-medium">~{waitTimeInfo.minutes} min d'attente</span>
+        </div>
       </footer>
     </div>
   );
