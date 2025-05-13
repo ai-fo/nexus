@@ -46,7 +46,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
-      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex flex-col items-start gap-1 pr-4' : 'h-[60vh] flex flex-col items-center justify-center'}`}>
+      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex flex-col items-start gap-1 pr-4' : 'h-[15vh] flex flex-col items-center justify-center'}`}>
         <h1 
           onClick={handleNewChat}
           className={`text-xl sm:text-2xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150'}`}
