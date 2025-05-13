@@ -46,11 +46,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
-      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-3 pb-2 pl-6 flex flex-col items-start gap-2 pr-6' : 'pt-12 h-[25vh] flex flex-col items-center justify-center gap-4'}`}>
+      {/* Header section with title and logo */}
+      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-3 pb-2 pl-6 flex flex-col items-start gap-2 pr-6' : 'pt-20 pb-8 h-[28vh] flex flex-col items-center justify-center gap-4'}`}>
         <div className="flex flex-col items-center justify-center gap-5">
           <h1 
             onClick={handleNewChat}
-            className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150 mt-6'}`}
+            className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150 mt-4'}`}
           >
             <span>
               <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">H</span>
@@ -74,7 +75,7 @@ const Index = () => {
             </span>
           </h1>
           
-          <div className={`transition-all duration-500 ${isAnimated ? 'w-10 h-10 opacity-70' : 'w-28 h-28 opacity-100 mb-4'} flex-shrink-0`}>
+          <div className={`transition-all duration-500 ${isAnimated ? 'w-10 h-10 opacity-70' : 'w-28 h-28 opacity-100 mb-2'} flex-shrink-0`}>
             <img 
               src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" 
               alt="Hotline Assistant Logo" 
@@ -98,8 +99,9 @@ const Index = () => {
         )}
       </div>
       
-      <div className={`flex-1 flex items-center justify-center px-4 md:px-8 lg:px-12 transition-all duration-500 ease-in-out ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}`}>
-        <div className="w-full flex flex-col items-center justify-center">
+      {/* Chat interface section */}
+      <div className={`flex-1 flex items-center justify-center px-4 md:px-8 lg:px-12 transition-all duration-500 ease-in-out overflow-hidden ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}`}>
+        <div className="w-full flex flex-col items-center justify-center max-h-full">
           <ChatInterface 
             key={chatKey}
             chatbotName="Bill"
@@ -110,7 +112,8 @@ const Index = () => {
         </div>
       </div>
       
-      <footer className="py-3 text-center text-sm text-[#3380cc] flex items-center justify-center gap-3 transition-opacity duration-200 hover:opacity-80">
+      {/* Footer section */}
+      <footer className="py-3 mt-auto text-center text-sm text-[#3380cc] flex items-center justify-center gap-3 transition-opacity duration-200 hover:opacity-80">
         <p>Si l'IA prends le contrôle, contactez vite la hotline au 3400</p>
         <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-blue-100 rounded-full px-3 py-1 shadow-sm border border-blue-200">
           <Clock className="h-3.5 w-3.5 text-[#004c92]" />
