@@ -96,10 +96,10 @@ const Index = () => {
       </main>
       
       {/* Footer section - hotline banner */}
-      <footer className="py-2 bg-[#222] text-white flex items-center justify-center gap-3 shadow-md">
-        <p className="font-medium">Si l'IA prends le contrôle, contactez vite la hotline au <span className="text-[#ea384c] font-bold">3400</span></p>
-        <div className="flex items-center gap-2 bg-[#333] rounded-full px-3 py-0.5 shadow-sm border border-[#444]">
-          <Clock className="h-3 w-3 text-[#ea384c]" />
+      <footer className="py-2 bg-[#004c92] text-white flex items-center justify-center gap-3 shadow-md">
+        <p className="font-medium">Si l'IA prends le contrôle, contactez vite la hotline au <span className="text-[#e6f0ff] font-bold">3400</span></p>
+        <div className="flex items-center gap-2 bg-[#3380cc] rounded-full px-3 py-0.5 shadow-sm border border-[#e6f0ff]/30">
+          <Clock className="h-3 w-3 text-[#e6f0ff]" />
           <span className="text-xs text-white font-medium">~{waitTimeInfo.minutes} min d'attente</span>
         </div>
       </footer>
