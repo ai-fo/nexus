@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import FeedbackButtons from './FeedbackButtons';
@@ -196,7 +197,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
         <div 
           key={groupIndex}
           className={cn(
-            "flex flex-col",
+            "flex flex-col max-w-3xl mx-auto w-full",
             isUser ? "items-end" : "items-start"
           )}
         >
@@ -226,7 +227,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
       
       {/* Indicateur de frappe pour l'assistant */}
       {!isUser && !isComplete && (
-        <div className="flex justify-start my-1">
+        <div className="flex justify-start my-1 max-w-3xl mx-auto w-full">
           <div className="flex items-center px-4 py-3 bg-white/80 rounded-2xl shadow-sm mb-1">
             <div className="flex space-x-2">
               <span className="w-2.5 h-2.5 bg-[#003366] rounded-full animate-bounce" style={{ animationDelay: '0s', animationDuration: '1s' }}></span>
