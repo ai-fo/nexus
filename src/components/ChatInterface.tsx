@@ -161,7 +161,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             </div>
             
             {/* Barre de recherche centrée et élargie */}
-            <div className="w-full px-2 py-3 relative">
+            <div className="w-full max-w-3xl mx-auto px-2 py-3 relative">
               <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} onTrendingClick={toggleTrendingQuestions} showTrendingIcon={true} />
               
               {/* Trending Questions Dropdown */}
@@ -191,8 +191,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} onTrendingClick={toggleTrendingQuestions} showTrendingIcon={true} />
           </div>
           
-          {/* Trending Questions Dropdown for conversation mode */}
-          {showTrendingQuestions && <div className="absolute bottom-full mb-3 w-full max-w-3xl mx-auto left-0 right-0 bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
+          {/* Trending Questions Dropdown for conversation mode - Now aligned with the chat input */}
+          {showTrendingQuestions && <div className="absolute bottom-full mb-3 max-w-3xl mx-auto w-full left-0 right-0 bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
               <div className="flex items-center gap-2 p-3 border-b border-[#e6f0ff]">
                 <TrendingUp className="h-5 w-5 text-[#004c92]" />
                 <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
