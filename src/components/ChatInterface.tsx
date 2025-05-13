@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -8,16 +7,13 @@ import { useToast } from "@/components/ui/use-toast";
 import { TrendingUp, Headset } from 'lucide-react';
 import IncidentStatus, { waitTimeInfo, appIncidents } from './IncidentStatus';
 import { Card } from '@/components/ui/card';
-
 interface ChatInterfaceProps {
   chatbotName?: string;
   initialMessage?: string;
   onFirstMessage?: () => void;
   trendingQuestions?: string[];
 }
-
 const QUESTIONS = ["Quel souci rencontrez-vous ?", "En quoi puis-je vous aider ?", "Qu'est-ce qui ne va pas ?", "Un soucis technique ?"];
-
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
   chatbotName = "Bill",
   initialMessage = "Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?",
@@ -34,7 +30,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const {
     toast
   } = useToast();
-  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentQuestionIndex(prev => (prev + 1) % QUESTIONS.length);
@@ -136,15 +131,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       observer.disconnect();
     };
   }, []);
-  
   const toggleTrendingQuestions = () => {
     setShowTrendingQuestions(prev => !prev);
   };
-  
   const isInitialState = messages.length === 0;
-  
-  return (
-    <div className="w-full flex flex-col h-[calc(100vh-10rem)]">
+  return <div className="w-full flex flex-col h-[calc(100vh-10rem)]">
       {!isInitialState && <ScrollArea ref={scrollAreaRef} className="flex-1 p-5 space-y-5 overflow-hidden scrollbar-hidden">
           <div className="flex flex-col">
             {messages.map((message, index) => <ChatMessage key={index} {...message} onNewChunkDisplayed={scrollToBottom} />)}
@@ -152,8 +143,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </div>
         </ScrollArea>}
       
-      {isInitialState && (
-        <div className="flex flex-col items-center justify-center h-full px-5 w-full flex-1">
+      {isInitialState && <div className="flex flex-col items-center justify-center h-full px-5 w-full flex-1">
           {/* Conteneur principal avec flexbox pour centrer verticalement */}
           <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto w-full">
             {/* Questions défilantes */}
@@ -165,51 +155,32 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             
             {/* Barre de recherche centrée et élargie */}
             <div className="w-full px-2 py-3 relative">
-              <ChatInput 
-                onSendMessage={handleSendMessage} 
-                disabled={loading} 
-                getInputRef={setInputRef} 
-                onTrendingClick={toggleTrendingQuestions} 
-                showTrendingIcon={true} 
-              />
+              <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} onTrendingClick={toggleTrendingQuestions} showTrendingIcon={true} />
               
               {/* Trending Questions Dropdown */}
-              {showTrendingQuestions && (
-                <div className="absolute z-10 mt-3 w-full bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
+              {showTrendingQuestions && <div className="absolute z-10 mt-3 w-full bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
                   <div className="flex items-center gap-2 p-3 border-b border-[#e6f0ff]">
                     <TrendingUp className="h-5 w-5 text-[#004c92]" />
                     <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
                   </div>
                   <div className="p-3">
-                    {trendingQuestions.map((question, index) => (
-                      <button 
-                        key={index} 
-                        onClick={() => {
-                          handleSendMessage(question);
-                          setShowTrendingQuestions(false);
-                        }} 
-                        className="w-full flex items-center text-left p-3 bg-gradient-to-r from-white to-blue-50/80 hover:from-blue-50 hover:to-blue-100/80 rounded-lg my-1.5 border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm group"
-                      >
+                    {trendingQuestions.map((question, index) => <button key={index} onClick={() => {
+                handleSendMessage(question);
+                setShowTrendingQuestions(false);
+              }} className="w-full flex items-center text-left p-3 bg-gradient-to-r from-white to-blue-50/80 hover:from-blue-50 hover:to-blue-100/80 rounded-lg my-1.5 border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm group">
                         <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 text-[#004c92] text-xs mr-3 group-hover:bg-[#004c92] group-hover:text-white transition-colors">
                           {index + 1}
                         </span>
                         <span className="flex-1">{question}</span>
-                      </button>
-                    ))}
+                      </button>)}
                   </div>
-                </div>
-              )}
+                </div>}
             </div>
           </div>
           
           {/* Incidents déplacés en bas vers le footer */}
-          <div className="w-full max-w-sm mx-auto px-4 mt-auto mb-8">
-            <Card className="bg-white/80 shadow-sm overflow-hidden">
-              <IncidentStatus showTitle={true} compact={true} />
-            </Card>
-          </div>
-        </div>
-      )}
+          
+        </div>}
       
       {!isInitialState && <div className="sticky bottom-0 p-3 bg-gradient-to-b from-transparent to-[#E6F0FF] w-full relative">
           <div className="max-w-3xl mx-auto w-full">
@@ -235,8 +206,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               </div>
             </div>}
         </div>}
-    </div>
-  );
+    </div>;
 };
-
 export default ChatInterface;
