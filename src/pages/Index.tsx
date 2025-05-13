@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import ChatInterface from '@/components/ChatInterface';
 import { Button } from "@/components/ui/button";
@@ -19,8 +20,8 @@ const Index = () => {
   } = useToast();
   const handleFirstMessage = () => {
     setIsAnimated(true);
-    // Hide incidents after the first message
-    setTimeout(() => setShowIncidents(false), 1000);
+    // Hide incidents immediately after the first message
+    setShowIncidents(false);
   };
   const handleNewChat = async () => {
     try {
@@ -70,19 +71,16 @@ const Index = () => {
       <main className="flex-1 flex flex-col px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full overflow-hidden">
         <div className="flex flex-1 w-full gap-4 h-full">
           {/* Chat interface */}
-          <div className={`flex flex-col h-full ${isAnimated && showIncidents ? 'w-[65%]' : 'w-full'} transition-all duration-500`}>
+          <div className={`flex flex-col h-full w-full transition-all duration-500`}>
             <ChatInterface key={chatKey} chatbotName="Bill" initialMessage="Bonjour ! Je suis Bill, votre assistant personnel. Comment puis-je vous aider aujourd'hui ?" onFirstMessage={handleFirstMessage} trendingQuestions={TRENDING_QUESTIONS} />
           </div>
-          
-          {/* Incidents sidebar - only show when chat is active and showIncidents is true */}
-          {isAnimated && showIncidents}
         </div>
       </main>
       
       {/* Footer section - hotline banner */}
-      <footer className="py-2 bg-[#222] text-white flex items-center justify-center gap-3 shadow-md">
+      <footer className="py-2 bg-[#004c92] text-white flex items-center justify-center gap-3 shadow-md">
         <p className="font-medium">Si l'IA prends le contrôle, contactez vite la hotline au <span className="text-[#ea384c] font-bold">3400</span></p>
-        <div className="flex items-center gap-2 bg-[#333] rounded-full px-3 py-0.5 shadow-sm border border-[#444]">
+        <div className="flex items-center gap-2 bg-[#0a5db3] rounded-full px-3 py-0.5 shadow-sm border border-[#1a6dc3]">
           <Clock className="h-3 w-3 text-[#ea384c]" />
           <span className="text-xs text-white font-medium">~{waitTimeInfo.minutes} min d'attente</span>
         </div>
