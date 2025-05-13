@@ -46,11 +46,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
-      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex flex-col items-start gap-1 pr-4' : 'h-[15vh] flex flex-col items-center justify-center'}`}>
-        <div className="flex flex-col items-center justify-center gap-2">
+      <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-3 pb-2 pl-6 flex flex-col items-start gap-2 pr-6' : 'h-[20vh] flex flex-col items-center justify-center gap-4'}`}>
+        <div className="flex flex-col items-center justify-center gap-3">
           <h1 
             onClick={handleNewChat}
-            className={`text-xl sm:text-2xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150'}`}
+            className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150'}`}
           >
             <span>
               <span className="inline-block hover:scale-110 transition-transform duration-300 hover:text-[#1a69b5]">H</span>
@@ -74,7 +74,7 @@ const Index = () => {
             </span>
           </h1>
           
-          <div className={`transition-all duration-500 ${isAnimated ? 'w-8 h-8 opacity-70' : 'w-20 h-20 opacity-100'} flex-shrink-0`}>
+          <div className={`transition-all duration-500 ${isAnimated ? 'w-10 h-10 opacity-70' : 'w-24 h-24 opacity-100'} flex-shrink-0`}>
             <img 
               src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" 
               alt="Hotline Assistant Logo" 
@@ -88,7 +88,7 @@ const Index = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full hover:bg-[#E6F0FF]/50"
+              className="rounded-full hover:bg-[#E6F0FF]/50 h-10 w-10"
               onClick={handleNewChat}
               title="Nouvelle conversation"
             >
@@ -110,10 +110,10 @@ const Index = () => {
         </div>
       </div>
       
-      <footer className="py-2 text-center text-sm text-[#3380cc] flex items-center justify-center gap-2 transition-opacity duration-200 hover:opacity-80">
+      <footer className="py-3 text-center text-sm text-[#3380cc] flex items-center justify-center gap-3 transition-opacity duration-200 hover:opacity-80">
         <p>Si l'IA prends le contrôle, contactez vite la hotline au 3400</p>
-        <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-blue-100 rounded-full px-3 py-0.5 shadow-sm border border-blue-200">
-          <Clock className="h-3 w-3 text-[#004c92]" />
+        <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-blue-100 rounded-full px-3 py-1 shadow-sm border border-blue-200">
+          <Clock className="h-3.5 w-3.5 text-[#004c92]" />
           <span className="text-xs text-[#004c92] font-medium">~{waitTimeInfo.minutes} min d'attente</span>
         </div>
       </footer>

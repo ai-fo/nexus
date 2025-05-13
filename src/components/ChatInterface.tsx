@@ -34,6 +34,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const {
     toast
   } = useToast();
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentQuestionIndex(prev => (prev + 1) % QUESTIONS.length);
@@ -135,13 +136,16 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       observer.disconnect();
     };
   }, []);
+  
   const toggleTrendingQuestions = () => {
     setShowTrendingQuestions(prev => !prev);
   };
+  
   const isInitialState = messages.length === 0;
+  
   return (
-    <div className="w-full flex flex-col h-[calc(100vh-8.5rem)]">
-      {!isInitialState && <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 space-y-4 overflow-hidden scrollbar-hidden">
+    <div className="w-full flex flex-col h-[calc(100vh-10rem)]">
+      {!isInitialState && <ScrollArea ref={scrollAreaRef} className="flex-1 p-5 space-y-5 overflow-hidden scrollbar-hidden">
           <div className="flex flex-col">
             {messages.map((message, index) => <ChatMessage key={index} {...message} onNewChunkDisplayed={scrollToBottom} />)}
             <div ref={messagesEndRef} />
@@ -149,18 +153,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         </ScrollArea>}
       
       {isInitialState && (
-        <div className="flex flex-col items-center justify-center h-full px-4 w-full flex-1">
+        <div className="flex flex-col items-center justify-center h-full px-5 w-full flex-1">
           {/* Conteneur principal avec flexbox pour centrer verticalement */}
           <div className="flex flex-col items-center justify-center h-full max-w-2xl mx-auto w-full">
             {/* Questions défilantes */}
-            <div className="h-8 overflow-hidden text-center w-full mb-4">
-              <p key={currentQuestionIndex} className="text-[#3380cc] text-lg font-bold animate-slide-in">
+            <div className="h-10 overflow-hidden text-center w-full mb-6">
+              <p key={currentQuestionIndex} className="text-[#3380cc] text-xl font-bold animate-slide-in">
                 {QUESTIONS[currentQuestionIndex]}
               </p>
             </div>
             
             {/* Barre de recherche centrée et élargie */}
-            <div className="w-full px-2 py-2 relative">
+            <div className="w-full px-2 py-3 relative">
               <ChatInput 
                 onSendMessage={handleSendMessage} 
                 disabled={loading} 
@@ -171,12 +175,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               
               {/* Trending Questions Dropdown */}
               {showTrendingQuestions && (
-                <div className="absolute z-10 mt-2 w-full bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
-                  <div className="flex items-center gap-2 p-2 border-b border-[#e6f0ff]">
-                    <TrendingUp className="h-4 w-4 text-[#004c92]" />
+                <div className="absolute z-10 mt-3 w-full bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
+                  <div className="flex items-center gap-2 p-3 border-b border-[#e6f0ff]">
+                    <TrendingUp className="h-5 w-5 text-[#004c92]" />
                     <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
                   </div>
-                  <div className="p-2">
+                  <div className="p-3">
                     {trendingQuestions.map((question, index) => (
                       <button 
                         key={index} 
@@ -184,9 +188,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                           handleSendMessage(question);
                           setShowTrendingQuestions(false);
                         }} 
-                        className="w-full flex items-center text-left p-2 bg-gradient-to-r from-white to-blue-50/80 hover:from-blue-50 hover:to-blue-100/80 rounded-lg my-1 border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm group"
+                        className="w-full flex items-center text-left p-3 bg-gradient-to-r from-white to-blue-50/80 hover:from-blue-50 hover:to-blue-100/80 rounded-lg my-1.5 border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm group"
                       >
-                        <span className="w-5 h-5 flex items-center justify-center rounded-full bg-blue-100 text-[#004c92] text-xs mr-2 group-hover:bg-[#004c92] group-hover:text-white transition-colors">
+                        <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 text-[#004c92] text-xs mr-3 group-hover:bg-[#004c92] group-hover:text-white transition-colors">
                           {index + 1}
                         </span>
                         <span className="flex-1">{question}</span>
@@ -199,7 +203,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </div>
           
           {/* Incidents déplacés en bas vers le footer */}
-          <div className="w-full max-w-sm mx-auto px-4 mt-auto mb-6">
+          <div className="w-full max-w-sm mx-auto px-4 mt-auto mb-8">
             <Card className="bg-white/80 shadow-sm overflow-hidden">
               <IncidentStatus showTitle={true} compact={true} />
             </Card>
@@ -207,23 +211,23 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         </div>
       )}
       
-      {!isInitialState && <div className="sticky bottom-0 p-2 bg-gradient-to-b from-transparent to-[#E6F0FF] w-full relative">
-          <div className="max-w-2xl mx-auto w-full">
+      {!isInitialState && <div className="sticky bottom-0 p-3 bg-gradient-to-b from-transparent to-[#E6F0FF] w-full relative">
+          <div className="max-w-3xl mx-auto w-full">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} onTrendingClick={toggleTrendingQuestions} showTrendingIcon={true} />
           </div>
           
           {/* Trending Questions Dropdown for conversation mode */}
-          {showTrendingQuestions && <div className="absolute bottom-full mb-2 w-full max-w-2xl mx-auto left-0 right-0 bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
-              <div className="flex items-center gap-2 p-2 border-b border-[#e6f0ff]">
-                <TrendingUp className="h-4 w-4 text-[#004c92]" />
+          {showTrendingQuestions && <div className="absolute bottom-full mb-3 w-full max-w-3xl mx-auto left-0 right-0 bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
+              <div className="flex items-center gap-2 p-3 border-b border-[#e6f0ff]">
+                <TrendingUp className="h-5 w-5 text-[#004c92]" />
                 <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
               </div>
-              <div className="p-2">
+              <div className="p-3">
                 {trendingQuestions.map((question, index) => <button key={index} onClick={() => {
             handleSendMessage(question);
             setShowTrendingQuestions(false);
-          }} className="w-full flex items-center text-left p-2 bg-gradient-to-r from-white to-blue-50/80 hover:from-blue-50 hover:to-blue-100/80 rounded-lg my-1 border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm group">
-                    <span className="w-5 h-5 flex items-center justify-center rounded-full bg-blue-100 text-[#004c92] text-xs mr-2 group-hover:bg-[#004c92] group-hover:text-white transition-colors">
+          }} className="w-full flex items-center text-left p-3 bg-gradient-to-r from-white to-blue-50/80 hover:from-blue-50 hover:to-blue-100/80 rounded-lg my-1.5 border border-[#e6f0ff] shadow-sm hover:shadow transition-all duration-200 text-[#333] hover:text-[#004c92] text-sm group">
+                    <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-100 text-[#004c92] text-xs mr-3 group-hover:bg-[#004c92] group-hover:text-white transition-colors">
                       {index + 1}
                     </span>
                     <span className="flex-1">{question}</span>
