@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
@@ -169,6 +170,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       
       {isInitialState && (
         <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full flex-1 gap-4">
+          {/* Questions défilantes - conservées au-dessus de la barre de recherche */}
           <div className="h-8 mb-2 overflow-hidden">
             <p 
               key={currentQuestionIndex}
@@ -178,20 +180,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             </p>
           </div>
           
-          {/* Nouveau design du temps d'attente sous le titre */}
-          <div className="w-full mb-4">
-            <div className="flex flex-col items-center">
-              <h2 className="text-xl font-semibold text-[#004c92] mb-1">Hotline Assistance</h2>
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm border border-blue-200">
-                <Clock className="h-4 w-4 text-[#004c92]" />
-                <span className="text-[#004c92] font-medium">Temps d'attente: ~{waitTimeInfo.minutes} min</span>
-                <span className="px-2 py-0.5 rounded-full bg-white text-xs font-semibold shadow-inner">
-                  {waitTimeInfo.callers} appelant{waitTimeInfo.callers !== 1 ? 's' : ''}
-                </span>
-              </div>
-            </div>
-          </div>
-          
+          {/* Barre de recherche */}
           <div className="w-full px-4 py-2 relative">
             <ChatInput 
               onSendMessage={handleSendMessage} 
@@ -227,6 +216,20 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Section Hotline Assistance */}
+          <div className="w-full px-4 mt-4">
+            <div className="flex flex-col items-center">
+              <h2 className="text-xl font-semibold text-[#004c92] mb-1">Hotline Assistance</h2>
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm border border-blue-200">
+                <Clock className="h-4 w-4 text-[#004c92]" />
+                <span className="text-[#004c92] font-medium">Temps d'attente: ~{waitTimeInfo.minutes} min</span>
+                <span className="px-2 py-0.5 rounded-full bg-white text-xs font-semibold shadow-inner">
+                  {waitTimeInfo.callers} appelant{waitTimeInfo.callers !== 1 ? 's' : ''}
+                </span>
+              </div>
+            </div>
           </div>
           
           {/* Incidents déplacés plus bas dans la page avec une marge supérieure */}
