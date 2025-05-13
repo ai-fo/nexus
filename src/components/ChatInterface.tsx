@@ -138,7 +138,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     setShowTrendingQuestions(prev => !prev);
   };
   const isInitialState = messages.length === 0;
-  return <div className="w-full max-w-4xl flex flex-col h-[calc(100vh-8.5rem)]">
+  return <div className="w-full flex flex-col h-[calc(100vh-8.5rem)]">
       {!isInitialState && <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 space-y-4 overflow-hidden scrollbar-hidden">
           <div className="flex flex-col">
             {messages.map((message, index) => <ChatMessage key={index} {...message} onNewChunkDisplayed={scrollToBottom} />)}
@@ -146,15 +146,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </div>
         </ScrollArea>}
       
-      {isInitialState && <div className="flex flex-col items-center justify-center px-4 max-w-2xl mx-auto w-full flex-1 gap-4">
-          {/* Questions défilantes centrées au-dessus de la barre de recherche */}
-          <div className="h-8 mb-2 overflow-hidden text-center w-full">
+      {isInitialState && <div className="flex flex-col items-center justify-center h-full px-4 w-full max-w-md mx-auto flex-1 gap-6">
+          {/* Questions défilantes centrées au milieu de la page */}
+          <div className="h-8 overflow-hidden text-center w-full">
             <p key={currentQuestionIndex} className="text-[#3380cc] text-xl font-bold animate-slide-in">
               {QUESTIONS[currentQuestionIndex]}
             </p>
           </div>
           
-          {/* Barre de recherche centrée */}
+          {/* Barre de recherche centrée au milieu de la page */}
           <div className="w-full px-4 py-2 relative">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} onTrendingClick={toggleTrendingQuestions} showTrendingIcon={true} />
             
@@ -186,11 +186,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </div>
         </div>}
       
-      {!isInitialState && <div className="sticky bottom-0 p-2 bg-gradient-to-b from-transparent to-[#E6F0FF] max-w-4xl w-full relative">
-          <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} onTrendingClick={toggleTrendingQuestions} showTrendingIcon={true} />
+      {!isInitialState && <div className="sticky bottom-0 p-2 bg-gradient-to-b from-transparent to-[#E6F0FF] w-full relative">
+          <div className="max-w-md mx-auto w-full">
+            <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} onTrendingClick={toggleTrendingQuestions} showTrendingIcon={true} />
+          </div>
           
           {/* Trending Questions Dropdown for conversation mode */}
-          {showTrendingQuestions && <div className="absolute bottom-full mb-2 w-full bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
+          {showTrendingQuestions && <div className="absolute bottom-full mb-2 w-full max-w-md mx-auto left-0 right-0 bg-white rounded-lg shadow-lg border border-[#e6f0ff] overflow-hidden">
               <div className="flex items-center gap-2 p-3 border-b border-[#e6f0ff]">
                 <TrendingUp className="h-4 w-4 text-[#004c92]" />
                 <h3 className="font-medium text-[#004c92] text-sm">Questions tendance aujourd'hui</h3>
