@@ -99,9 +99,10 @@ const Index = () => {
         )}
       </div>
       
-      {/* Chat interface section */}
-      <div className={`flex-1 flex items-center justify-center px-4 md:px-8 lg:px-12 transition-all duration-500 ease-in-out overflow-hidden ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}`}>
-        <div className="w-full flex flex-col items-center justify-center max-h-full">
+      {/* Chat interface section with incidents sidebar */}
+      <div className={`flex-1 flex items-start justify-between px-4 md:px-8 lg:px-12 transition-all duration-500 ease-in-out overflow-hidden gap-4 ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}`}>
+        {/* Main chat area */}
+        <div className="w-full max-w-[calc(100%-20rem)] flex-1 flex flex-col items-center justify-center max-h-full">
           <ChatInterface 
             key={chatKey}
             chatbotName="Bill"
@@ -110,6 +111,13 @@ const Index = () => {
             trendingQuestions={TRENDING_QUESTIONS}
           />
         </div>
+        
+        {/* Incidents sidebar - only show when chat is active */}
+        {isAnimated && (
+          <div className="w-80 flex-shrink-0 px-1 flex flex-col gap-4">
+            <IncidentStatus showTitle showWaitTime compact={false} />
+          </div>
+        )}
       </div>
       
       {/* Footer section */}

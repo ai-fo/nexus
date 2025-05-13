@@ -6,9 +6,10 @@ import {
   Webcam, Database, HardDrive, Phone, Car,
   FileText, File, Clock, ChartBar, Bug, Image,
   LayoutDashboard, Network, Folder, Check, X, CircleCheck, CircleX,
-  PhoneCall
+  PhoneCall, AlertTriangle
 } from 'lucide-react';
 import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // Type definition for an application incident
 export interface AppIncident {
@@ -61,14 +62,26 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({
     ? appIncidents.filter(app => app.status === 'incident')
     : appIncidents;
   
+  const incidentCount = appIncidents.filter(app => app.status === 'incident').length;
+  
   return (
-    <Card className="w-full bg-white/80 shadow-sm">
+    <Card className="w-full bg-white/95 shadow-md border-blue-100 rounded-xl overflow-hidden">
       {showTitle && (
-        <h3 className="font-medium text-[#004c92] mb-1 px-2 pt-2 text-xs">Incidents en cours</h3>
+        <div className="bg-gradient-to-r from-[#004c92]/90 to-[#3380cc]/90 text-white p-2 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4" />
+            <h3 className="font-medium text-sm">Incidents en cours</h3>
+          </div>
+          {incidentCount > 0 && (
+            <Badge className="bg-red-500 hover:bg-red-600 text-[10px] h-5">
+              {incidentCount} {incidentCount === 1 ? 'incident' : 'incidents'}
+            </Badge>
+          )}
+        </div>
       )}
       
       {showWaitTime && (
-        <div className="bg-blue-50 p-1.5 flex items-center gap-2 border-b border-blue-100">
+        <div className="bg-blue-50 p-2 flex items-center gap-2 border-b border-blue-100">
           <PhoneCall className="h-3.5 w-3.5 text-[#004c92]" />
           <span className="text-xs">
             <span className="font-medium">Temps d'attente hotline:</span>{' '}
@@ -88,42 +101,51 @@ const IncidentStatus: React.FC<IncidentStatusProps> = ({
         </div>
       )}
       
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[20px] px-1 py-1"></TableHead>
-            <TableHead className="px-1 py-1 text-xs">Application</TableHead>
-            <TableHead className="w-[60px] text-right px-1 py-1 text-xs">Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {incidents.length > 0 ? (
-            incidents.map((app) => (
-              <TableRow key={app.id} className="hover:bg-blue-50/50">
-                <TableCell className="p-0.5 px-1">{app.icon}</TableCell>
-                <TableCell className="font-medium p-0.5 px-1 text-xs">{app.name}</TableCell>
-                <TableCell className="text-right p-0.5 px-1">
-                  {app.status === 'ok' ? (
-                    <Badge className="bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800 gap-1 text-[10px] py-0">
-                      <CircleCheck className="h-2.5 w-2.5" /> OK
-                    </Badge>
-                  ) : (
-                    <Badge variant="destructive" className="gap-1 text-[10px] py-0">
-                      <CircleX className="h-2.5 w-2.5" /> Incident
-                    </Badge>
-                  )}
+      <ScrollArea className="h-[280px] max-h-[40vh]">
+        <Table>
+          <TableHeader className="sticky top-0 bg-blue-50/90 backdrop-blur-sm">
+            <TableRow>
+              <TableHead className="w-[20px] px-2 py-2"></TableHead>
+              <TableHead className="px-2 py-2 text-xs font-medium text-[#004c92]">Application</TableHead>
+              <TableHead className="w-[70px] text-right px-2 py-2 text-xs font-medium text-[#004c92]">Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {incidents.length > 0 ? (
+              incidents.map((app) => (
+                <TableRow key={app.id} className="hover:bg-blue-50/50 transition-colors">
+                  <TableCell className="p-1 px-2">
+                    <div className={`rounded-full p-1 ${app.status === 'incident' ? 'text-red-600 bg-red-50' : 'text-green-600 bg-green-50'}`}>
+                      {app.icon}
+                    </div>
+                  </TableCell>
+                  <TableCell className="font-medium p-1 px-2 text-xs">{app.name}</TableCell>
+                  <TableCell className="text-right p-1 px-2">
+                    {app.status === 'ok' ? (
+                      <Badge className="bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800 gap-1 text-[10px] py-0.5">
+                        <CircleCheck className="h-2.5 w-2.5" /> OK
+                      </Badge>
+                    ) : (
+                      <Badge variant="destructive" className="gap-1 text-[10px] py-0.5 bg-red-500 hover:bg-red-600">
+                        <CircleX className="h-2.5 w-2.5" /> Incident
+                      </Badge>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={3} className="text-center py-8 text-sm text-gray-500">
+                  <div className="flex flex-col items-center gap-2">
+                    <Check className="h-5 w-5 text-green-500" />
+                    Aucun incident en cours
+                  </div>
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={3} className="text-center py-1.5 text-xs text-gray-500">
-                Aucun incident en cours
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            )}
+          </TableBody>
+        </Table>
+      </ScrollArea>
     </Card>
   );
 };
