@@ -1,11 +1,10 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage, { ChatMessageProps } from './ChatMessage';
 import ChatInput from './ChatInput';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { sendMessage } from '@/lib/api';
 import { useToast } from "@/components/ui/use-toast";
-import { TrendingUp, PhoneCall } from 'lucide-react';
+import { TrendingUp, PhoneCall, Clock } from 'lucide-react';
 import IncidentStatus, { waitTimeInfo, appIncidents } from './IncidentStatus';
 import { Card } from '@/components/ui/card';
 
@@ -178,6 +177,21 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               {QUESTIONS[currentQuestionIndex]}
             </p>
           </div>
+          
+          {/* Nouveau design du temps d'attente sous le titre */}
+          <div className="w-full mb-4">
+            <div className="flex flex-col items-center">
+              <h2 className="text-xl font-semibold text-[#004c92] mb-1">Hotline Assistance</h2>
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-full px-4 py-1.5 flex items-center gap-2 shadow-sm border border-blue-200">
+                <Clock className="h-4 w-4 text-[#004c92]" />
+                <span className="text-[#004c92] font-medium">Temps d'attente: ~{waitTimeInfo.minutes} min</span>
+                <span className="px-2 py-0.5 rounded-full bg-white text-xs font-semibold shadow-inner">
+                  {waitTimeInfo.callers} appelant{waitTimeInfo.callers !== 1 ? 's' : ''}
+                </span>
+              </div>
+            </div>
+          </div>
+          
           <div className="w-full px-4 py-2 relative">
             <ChatInput 
               onSendMessage={handleSendMessage} 
@@ -215,24 +229,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             )}
           </div>
           
-          {/* Display incidents section */}
-          <div className="w-full px-4">
+          {/* Incidents déplacés plus bas dans la page avec une marge supérieure */}
+          <div className="w-full px-4 mt-auto mb-6">
             <Card className="bg-white/80 shadow-sm overflow-hidden">
               <IncidentStatus showTitle={true} compact={true} />
             </Card>
-          </div>
-          
-          {/* Wait time info below incidents */}
-          <div className="w-full px-4 mt-3">
-            <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-3 shadow-sm border border-blue-200">
-              <div className="flex items-center justify-center gap-2">
-                <PhoneCall className="h-4 w-4 text-[#004c92]" />
-                <span className="text-[#004c92] font-medium">Temps d'attente: ~{waitTimeInfo.minutes} min</span>
-                <span className="px-2 py-0.5 rounded-full bg-white text-xs font-semibold">
-                  {waitTimeInfo.callers} appelant{waitTimeInfo.callers !== 1 ? 's' : ''}
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       )}
