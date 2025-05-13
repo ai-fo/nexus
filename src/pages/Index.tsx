@@ -45,15 +45,15 @@ const Index = () => {
   };
   
   return (
-    <div className="min-h-screen flex flex-col bg-[#e6f0ff]/80 animate-fade-in">
+    <div className="h-screen flex flex-col bg-[#e6f0ff]/80 animate-fade-in overflow-hidden">
       {/* Header section with title, logo and incidents dropdown */}
-      <header className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-4 pb-2 px-6' : 'py-10 px-6'}`}>
+      <header className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 px-6' : 'pt-4 pb-2 px-6'}`}>
         <div className="flex items-center justify-between max-w-7xl mx-auto w-full">
           <div className="flex items-center gap-4">
-            <div className={`transition-all duration-500 ${isAnimated ? 'w-10 h-10' : 'w-20 h-20'} flex-shrink-0`}>
+            <div className={`transition-all duration-500 ${isAnimated ? 'w-8 h-8' : 'w-14 h-14'} flex-shrink-0`}>
               <img src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" alt="Hotline Assistant Logo" className="w-full h-full object-contain" />
             </div>
-            <h1 onClick={isAnimated ? handleNewChat : undefined} className={`text-2xl sm:text-3xl font-bold text-[#004c92] transition-all duration-500 cursor-pointer`}>
+            <h1 onClick={isAnimated ? handleNewChat : undefined} className={`text-xl sm:text-2xl font-bold text-[#004c92] transition-all duration-500 cursor-pointer`}>
               HotlineAssistance
             </h1>
           </div>
@@ -65,16 +65,16 @@ const Index = () => {
             )}
             
             {/* Refresh button */}
-            {isAnimated && <Button variant="ghost" size="icon" className="rounded-full hover:bg-[#E6F0FF]/50 h-10 w-10" onClick={handleNewChat} title="Nouvelle conversation">
-              <RefreshCw className="h-5 w-5 text-[#004c92]" />
+            {isAnimated && <Button variant="ghost" size="icon" className="rounded-full hover:bg-[#E6F0FF]/50 h-8 w-8" onClick={handleNewChat} title="Nouvelle conversation">
+              <RefreshCw className="h-4 w-4 text-[#004c92]" />
             </Button>}
           </div>
         </div>
       </header>
       
       {/* Main content with chat and incidents */}
-      <main className="flex-1 flex flex-col px-4 sm:px-6 lg:px-8 pb-4 max-w-7xl mx-auto w-full">
-        <div className="flex flex-1 w-full gap-4">
+      <main className="flex-1 flex flex-col px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full overflow-hidden">
+        <div className="flex flex-1 w-full gap-4 h-full">
           {/* Chat interface */}
           <div className={`flex flex-col h-full ${isAnimated && showIncidents ? 'w-[65%]' : 'w-full'} transition-all duration-500`}>
             <ChatInterface 
@@ -95,12 +95,12 @@ const Index = () => {
         </div>
       </main>
       
-      {/* Footer section */}
-      <footer className="py-3 text-center text-sm text-[#3380cc] flex items-center justify-center gap-3 bg-[#e6f0ff]/90 border-t border-blue-100">
-        <p>Si l'IA prends le contrôle, contactez vite la hotline au 3400</p>
-        <div className="flex items-center gap-2 bg-blue-50 rounded-full px-3 py-1 shadow-sm border border-blue-200">
-          <Clock className="h-3.5 w-3.5 text-[#004c92]" />
-          <span className="text-xs text-[#004c92] font-medium">~{waitTimeInfo.minutes} min d'attente</span>
+      {/* Footer section - hotline banner */}
+      <footer className="py-2 bg-[#222] text-white flex items-center justify-center gap-3 shadow-md">
+        <p className="font-medium">Si l'IA prends le contrôle, contactez vite la hotline au <span className="text-[#ea384c] font-bold">3400</span></p>
+        <div className="flex items-center gap-2 bg-[#333] rounded-full px-3 py-0.5 shadow-sm border border-[#444]">
+          <Clock className="h-3 w-3 text-[#ea384c]" />
+          <span className="text-xs text-white font-medium">~{waitTimeInfo.minutes} min d'attente</span>
         </div>
       </footer>
     </div>
@@ -108,3 +108,4 @@ const Index = () => {
 };
 
 export default Index;
+
