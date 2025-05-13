@@ -47,7 +47,7 @@ const Index = () => {
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#E6F0FF] animate-fade-in overflow-hidden">
       <div className={`transition-all duration-500 ease-in-out ${isAnimated ? 'pt-2 pb-1 pl-4 flex flex-col items-start gap-1 pr-4' : 'h-[15vh] flex flex-col items-center justify-center'}`}>
-        <div className="flex items-center gap-2 justify-center">
+        <div className="flex flex-col items-center justify-center gap-2">
           <h1 
             onClick={handleNewChat}
             className={`text-xl sm:text-2xl font-bold text-[#004c92] transition-all duration-500 ease-in-out ${isAnimated ? 'transform -translate-x-0 scale-100 cursor-pointer' : 'transform scale-150'}`}
@@ -74,7 +74,7 @@ const Index = () => {
             </span>
           </h1>
           
-          <div className={`transition-all duration-500 ${isAnimated ? 'w-6 h-6 opacity-70' : 'w-10 h-10 opacity-100'} flex-shrink-0`}>
+          <div className={`transition-all duration-500 ${isAnimated ? 'w-8 h-8 opacity-70' : 'w-20 h-20 opacity-100'} flex-shrink-0`}>
             <img 
               src="/lovable-uploads/fb0ab2b3-5c02-4037-857a-19b40f122960.png" 
               alt="Hotline Assistant Logo" 
