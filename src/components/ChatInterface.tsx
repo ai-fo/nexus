@@ -146,15 +146,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           </div>
         </ScrollArea>}
       
-      {isInitialState && <div className="flex flex-col items-center justify-center px-4 max-w-4xl mx-auto w-full flex-1 gap-4">
-          {/* Questions défilantes - conservées au-dessus de la barre de recherche */}
-          <div className="h-8 mb-2 overflow-hidden">
+      {isInitialState && <div className="flex flex-col items-center justify-center px-4 max-w-2xl mx-auto w-full flex-1 gap-4">
+          {/* Questions défilantes centrées au-dessus de la barre de recherche */}
+          <div className="h-8 mb-2 overflow-hidden text-center w-full">
             <p key={currentQuestionIndex} className="text-[#3380cc] text-xl font-bold animate-slide-in">
               {QUESTIONS[currentQuestionIndex]}
             </p>
           </div>
           
-          {/* Barre de recherche */}
+          {/* Barre de recherche centrée */}
           <div className="w-full px-4 py-2 relative">
             <ChatInput onSendMessage={handleSendMessage} disabled={loading} getInputRef={setInputRef} onTrendingClick={toggleTrendingQuestions} showTrendingIcon={true} />
             

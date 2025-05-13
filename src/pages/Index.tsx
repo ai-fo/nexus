@@ -89,7 +89,7 @@ const Index = () => {
       </div>
       
       <div className={`flex-1 flex items-center justify-center px-4 md:px-8 lg:px-12 transition-all duration-500 ease-in-out ${isAnimated ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}`}>
-        <div className="w-full max-w-4xl flex flex-col items-center">
+        <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
           <ChatInterface 
             key={chatKey}
             chatbotName="Bill"
